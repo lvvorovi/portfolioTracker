@@ -1,19 +1,21 @@
 package com.portfolioTracker.contract;
 
+import com.portfolioTracker.validation.annotation.Ticker;
 import com.portfolioTracker.externalApi.yahoo.dto.YahooEvent;
+import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Validated
 public interface ApiTickerService {
 
-    Boolean isTickerSupported(@NotNull String ticker);
+    Boolean isTickerSupported(@Ticker String ticker);
 
-    BigDecimal getTickerCurrentPrice(@NotNull String ticker);
+    BigDecimal getTickerCurrentPrice(@Ticker String ticker);
 
-    String getTickerCurrency(@NotNull String ticker);
+    String getTickerCurrency(@Ticker String ticker);
 
-    List<YahooEvent> getSplitEventList(@NotNull String ticker);
+    List<YahooEvent> getSplitEventList(@Ticker String ticker);
 
 }

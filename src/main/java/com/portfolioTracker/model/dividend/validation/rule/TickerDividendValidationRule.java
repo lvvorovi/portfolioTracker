@@ -5,12 +5,14 @@ import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.validation.exception.TickerNotFoundDividendException;
 import com.portfolioTracker.model.dividend.validation.exception.TickerNullDividendException;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
+@Validated
 @Component
-@Priority(0)
+@Priority(1)
 public class TickerDividendValidationRule implements DividendValidationRule {
 
     private final ApiTickerService apiTickerService;

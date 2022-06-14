@@ -11,10 +11,11 @@ import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.model.portfolio.validation.PortfolioValidationService;
 import com.portfolioTracker.model.transaction.service.TransactionService;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
-import com.portfolioTracker.payload.currencyRateDto.service.CurrencyRateService;
+import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class PortfolioService {
 

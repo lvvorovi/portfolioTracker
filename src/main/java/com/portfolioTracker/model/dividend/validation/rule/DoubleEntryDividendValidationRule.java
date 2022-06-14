@@ -5,11 +5,13 @@ import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.repository.DividendRepository;
 import com.portfolioTracker.model.dividend.validation.exception.DividendAlreadyExists;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
+@Validated
 @Component
 @Priority(0)
 public class DoubleEntryDividendValidationRule implements DividendValidationRule {

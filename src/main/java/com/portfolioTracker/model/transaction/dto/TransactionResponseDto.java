@@ -1,18 +1,27 @@
 package com.portfolioTracker.model.transaction.dto;
 
-import com.portfolioTracker.contract.AmountOfMoney;
-import com.portfolioTracker.contract.Date;
-import com.portfolioTracker.contract.Quantity;
-import com.portfolioTracker.contract.Ticker;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.validation.annotation.Quantity;
+import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
+@ToString
+@Validated
 public class TransactionResponseDto extends RepresentationModel<TransactionResponseDto> {
 
     private Long id;
@@ -32,7 +41,7 @@ public class TransactionResponseDto extends RepresentationModel<TransactionRespo
     private Long portfolioId;
     private BigDecimal bought;
     private BigDecimal sold;
-
+/*
     public Long getId() {
         return id;
     }
@@ -141,5 +150,5 @@ public class TransactionResponseDto extends RepresentationModel<TransactionRespo
                 ", bought=" + bought +
                 ", sold=" + sold +
                 '}';
-    }
+    }*/
 }

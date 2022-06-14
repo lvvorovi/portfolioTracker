@@ -7,19 +7,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.portfolioTracker.contract.ApiCurrencyService;
 import com.portfolioTracker.contract.ApiTickerService;
-import com.portfolioTracker.externalApi.yahoo.dto.Price;
 import com.portfolioTracker.externalApi.yahoo.dto.YahooEvent;
+import com.portfolioTracker.externalApi.yahoo.dto.YahooPrice;
 import com.portfolioTracker.externalApi.yahoo.dto.YahooResponseDto;
-import com.portfolioTracker.externalApi.yahoo.exception.YahooAPIException;
+import com.portfolioTracker.externalApi.yahoo.validation.exception.YahooAPIException;
+import com.portfolioTracker.externalApi.yahoo.validation.exception.YahooResponseDtoNullException;
+import com.portfolioTracker.validation.annotation.Currency;
+import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.validation.annotation.JsonString;
+import com.portfolioTracker.validation.annotation.Ticker;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class YahooApiService implements ApiTickerService, ApiCurrencyService {
 
@@ -35,68 +40,91 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     private static final String TICKER_ROOT_APP_MAIN_JSON_END = "}(this));";
     private final Map<String, YahooResponseDto> dtoMap = new HashMap<>();
 
+    private final RestTemplate restTemplate;
+
+    public YahooApiService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     @Override
-    public Boolean isCurrencySupported(String currency) {
+    public Boolean isCurrencySupported(@Currency String currency) {
         YahooResponseDto responseDto = getObjectFromTicker(currency + currency + "=X");
+        if (responseDto == null) throw new YahooResponseDtoNullException("isCurrencySupported() method " +
+                "received null response from getObjectFromTicker() method");
         return responseDto.getTicker().equalsIgnoreCase(currency + currency + "=X");
     }
 
     @Override
-    public BigDecimal getRateForCurrencyPairOnDate(String portfolioCurrency, String eventCurrency, LocalDate onDate) {
+    public BigDecimal getRateForCurrencyPairOnDate(@Currency String portfolioCurrency, @Currency String eventCurrency, @Date LocalDate onDate) {
         YahooResponseDto responseDto = getObjectFromTicker(portfolioCurrency + eventCurrency + "=X");
-        Price resultPrice;
+        if (responseDto == null) throw new YahooResponseDtoNullException("getRateForCurrencyPairOnDate() method " +
+                "received null response from getObjectFromTicker() method");
+        YahooPrice resultYahooPrice;
         try {
-            resultPrice = responseDto.getPriceList().stream()
-                    .filter(price -> LocalDate.of(1970, 1, 1).plus((Long.parseLong(price.getDate()) / 24 / 60 / 60), ChronoUnit.DAYS).equals(onDate))
+            if (onDate.equals(LocalDate.now())) return responseDto.getCurrentMarketPrice();
+            resultYahooPrice = responseDto.getPriceList().stream()
+                    .filter(yahooPrice -> LocalDate.of(1970, 1, 1).plus((Long.parseLong(yahooPrice.getDate()) / 24 / 60 / 60), ChronoUnit.DAYS).equals(onDate))
                     .findFirst()
                     .orElseThrow(() -> new YahooAPIException("Yahoo API did not provide exchange rate for " + portfolioCurrency + " " + eventCurrency + " for date " + onDate));
         } catch (YahooAPIException e) {
-            resultPrice = responseDto.getPriceList().stream()
-                    .filter(price -> LocalDate.of(1970, 1, 1).plus((Long.parseLong(price.getDate()) / 24 / 60 / 60), ChronoUnit.DAYS).equals(onDate.plusDays(2)))
+            resultYahooPrice = responseDto.getPriceList().stream()
+                    .filter(yahooPrice -> LocalDate.of(1970, 1, 1).plus((Long.parseLong(yahooPrice.getDate()) / 24 / 60 / 60), ChronoUnit.DAYS).equals(onDate.minusDays(2)))
                     .findFirst()
                     .orElseThrow(() -> new YahooAPIException("Yahoo API did not provide exchange rate for " + portfolioCurrency + " " + eventCurrency + " for date " + onDate));
         }
 
-        return resultPrice.getClose();
+        return resultYahooPrice.getClose();
     }
 
     @Override
-    public Boolean isTickerSupported(String ticker) {
+    public Boolean isTickerSupported(@Ticker String ticker) {
         YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        if (responseDto == null) throw new YahooResponseDtoNullException("isTickerSupported() method " +
+                "received null response from getObjectFromTicker() method");
         return responseDto.getTicker().equalsIgnoreCase(ticker);
     }
 
     @Override
-    public BigDecimal getTickerCurrentPrice(String ticker) {
-        return getObjectFromTicker(ticker).getCurrentMarketPrice();
+    public BigDecimal getTickerCurrentPrice(@Ticker String ticker) {
+        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        if (responseDto == null) throw new YahooResponseDtoNullException("getTickerCurrentPrice() method " +
+                "received null response from getObjectFromTicker() method");
+        return responseDto.getCurrentMarketPrice();
     }
 
     @Override
-    public String getTickerCurrency(String ticker) {
-        return getObjectFromTicker(ticker).getCurrency();
+    public String getTickerCurrency(@Ticker String ticker) {
+        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        if (responseDto == null) throw new YahooResponseDtoNullException("getTickerCurrency() method " +
+                "received null response from getObjectFromTicker() method");
+        return responseDto.getCurrency();
     }
 
     @Override
-    public List<YahooEvent> getSplitEventList(@NotNull String ticker) {
-
-        return getObjectFromTicker(ticker).getEventDataList()
+    public List<YahooEvent> getSplitEventList(@Ticker String ticker) {
+        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        if (responseDto == null) throw new YahooResponseDtoNullException("getSplitEventList() method " +
+                "received null response from getObjectFromTicker() method");
+        return responseDto.getEventDataList()
                 .stream()
                 .filter(event -> event.getType().equalsIgnoreCase("SPLIT"))
                 .collect(Collectors.toList());
     }
 
-    private YahooResponseDto getObjectFromTicker(String ticker) {
+    private YahooResponseDto getObjectFromTicker(@Ticker String ticker) {
         if (dtoMap.containsKey(ticker)) {
             return dtoMap.get(ticker);
         }
         String response = getYahooCallResponse(ticker);
         String jsonString = getJsonFromResponseString(response);
         YahooResponseDto responseDto = deserializeYahooJson(jsonString);
+        if (responseDto == null) throw new YahooResponseDtoNullException("getObjectFromTicker() method " +
+                "received null response from deserializeYahooJson() method");
         dtoMap.put(responseDto.getTicker(), responseDto);
         return responseDto;
     }
 
-    private YahooResponseDto deserializeYahooJson(String jsonString) {
+    private YahooResponseDto deserializeYahooJson(@JsonString String jsonString) {
         ObjectMapper yahooDtoMapper = new ObjectMapper();
         yahooDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -112,7 +140,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
 
     }
 
-    private String getJsonFromResponseString(@NotNull String response) {
+    private String getJsonFromResponseString(@NotEmpty String response) {
         try {
             response = response.substring(
                     response.indexOf(TICKER_ROOT_APP_MAIN_JSON_START) + TICKER_ROOT_APP_MAIN_JSON_START.length(),
@@ -123,25 +151,29 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         return response;
     }
 
-    private String getYahooCallResponse(@NotNull String ticker) {
-        System.out.println("request for " + ticker);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://finance.yahoo.com/quote/" + ticker.replace("^", "%5E") + "/history" +
-                        "?period1=" +
-                        Duration.of(ChronoUnit.DAYS.between(LocalDate.of(1970, 1, 1), LocalDate.of(2018, 1, 1)), ChronoUnit.DAYS).toSeconds()
-                        +
-                        "&period2=" +
-                        Duration.of(ChronoUnit.DAYS.between(LocalDate.of(1970, 1, 1), LocalDate.now()), ChronoUnit.DAYS).toSeconds()
-                        + "&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"))
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response;
+    private String getYahooCallResponse(@Ticker String ticker) {
+
+        String url = "https://finance.yahoo.com/quote/" + ticker.replace("^", "%5E").toUpperCase() +
+                "/history" +
+                "?period1=" + getSecondsFromDate(LocalDate.of(2018,1,1)) +
+                "&period2=" + getSecondsFromDate(LocalDate.now()) +
+                "&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true";
+
         try {
-            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            throw new YahooAPIException(e.toString());
+            System.out.println("request for " + ticker);
+            return restTemplate.getForObject(url, String.class);
+        } catch (RestClientException e) {
+            throw new YahooAPIException("request to yahooApi return an exception" +
+                    e + " with message " + e.getMessage());
         }
-        return response.body();
+    }
+
+    private String getSecondsFromDate(LocalDate localDate) {
+        LocalDate yahooBaseDate = LocalDate.of(1970,1,1);
+        long days = ChronoUnit.DAYS.between(yahooBaseDate, localDate);
+        long seconds = Duration.of(days, ChronoUnit.DAYS).toSeconds();
+        return Long.toString(seconds);
+
     }
 
 

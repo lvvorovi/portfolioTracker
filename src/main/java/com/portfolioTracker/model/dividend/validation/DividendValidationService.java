@@ -4,10 +4,12 @@ import com.portfolioTracker.contract.ValidationService;
 import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.validation.rule.DividendValidationRule;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Validated
 @Service
 public class DividendValidationService implements ValidationService<DividendRequestDto> {
 

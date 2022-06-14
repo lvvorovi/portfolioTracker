@@ -8,12 +8,14 @@ import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dividend.repository.DividendRepository;
 import com.portfolioTracker.model.dividend.validation.exception.DividendNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class DividendService {
 

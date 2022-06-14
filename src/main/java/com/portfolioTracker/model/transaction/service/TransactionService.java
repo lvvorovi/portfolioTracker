@@ -8,11 +8,13 @@ import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.repository.TransactionRepository;
 import com.portfolioTracker.model.transaction.validation.exception.TransactionException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class TransactionService {
 

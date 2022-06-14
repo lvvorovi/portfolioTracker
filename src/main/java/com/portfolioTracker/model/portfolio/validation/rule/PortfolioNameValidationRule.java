@@ -6,10 +6,12 @@ import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.model.portfolio.validation.exception.PortfolioNameValidationException;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Component
+@Priority(0)
 public class PortfolioNameValidationRule implements PortfolioValidationRule {
 
     private final PortfolioRepository repository;

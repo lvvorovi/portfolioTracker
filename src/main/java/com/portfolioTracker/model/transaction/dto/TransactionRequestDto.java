@@ -1,13 +1,20 @@
 package com.portfolioTracker.model.transaction.dto;
 
-import com.portfolioTracker.contract.*;
+import com.portfolioTracker.validation.annotation.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Validated
 public class TransactionRequestDto {
 
@@ -27,6 +34,7 @@ public class TransactionRequestDto {
     @PortfolioId
     private Long portfolioId;
 
+    /*
     public TransactionRequestDto() {
     }
 
@@ -119,5 +127,5 @@ public class TransactionRequestDto {
                 ", type='" + type + '\'' +
                 ", portfolioId=" + portfolioId +
                 '}';
-    }
+    }*/
 }

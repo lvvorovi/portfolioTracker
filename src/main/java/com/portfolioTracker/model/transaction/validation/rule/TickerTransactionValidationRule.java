@@ -5,12 +5,13 @@ import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.validation.exception.TickerNullTransactionException;
 import com.portfolioTracker.model.transaction.validation.exception.TransactionException;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
+@Validated
 @Component
-@Priority(0)
 public class TickerTransactionValidationRule implements TransactionValidationRule {
 
     private final ApiTickerService apiTickerService;

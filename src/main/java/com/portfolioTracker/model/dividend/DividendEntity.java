@@ -1,16 +1,25 @@
 package com.portfolioTracker.model.dividend;
 
-import com.portfolioTracker.contract.AmountOfMoney;
-import com.portfolioTracker.contract.Date;
-import com.portfolioTracker.contract.Ticker;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@Validated
 @Entity
 @Table(name = "dividends")
 public class DividendEntity {
@@ -34,6 +43,7 @@ public class DividendEntity {
     @NotEmpty
     @Column(name = "event_type")
     private EventType type;
+/*
 
     public Long getId() {
         return id;
@@ -78,11 +88,12 @@ public class DividendEntity {
     public EventType getType() {
         return type;
     }
+*/
 
     public void setType(EventType type) {
         this.type = EventType.DIVIDEND;
     }
-
+/*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,5 +117,5 @@ public class DividendEntity {
                 ", amount=" + amount +
                 ", type=" + type +
                 '}';
-    }
+    }*/
 }

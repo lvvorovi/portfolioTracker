@@ -2,9 +2,9 @@ package com.portfolioTracker;
 
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.Event;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.EventMapper;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.mapper.EventMapper;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

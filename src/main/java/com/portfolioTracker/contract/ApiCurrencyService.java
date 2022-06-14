@@ -1,13 +1,17 @@
 package com.portfolioTracker.contract;
 
-import javax.validation.constraints.NotNull;
+import com.portfolioTracker.validation.annotation.Currency;
+import com.portfolioTracker.validation.annotation.Date;
+import org.springframework.validation.annotation.Validated;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Validated
 public interface ApiCurrencyService {
 
-    Boolean isCurrencySupported(@NotNull String currency);
+    Boolean isCurrencySupported(@Currency String currency);
 
-    BigDecimal getRateForCurrencyPairOnDate(@NotNull String currencyFrom, @NotNull String currencyTo, @NotNull LocalDate onDate);
+    BigDecimal getRateForCurrencyPairOnDate(@Currency String currencyFrom, @Currency String currencyTo, @Date LocalDate onDate);
 
 }

@@ -8,11 +8,13 @@ import com.portfolioTracker.model.transaction.TransactionEntity;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Validated
 @Component
 public class MyPortfolioMapper implements ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> {
 

@@ -7,17 +7,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: validate
-      enable_lazy_load_no_trans: false
-    show-sql: false
+    show-sql: true
   data:
     rest:
       default-media-type: application/json
-
-server:
-  tomcat:
-    threads:
-      max: 250
-      min: 10
 
 logging:
   file:
@@ -25,20 +18,6 @@ logging:
     max-size: 10MB
     clean-history-on-start: false
   level:
-    #    root: warn
+    root: info
     com:
       tracker: info
-
-#app:
-#  alphaVantage:
-#    baseURI:
-#    ticker: "https://www.alphavantage.co/query?"
-#      function:
-#        listingStatis: "function=LISTING_STATUS"
-#    currency:
-#      function:
-#        currencyExchangeRate: "function=CURRENCY_EXCHANGE_RATE"
-#      currencyFromParam: "&from_currency="
-#      currencyToParam: "&to_currency="
-#    errorResponseMessage: "Error Message"
-#    apiKeyParam: "&apikey=L36W331WSGORRO5B"

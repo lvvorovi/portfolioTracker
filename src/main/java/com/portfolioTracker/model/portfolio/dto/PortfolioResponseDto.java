@@ -1,16 +1,25 @@
 package com.portfolioTracker.model.portfolio.dto;
 
-import com.portfolioTracker.contract.Currency;
-import com.portfolioTracker.contract.ModelName;
+import com.portfolioTracker.validation.annotation.Currency;
+import com.portfolioTracker.validation.annotation.ModelName;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
+@ToString
+@Validated
 public class PortfolioResponseDto extends RepresentationModel<PortfolioResponseDto> {
 
     private Long id;
@@ -24,7 +33,7 @@ public class PortfolioResponseDto extends RepresentationModel<PortfolioResponseD
     private List<TransactionResponseDto> transactions;
     @NotNull
     private List<DividendResponseDto> dividends;
-
+/*
     public Long getId() {
         return id;
     }
@@ -102,5 +111,5 @@ public class PortfolioResponseDto extends RepresentationModel<PortfolioResponseD
                 ", transactions=" + transactions +
                 ", dividends=" + dividends +
                 '}';
-    }
+    }*/
 }

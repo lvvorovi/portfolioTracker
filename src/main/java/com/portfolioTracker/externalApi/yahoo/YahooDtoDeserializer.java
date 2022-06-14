@@ -8,14 +8,18 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.portfolioTracker.externalApi.yahoo.dto.Price;
+import com.portfolioTracker.externalApi.yahoo.dto.YahooPrice;
 import com.portfolioTracker.externalApi.yahoo.dto.YahooEvent;
 import com.portfolioTracker.externalApi.yahoo.dto.YahooResponseDto;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Validated
 public class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
 
     public YahooDtoDeserializer() {
@@ -27,7 +31,7 @@ public class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
     }
 
     @Override
-    public YahooResponseDto deserialize(JsonParser parser, DeserializationContext context) throws JsonProcessingException {
+    public @Valid YahooResponseDto deserialize(@NotNull JsonParser parser, @NotNull DeserializationContext context) throws JsonProcessingException {
 
         YahooResponseDto yahooDto = new YahooResponseDto();
         ObjectCodec codec = parser.getCodec();
@@ -57,13 +61,13 @@ public class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<Price> priceList = objectMapper.readValue(priceListNode.toString(), new TypeReference<List<Price>>() {
+        List<YahooPrice> yahooPriceList = objectMapper.readValue(priceListNode.toString(), new TypeReference<List<YahooPrice>>() {
         });
         List<YahooEvent> yahooEventList = objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
         });
 
 
-        yahooDto.setPriceList(priceList);
+        yahooDto.setPriceList(yahooPriceList);
         yahooDto.setEventDataList(yahooEventList);
 
         return yahooDto;

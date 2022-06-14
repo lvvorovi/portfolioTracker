@@ -1,14 +1,23 @@
 package com.portfolioTracker.model.portfolio;
 
-import com.portfolioTracker.contract.Currency;
-import com.portfolioTracker.contract.ModelName;
+import com.portfolioTracker.validation.annotation.Currency;
+import com.portfolioTracker.validation.annotation.ModelName;
 import com.portfolioTracker.model.transaction.TransactionEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@Validated
 @Entity
 @Table(name = "portfolios")
 public class PortfolioEntity {
@@ -28,7 +37,7 @@ public class PortfolioEntity {
     @Column(name = "trade_transaction")
     @OneToMany(mappedBy = "portfolio")
     private List<TransactionEntity> transactionEntities;
-
+/*
     public Long getId() {
         return id;
     }
@@ -91,5 +100,5 @@ public class PortfolioEntity {
                 ", currency='" + currency + '\'' +
                 ", transactionEntities=" + transactionEntities +
                 '}';
-    }
+    }*/
 }

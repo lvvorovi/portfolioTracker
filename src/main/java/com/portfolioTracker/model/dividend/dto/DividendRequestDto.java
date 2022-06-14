@@ -1,9 +1,9 @@
 package com.portfolioTracker.model.dividend.dto;
 
-import com.portfolioTracker.contract.AmountOfMoney;
-import com.portfolioTracker.contract.Date;
-import com.portfolioTracker.contract.Ticker;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;

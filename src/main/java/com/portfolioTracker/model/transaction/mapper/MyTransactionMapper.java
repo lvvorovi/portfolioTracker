@@ -7,12 +7,14 @@ import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
 import com.portfolioTracker.model.transaction.validation.exception.UnknownTransactionTypeTransactionException;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+@Validated
 @Component
 public class MyTransactionMapper implements
         ModelMapperContract<TransactionEntity, TransactionRequestDto, TransactionResponseDto> {

@@ -3,16 +3,19 @@ package com.portfolioTracker.controller;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.service.TransactionService;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Validated
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -31,39 +34,33 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionResponseDto> findById(@NotNull @PathVariable long id) {
+    public ResponseEntity<TransactionResponseDto> findById(@NumberFormat @PathVariable Long id) {
         TransactionResponseDto responseDto = service.findById(id);
         addLink(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDto> save(@NotNull @RequestBody TransactionRequestDto request) {
-        TransactionResponseDto response = service.save(request);
-        addLink(response);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<TransactionResponseDto> save(@Valid @RequestBody TransactionRequestDto requestDto) {
+        TransactionResponseDto responseDto = service.save(requestDto);
+        addLink(responseDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TransactionResponseDto> update(@NotNull @RequestBody TransactionRequestDto request) {
-        TransactionResponseDto response = service.update(request);
-        addLink(response);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<TransactionResponseDto> update(@Valid @RequestBody TransactionRequestDto requestDto) {
+        TransactionResponseDto responseDto = service.update(requestDto);
+        addLink(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteById(@NotNull @PathVariable long id) {
+    public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping
-    public void deleteAll() {
-        service.deleteAll();
-    }
-
-    private void addLink(@NotNull TransactionResponseDto responseDto) {
+    private void addLink(@Valid TransactionResponseDto responseDto) {
         responseDto.add(linkTo(methodOn(TransactionController.class).findById(responseDto.getId())).withSelfRel());
     }
 

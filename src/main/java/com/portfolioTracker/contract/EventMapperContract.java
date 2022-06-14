@@ -2,10 +2,12 @@ package com.portfolioTracker.contract;
 
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 
+@Validated
 public interface EventMapperContract {
 
     Event transactionToEvent(@NotNull TransactionResponseDto transaction);

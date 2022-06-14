@@ -1,12 +1,19 @@
 package com.portfolioTracker.model.portfolio.dto;
 
-import com.portfolioTracker.contract.Currency;
-import com.portfolioTracker.contract.ModelName;
+import com.portfolioTracker.validation.annotation.Currency;
+import com.portfolioTracker.validation.annotation.ModelName;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Validated
 public class PortfolioRequestDto {
 
@@ -17,7 +24,7 @@ public class PortfolioRequestDto {
     private String strategy;
     @Currency
     private String currency;
-
+/*
     public Long getId() {
         return id;
     }
@@ -71,5 +78,5 @@ public class PortfolioRequestDto {
                 ", strategy='" + strategy + '\'' +
                 ", currency='" + currency + '\'' +
                 '}';
-    }
+    }*/
 }

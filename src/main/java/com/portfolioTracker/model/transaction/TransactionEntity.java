@@ -1,19 +1,28 @@
 package com.portfolioTracker.model.transaction;
 
-import com.portfolioTracker.contract.AmountOfMoney;
-import com.portfolioTracker.contract.Date;
-import com.portfolioTracker.contract.Quantity;
-import com.portfolioTracker.contract.Ticker;
+import com.portfolioTracker.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.validation.annotation.Quantity;
+import com.portfolioTracker.validation.annotation.Ticker;
 import com.portfolioTracker.model.portfolio.PortfolioEntity;
-import com.portfolioTracker.payload.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@Validated
 @Entity
 @Table(name = "transactions")
 public class TransactionEntity {
@@ -44,7 +53,7 @@ public class TransactionEntity {
     @JoinColumn(name = "portfolio_id")
     private PortfolioEntity portfolio;
 
-    public Long getId() {
+/*    public Long getId() {
         return id;
     }
 
@@ -133,5 +142,5 @@ public class TransactionEntity {
                 ", type=" + type +
                 ", portfolio=" + portfolio +
                 '}';
-    }
+    }*/
 }
