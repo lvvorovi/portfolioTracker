@@ -32,8 +32,8 @@ public class DividendService {
 
     public DividendResponseDto save(@NotNull DividendRequestDto requestDto) {
         validationService.validate(requestDto);
-        DividendEntity returnedEntity = repository.save(mapper.toEntity(requestDto));
-        return mapper.toDto(returnedEntity);
+        DividendEntity savedEntity = repository.save(mapper.toEntity(requestDto));
+        return mapper.toDto(savedEntity);
     }
 
     public List<DividendResponseDto> saveAll(@NotNull List<DividendRequestDto> requestDtoList) {

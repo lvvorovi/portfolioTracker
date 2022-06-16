@@ -1,10 +1,10 @@
 package com.portfolioTracker.model.portfolio.service;
 
+import com.portfolioTracker.contract.ApiCurrencyService;
 import com.portfolioTracker.contract.ApiTickerService;
 import com.portfolioTracker.contract.ModelMapperContract;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dividend.service.DividendService;
-import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import com.portfolioTracker.model.portfolio.PortfolioEntity;
 import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
@@ -34,19 +34,19 @@ public class PortfolioService {
     private final DividendService dividendService;
     private final ApiTickerService apiTickerService;
     private final TransactionService transactionService;
-    private final CurrencyRateService currencyRateService;
+    private final ApiCurrencyService apiCurrencyService;
 
     public PortfolioService(
             PortfolioValidationService validationService,
             PortfolioRepository repository,
-            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, DividendService dividendService, ApiTickerService apiTickerService, TransactionService transactionService, CurrencyRateService currencyRateService) {
+            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, DividendService dividendService, ApiTickerService apiTickerService, TransactionService transactionService, ApiCurrencyService apiCurrencyService) {
         this.validationService = validationService;
         this.repository = repository;
         this.mapper = mapper;
         this.dividendService = dividendService;
         this.apiTickerService = apiTickerService;
         this.transactionService = transactionService;
-        this.currencyRateService = currencyRateService;
+        this.apiCurrencyService = apiCurrencyService;
     }
 
     public PortfolioResponseDto save(@NotNull PortfolioRequestDto requestDto) {
@@ -121,9 +121,9 @@ public class PortfolioService {
 
         Set<String> portfolioCurrencyList = Set.copyOf(repository.findAllPortfolioCurrencies());
         portfolioCurrencyList.parallelStream()
-                .forEach(portfolioCurrency ->
-                        transactionCurrencyList.parallelStream()
-                                .forEach(transactionCurrency -> currencyRateService.loadCurrencyPairsToContext(portfolioCurrency, transactionCurrency)));
+                .forEach(portfolioCurrency -> transactionCurrencyList.parallelStream()
+                        .forEach(transactionCurrency -> apiCurrencyService
+                                .loadCurrencyPairsToContext(portfolioCurrency, transactionCurrency))); //TODO change method or create a new
     }
 
 

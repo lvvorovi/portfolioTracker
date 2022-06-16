@@ -24,11 +24,11 @@ public class DoubleEntryDividendValidationRule implements DividendValidationRule
 
     @Override
     public synchronized void validate(@NotNull DividendRequestDto dtoRequest) {
-        Optional<DividendEntity> entityExists = repository
-                .findByTickerAndExDate(dtoRequest.getTicker(), dtoRequest.getExDate());
-        boolean anotherEntityExistsOnUpdateRequest = entityExists.isPresent()
-                && !entityExists.get().getId().equals(dtoRequest.getId());
-        boolean anotherEntityExistsOnSaveRequest = entityExists.isPresent() && dtoRequest.getId() == null;
+        Optional<DividendEntity> optionalEntity = repository
+                .findByTickerAndExDate(dtoRequest.getTicker(), dtoRequest.getExDate());//TODO andPortfolioId
+        boolean anotherEntityExistsOnUpdateRequest = optionalEntity.isPresent()
+                && !optionalEntity.get().getId().equals(dtoRequest.getId());
+        boolean anotherEntityExistsOnSaveRequest = optionalEntity.isPresent() && dtoRequest.getId() == null;
 
         if (anotherEntityExistsOnSaveRequest || anotherEntityExistsOnUpdateRequest) throw new
                 DividendAlreadyExists("Dividend event with ticker " + dtoRequest.getTicker() +

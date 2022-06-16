@@ -13,15 +13,15 @@ import java.util.List;
 @Validated
 public class DividendValidationService implements ValidationService<DividendRequestDto> {
 
-    private final List<DividendValidationRule> validationRules;
+    private final List<DividendValidationRule> validationRuleList;
 
-    public DividendValidationService(List<DividendValidationRule> validationRules) {
-        this.validationRules = validationRules;
+    public DividendValidationService(List<DividendValidationRule> validationRuleList) {
+        this.validationRuleList = validationRuleList;
     }
 
     @Override
     public void validate(@NotNull DividendRequestDto dtoRequest) {
-        validationRules.forEach(rule -> rule.validate(dtoRequest));
+        validationRuleList.forEach(rule -> rule.validate(dtoRequest));
     }
 
 }
