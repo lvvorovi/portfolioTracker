@@ -1,4 +1,4 @@
-package com.portfolioTracker;
+package com.portfolioTracker.yahooModule;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

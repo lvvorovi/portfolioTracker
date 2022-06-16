@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @EnableAspectJAutoProxy
 public class LoggingAspect {
 
-    @Before("execution(public * com.portfolioTracker.payload..*(..))")
+    @Before("execution(public * com.portfolioTracker.model..*(..))")
     public void log(JoinPoint joinPoint) {
-        log.info("Request id {} is calling a public method {} in payload package",
+        log.trace("Request id {} is calling a public method {} in model package",
                 MDC.get("request_id"),
                 joinPoint.toShortString());
     }

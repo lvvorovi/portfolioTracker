@@ -10,9 +10,9 @@ import org.springframework.validation.annotation.Validated;
 import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
-@Validated
 @Component
 @Priority(1)
+@Validated
 public class TickerDividendValidationRule implements DividendValidationRule {
 
     private final ApiTickerService apiTickerService;
@@ -31,8 +31,6 @@ public class TickerDividendValidationRule implements DividendValidationRule {
         }
 
         throw new TickerNotFoundDividendException("Ticker " + dtoRequest.getTicker() + " is not supported");
-
     }
-
 
 }

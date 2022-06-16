@@ -15,10 +15,10 @@ CREATE TABLE trade_transactions (
     ticker              VARCHAR(10)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
-    yahooPrice               DECIMAL(50,30)  NOT NULL,
+    yahooPriceDto          DECIMAL(50,30)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
-    event_type          VARCHAR(10)      NOT NULL,
-    portfolio_id           BIGINT          NOT NULL,
+    event_type          VARCHAR(10)     NOT NULL,
+    portfolio_id        BIGINT          NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id)

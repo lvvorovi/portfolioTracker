@@ -47,6 +47,13 @@ public class TransactionController {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
+    @PostMapping("/batch")
+    public ResponseEntity<List<TransactionResponseDto>> saveAll(@Valid @RequestBody List<TransactionRequestDto> requestDtoList) {
+        List<TransactionResponseDto> responseDtoList = service.saveAll(requestDtoList);
+        responseDtoList.forEach(this::addLink);
+        return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
+    }
+
     @PutMapping
     public ResponseEntity<TransactionResponseDto> update(@Valid @RequestBody TransactionRequestDto requestDto) {
         TransactionResponseDto responseDto = service.update(requestDto);
@@ -57,6 +64,12 @@ public class TransactionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<?> deleteAll() {
+        service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

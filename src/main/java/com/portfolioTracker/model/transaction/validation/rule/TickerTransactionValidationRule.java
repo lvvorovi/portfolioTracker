@@ -7,7 +7,6 @@ import com.portfolioTracker.model.transaction.validation.exception.TransactionEx
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
 @Validated

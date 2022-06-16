@@ -1,4 +1,4 @@
-package com.portfolioTracker.externalApi.yahoo;
+package com.portfolioTracker.yahooModule;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,9 +8,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.portfolioTracker.externalApi.yahoo.dto.YahooPrice;
-import com.portfolioTracker.externalApi.yahoo.dto.YahooEvent;
-import com.portfolioTracker.externalApi.yahoo.dto.YahooResponseDto;
+import com.portfolioTracker.yahooModule.dto.YahooPriceDto;
+import com.portfolioTracker.yahooModule.dto.YahooResponseDto;
+import com.portfolioTracker.yahooModule.dto.YahooSplitEventDto;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -19,8 +20,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Component
 @Validated
-public class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
+class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
 
     public YahooDtoDeserializer() {
         this(null);
@@ -61,14 +63,14 @@ public class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<YahooPrice> yahooPriceList = objectMapper.readValue(priceListNode.toString(), new TypeReference<List<YahooPrice>>() {
+        List<YahooPriceDto> yahooPriceDtoList = objectMapper.readValue(priceListNode.toString(), new TypeReference<>() {
         });
-        List<YahooEvent> yahooEventList = objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
+        List<YahooSplitEventDto> yahooSplitEventDtoList = objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
         });
+        //TODO map eventListNode to DividendEventDtoList
 
-
-        yahooDto.setPriceList(yahooPriceList);
-        yahooDto.setEventDataList(yahooEventList);
+        yahooDto.setYahooPriceDtoList(yahooPriceDtoList);
+        yahooDto.setYahooSplitEventDtoList(yahooSplitEventDtoList);
 
         return yahooDto;
 

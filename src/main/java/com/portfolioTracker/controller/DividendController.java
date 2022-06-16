@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -43,7 +42,7 @@ public class DividendController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DividendResponseDto> findById(@NumberFormat @RequestParam Long id) {
+    public ResponseEntity<DividendResponseDto> findById(@NumberFormat @PathVariable Long id) {
         DividendResponseDto responseDto = service.findById(id);
         return ResponseEntity.ok(responseDto);
     }
@@ -56,8 +55,14 @@ public class DividendController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@NumberFormat @RequestParam Long id) {
+    public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/all")
+    public ResponseEntity<?> deleteAll() {
+        service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -69,6 +74,6 @@ public class DividendController {
     }
 
     private void addSelfRefToJson(@Valid DividendResponseDto responseDto) {
-        responseDto.add(linkTo(methodOn(DividendController.class, findById(responseDto.getId()))).withSelfRel());
+        responseDto.add(linkTo(methodOn(DividendController.class).findById(responseDto.getId())).withSelfRel());
     }
 }

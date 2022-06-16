@@ -6,12 +6,12 @@ import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
 @Component
-@Priority(0)
+@Validated
 public class DividendModelMapper implements
         ModelMapperContract<DividendEntity, DividendRequestDto, DividendResponseDto> {
 

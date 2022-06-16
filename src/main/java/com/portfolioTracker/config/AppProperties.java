@@ -22,6 +22,7 @@ public class AppProperties {
                 HttpComponentsClientHttpRequestFactory(HttpClients.createDefault());
         return new RestTemplate(requestFactory);
     }
+
     @Bean
     public TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();

@@ -4,6 +4,7 @@ import com.portfolioTracker.contract.ApiTickerService;
 import com.portfolioTracker.contract.ModelMapperContract;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dividend.service.DividendService;
+import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import com.portfolioTracker.model.portfolio.PortfolioEntity;
 import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
@@ -11,7 +12,6 @@ import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.model.portfolio.validation.PortfolioValidationService;
 import com.portfolioTracker.model.transaction.service.TransactionService;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
-import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -63,7 +63,7 @@ public class PortfolioService {
         List<PortfolioResponseDto> portfolioResponseDtoList = entityList.stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
-        portfolioResponseDtoList.forEach(portfolio -> portfolio.setDividends(findAllDividendResponseDto(portfolio)));
+        portfolioResponseDtoList.forEach(portfolio -> portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
         return portfolioResponseDtoList;
     }
 
@@ -73,7 +73,7 @@ public class PortfolioService {
                 .collect(Collectors.toList());
 
         portfolioResponseDtoList.forEach(portfolio ->
-                portfolio.setDividends(findAllDividendResponseDto(portfolio)));
+                portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
         return portfolioResponseDtoList;
     }
 
@@ -82,7 +82,7 @@ public class PortfolioService {
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
         PortfolioResponseDto portfolioResponseDto = mapper.toDto(entity);
-        portfolioResponseDto.setDividends(findAllDividendResponseDto(portfolioResponseDto));
+        portfolioResponseDto.setDividendList(findAllDividendResponseDto(portfolioResponseDto));
         return portfolioResponseDto;
     }
 
@@ -98,20 +98,21 @@ public class PortfolioService {
         validationService.validate(requestDto);
         PortfolioEntity entity = mapper.toEntity(requestDto);
         PortfolioResponseDto portfolioResponseDto = mapper.toDto(repository.save(entity));
-        portfolioResponseDto.setDividends(findAllDividendResponseDto(portfolioResponseDto));
+        portfolioResponseDto.setDividendList(findAllDividendResponseDto(portfolioResponseDto));
         return portfolioResponseDto;
     }
 
     private List<DividendResponseDto> findAllDividendResponseDto(@NotNull PortfolioResponseDto portfolioResponseDto) {
         Set<String> tickerSetInPortfolio = new HashSet<>();
-        portfolioResponseDto.getTransactions().forEach(transaction ->
+        portfolioResponseDto.getTransactionList().forEach(transaction ->
                 tickerSetInPortfolio.add(transaction.getTicker()));
         return dividendService.findAllByTickerList(List.copyOf(tickerSetInPortfolio));
     }
 
     @Async
-    @Scheduled(fixedDelayString = "PT1H")
+    @Scheduled(fixedRateString = "PT1M")
     void loadTickersToContext() {
+        System.out.println(Thread.currentThread());
         List<String> tickerListFromDB = transactionService.findAllUniqueTickers();
 
         Set<String> transactionCurrencyList = tickerListFromDB.parallelStream()
@@ -123,7 +124,6 @@ public class PortfolioService {
                 .forEach(portfolioCurrency ->
                         transactionCurrencyList.parallelStream()
                                 .forEach(transactionCurrency -> currencyRateService.loadCurrencyPairsToContext(portfolioCurrency, transactionCurrency)));
-
     }
 
 

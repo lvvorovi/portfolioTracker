@@ -11,9 +11,9 @@ import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
-@Validated
 @Component
 @Priority(0)
+@Validated
 public class DoubleEntryDividendValidationRule implements DividendValidationRule {
 
     private final DividendRepository repository;

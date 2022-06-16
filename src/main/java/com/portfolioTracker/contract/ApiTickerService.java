@@ -1,7 +1,7 @@
 package com.portfolioTracker.contract;
 
+import com.portfolioTracker.yahooModule.dto.YahooSplitEventDto;
 import com.portfolioTracker.validation.annotation.Ticker;
-import com.portfolioTracker.externalApi.yahoo.dto.YahooEvent;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
@@ -16,6 +16,6 @@ public interface ApiTickerService {
 
     String getTickerCurrency(@Ticker String ticker);
 
-    List<YahooEvent> getSplitEventList(@Ticker String ticker);
+    List<YahooSplitEventDto> getSplitEventList(@Ticker String ticker); //TODO contract for EVENT, that will be extended by YahooSplitEventDto
 
 }

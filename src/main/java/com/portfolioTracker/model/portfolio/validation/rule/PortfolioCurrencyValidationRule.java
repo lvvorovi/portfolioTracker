@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.portfolio.validation.rule;
 
-import com.portfolioTracker.contract.ApiCurrencyService;
+import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.validation.exception.PortfolioCurrencyException;
 import org.springframework.stereotype.Component;
@@ -14,15 +14,15 @@ import javax.validation.constraints.NotNull;
 @Priority(1)
 public class PortfolioCurrencyValidationRule implements PortfolioValidationRule {
 
-    private final ApiCurrencyService apiCurrencyService;
+    private final CurrencyRateService currencyRateService;
 
-    public PortfolioCurrencyValidationRule(ApiCurrencyService apiCurrencyService) {
-        this.apiCurrencyService = apiCurrencyService;
+    public PortfolioCurrencyValidationRule(CurrencyRateService currencyRateService) {
+        this.currencyRateService = currencyRateService;
     }
 
     @Override
     public void validate(@NotNull PortfolioRequestDto portfolioRequestDto) {
-        if (!apiCurrencyService.isCurrencySupported(portfolioRequestDto.getCurrency()))
+        if (!currencyRateService.isCurrencySupported(portfolioRequestDto.getCurrency()))
             throw new PortfolioCurrencyException("Currency " + portfolioRequestDto.getCurrency()
                     + " is not supported");
     }

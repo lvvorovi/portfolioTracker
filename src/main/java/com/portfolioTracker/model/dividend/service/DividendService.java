@@ -7,6 +7,7 @@ import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dividend.repository.DividendRepository;
 import com.portfolioTracker.model.dividend.validation.exception.DividendNotFoundException;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Validated
 @Service
+@Validated
 public class DividendService {
 
     private final ValidationService<DividendRequestDto> validationService;
@@ -35,13 +36,13 @@ public class DividendService {
         return mapper.toDto(returnedEntity);
     }
 
-    public List<DividendResponseDto> saveAll(@NotNull List<DividendRequestDto> requestDtos) {
-        requestDtos.forEach(validationService::validate);
-        List<DividendEntity> entities = requestDtos.stream()
+    public List<DividendResponseDto> saveAll(@NotNull List<DividendRequestDto> requestDtoList) {
+        requestDtoList.forEach(validationService::validate);
+        List<DividendEntity> entityList = requestDtoList.stream()
                 .map(mapper::toEntity)
                 .collect(Collectors.toList());
-        entities = repository.saveAll(entities);
-        return entities.stream()
+        List<DividendEntity> savedEntityList = repository.saveAll(entityList);
+        return savedEntityList.stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -53,20 +54,18 @@ public class DividendService {
     }
 
     public List<DividendResponseDto> findAllByTickerList(@NotNull List<String> tickerList) {
-        List<DividendEntity> dividendList = new ArrayList<>();
-        tickerList.forEach(ticker -> {
-            dividendList.addAll(repository.findAllByTicker(ticker));
-        });
-        return dividendList.stream().map(mapper::toDto).collect(Collectors.toList());
+        List<DividendEntity> entityList = new ArrayList<>();
+        tickerList.forEach(ticker -> entityList.addAll(repository.findAllByTicker(ticker)));
+        return entityList.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
-    public DividendResponseDto findById(@NotNull Long id) {
+    public DividendResponseDto findById(@NumberFormat Long id) {
         DividendEntity entity = repository.findById(id).orElseThrow(() -> new
                 DividendNotFoundException("DividendEvent with id " + id + " not found"));
         return mapper.toDto(entity);
     }
 
-    public void deleteById(@NotNull Long id) {
+    public void deleteById(@NumberFormat Long id) {
         repository.deleteById(id);
     }
 
@@ -78,7 +77,7 @@ public class DividendService {
         return save(requestDto);
     }
 
-    public Boolean existsById(@NotNull Long id) {
+    public Boolean existsById(@NumberFormat Long id) {
         return repository.existsById(id);
     }
 

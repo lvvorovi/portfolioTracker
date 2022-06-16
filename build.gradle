@@ -6,7 +6,6 @@ plugins {
 
 group = 'com.portfolioTracker'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -22,6 +21,8 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.1.0'
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.apache.httpcomponents:httpclient'
+
+//    implementation project(':yahoo')
 
 
     compileOnly 'org.projectlombok:lombok'

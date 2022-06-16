@@ -1,4 +1,3 @@
-
 create TABLE portfolios (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
     name                VARCHAR(50)     NOT NULL,
@@ -15,7 +14,7 @@ create TABLE transactions (
     quantity            DECIMAL(10,0)   NOT NULL,
     price               DECIMAL(50,30)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
-    event_type          VARCHAR(10)      NOT NULL,
+    event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,
 
     PRIMARY KEY (id),
@@ -28,12 +27,28 @@ create TABLE dividends (
     ex_dividend_date    DATE            NOT NULL,
     payment_date        DATE            NOT NULL,
     amount              DECIMAL(50,2)   NOT NULL,
-    event_type          VARCHAR(10)      NOT NULL,
+    event_type          VARCHAR(10)     NOT NULL,
+    portfolio_id        BIGINT          NOT NULL,
+
 
     PRIMARY KEY (id),
-    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date, amount)
+    FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
+    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date, amount, portfolio_id)
 );
 
+/*
+CREATE TABLE currency_rates (
+    id                  BIGINT          NOT NULL AUTO_INCREMENT,
+    portfolio_currency  VARCHAR(3)      NOT NULL,
+    event_currency      VARCHAR(3)      NOT NULL,
+    rate_date           DATE            NOT NULL,
+    rate_client_sells   DECIMAL(50,10)  NOT NULL,
+    rate_client_buys    DECIMAL(50,10)  NOT NULL,
+
+    PRIMARY KEY (id),
+    CONSTRAINT uc_currency_rates UNIQUE (portfolio_currency, event_currency, rate_date)
+*/
+/*
 insert into portfolios values (null, 'Long Term Investment Portfolio', 'no strategy set', 'EUR');
 
 insert into transactions values (null, 'BRK-B', '2019-04-05', 14, 203, 23.61, 'Buy', 1);
@@ -77,4 +92,5 @@ insert into dividends values (null, 'DANSKE.CO', '2022-03-18', '2022-03-22', 146
 insert into dividends values (null, 'SHB-A.ST', '2022-03-24', '2022-03-30', 216.75,  'Dividend');
 
 insert into dividends values (null, 'SWED-A.ST', '2022-03-31', '2022-04-06', 258.19,  'Dividend');
+*/
 

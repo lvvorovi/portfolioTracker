@@ -1,15 +1,15 @@
 package com.portfolioTracker.model.dto.portfolioSummaryDto.service;
 
+import com.portfolioTracker.contract.ApiCurrencyService;
 import com.portfolioTracker.contract.ApiTickerService;
+import com.portfolioTracker.contract.CurrencyRateResponse;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
-import com.portfolioTracker.model.dto.currencyRateDto.service.CurrencyRateService;
 import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.Position;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
 import com.portfolioTracker.model.dto.portfolioSummaryDto.exception.PositionServiceException;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.model.dto.currencyRateDto.dto.CurrencyRateResponseDto;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.validation.annotation.Currency;
 import org.springframework.stereotype.Service;
@@ -31,12 +31,12 @@ public class PositionService {
 
     private final ApiTickerService apiTickerService;
     private final EventService eventService;
-    private final CurrencyRateService currencyRateService;
+    private final ApiCurrencyService apiCurrencyService;
 
-    public PositionService(ApiTickerService apiTickerService, EventService eventService, CurrencyRateService currencyRateService) {
+    public PositionService(ApiTickerService apiTickerService, EventService eventService, ApiCurrencyService apiCurrencyService) {
         this.apiTickerService = apiTickerService;
         this.eventService = eventService;
-        this.currencyRateService = currencyRateService;
+        this.apiCurrencyService = apiCurrencyService;
     }
 
     public List<Position> getPositions(@NotNull PortfolioResponseDto portfolio) {
@@ -50,7 +50,7 @@ public class PositionService {
             Position position = new Position();
 
             String tickerCurrency = apiTickerService.getTickerCurrency(ticker);
-            CurrencyRateResponseDto currencyDto = currencyRateService.getRateForPairOnDate(portfolioCurrency, tickerCurrency, LocalDate.now());
+            CurrencyRateResponse currencyDto = apiCurrencyService.getRateForCurrencyPairOnDate(portfolioCurrency, tickerCurrency, LocalDate.now());
             BigDecimal currentExchangeRateClientSells = currencyDto.getRateClientSells();
 
             position.setName(ticker + " converted from " + tickerCurrency + " to " + portfolioCurrency);
@@ -205,8 +205,8 @@ public class PositionService {
     private List<Share> getSharesSoldFromTransactionList(@NotNull List<TransactionResponseDto> transactionList, @Currency String portfolioCurrency, @Currency String transactionCurrency) {
         return transactionList.stream()
                 .map(transaction -> {
-                    CurrencyRateResponseDto currencyDto = currencyRateService
-                            .getRateForPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
+                    CurrencyRateResponse currencyDto = apiCurrencyService
+                            .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
                     return getSharesSoldFromTransaction(transaction, currencyDto);
                 })
                 .flatMap(List::stream)
@@ -216,15 +216,15 @@ public class PositionService {
     private List<Share> getSharesBoughFromTransactionList(@NotNull List<TransactionResponseDto> transactionList, @Currency String portfolioCurrency, @Currency String transactionCurrency) {
         return transactionList.stream()
                 .map(transaction -> {
-                    CurrencyRateResponseDto currencyDto = currencyRateService
-                            .getRateForPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
+                    CurrencyRateResponse currencyDto = apiCurrencyService
+                            .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
                     return getSharesBoughFromTransaction(transaction, currencyDto);
                 })
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 
-    private List<Share> getSharesSoldFromTransaction(@NotNull TransactionResponseDto transaction, @Currency CurrencyRateResponseDto currencyDto) {
+    private List<Share> getSharesSoldFromTransaction(@NotNull TransactionResponseDto transaction, @Currency CurrencyRateResponse currencyDto) {
         List<Share> shareListSold = new ArrayList<>();
         int transactionSize = transaction.getShares().intValue();
         for (int i = 0; i < transactionSize; i++) {
@@ -239,7 +239,7 @@ public class PositionService {
         return shareListSold;
     }
 
-    private List<Share> getSharesBoughFromTransaction(@NotNull TransactionResponseDto transaction, @NotNull CurrencyRateResponseDto currencyDto) {
+    private List<Share> getSharesBoughFromTransaction(@NotNull TransactionResponseDto transaction, @NotNull CurrencyRateResponse currencyDto) {
         List<Share> shareListSold = new ArrayList<>();
         int transactionSize = transaction.getShares().intValue();
         for (int i = 0; i < transactionSize; i++) {

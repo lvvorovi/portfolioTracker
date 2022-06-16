@@ -1,8 +1,8 @@
 package com.portfolioTracker.config;
 
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
-import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
