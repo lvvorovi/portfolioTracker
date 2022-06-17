@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface TransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
     @Query(value = "SELECT DISTINCT ticker FROM transactions", nativeQuery = true)

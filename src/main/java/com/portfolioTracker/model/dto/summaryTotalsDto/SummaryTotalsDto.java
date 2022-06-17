@@ -1,4 +1,4 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto.summaryTotals;
+package com.portfolioTracker.model.dto.summaryTotalsDto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class SummaryTotals {
+public class SummaryTotalsDto {
 
     @AmountOfMoney
     private BigDecimal totalBought;
@@ -26,9 +26,9 @@ public class SummaryTotals {
     @AmountOfMoney
     private BigDecimal currentValue;
     @NotNull
-    private BigDecimal capitalGains;
+    private BigDecimal capitalGain;
     @PositiveOrZero
-    private BigDecimal dividends;
+    private BigDecimal dividend;
     @AmountOfMoney
     private BigDecimal commission;
     @NotNull
@@ -37,18 +37,18 @@ public class SummaryTotals {
     private BigDecimal totalGain;
     @NotNull
     @JsonProperty("capitalReturn %")
-    private BigDecimal capitalGainsPerc;
+    private BigDecimal capitalReturn;
     @NotNull
     @JsonProperty("commissionReturn %")
-    private BigDecimal commissionGainsPerc;
+    private BigDecimal commissionReturn;
     @NotNull
     @JsonProperty("currencyReturn %")
-    private BigDecimal currencyGainsPerc;
+    private BigDecimal currencyReturn;
     @NotNull
     @JsonProperty("dividendReturn %")
-    private BigDecimal DividendsPerc;
+    private BigDecimal DividendReturn;
     @NotNull
     @JsonProperty("totalReturn %")
-    private BigDecimal totalGainsPerc;
+    private BigDecimal totalReturn;
 
 }

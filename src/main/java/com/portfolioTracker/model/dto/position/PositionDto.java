@@ -1,8 +1,8 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position;
+package com.portfolioTracker.model.dto.position;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.dto.event.EventDto;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,12 +21,12 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class Position {
+public class PositionDto {
 
     @NotEmpty
     private String name;
     @NotNull
-    private List<Event> eventList;
+    private List<EventDto> eventList;
     @NotNull
     private BigDecimal netOriginalCosts;
     @PositiveOrZero

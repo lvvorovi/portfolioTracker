@@ -1,4 +1,4 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary;
+package com.portfolioTracker.model.dto.positionSummaryDto;
 
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.validation.annotation.Quantity;
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class PositionSummary {
+public class PositionSummaryDto {
 
     @Ticker
     private String ticker;
@@ -40,6 +40,6 @@ public class PositionSummary {
     @NotNull
     private BigDecimal totalGain;
     @NotNull
-    private BigDecimal totalReturnPerc;
+    private BigDecimal totalReturn;
 
 }

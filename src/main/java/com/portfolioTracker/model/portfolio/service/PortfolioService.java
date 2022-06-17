@@ -10,21 +10,26 @@ import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.model.portfolio.validation.PortfolioValidationService;
+import com.portfolioTracker.model.portfolio.validation.exception.PortfolioNotFoundException;
 import com.portfolioTracker.model.transaction.service.TransactionService;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
+import com.portfolioTracker.validation.annotation.ModelName;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Validated
 @Service
+@Validated
 public class PortfolioService {
 
     private final PortfolioValidationService validationService;
@@ -32,8 +37,8 @@ public class PortfolioService {
     private final ModelMapperContract<PortfolioEntity, PortfolioRequestDto,
             PortfolioResponseDto> mapper;
     private final DividendService dividendService;
-    private final ApiTickerService apiTickerService;
     private final TransactionService transactionService;
+    private final ApiTickerService apiTickerService;
     private final ApiCurrencyService apiCurrencyService;
 
     public PortfolioService(
@@ -49,6 +54,10 @@ public class PortfolioService {
         this.apiCurrencyService = apiCurrencyService;
     }
 
+    public PortfolioService get() {
+        return this;
+    }
+
     public PortfolioResponseDto save(@NotNull PortfolioRequestDto requestDto) {
         validationService.validate(requestDto);
         return mapper.toDto(repository.save(mapper.toEntity(requestDto)));
@@ -59,25 +68,25 @@ public class PortfolioService {
         List<PortfolioEntity> entityList = requestDtoList.stream()
                 .map(mapper::toEntity)
                 .collect(Collectors.toList());
-        entityList = repository.saveAll(entityList);
-        List<PortfolioResponseDto> portfolioResponseDtoList = entityList.stream()
+        List<PortfolioEntity> savedEntityList = repository.saveAll(entityList);
+        List<PortfolioResponseDto> savedResponseDtoList = savedEntityList.stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
-        portfolioResponseDtoList.forEach(portfolio -> portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
-        return portfolioResponseDtoList;
+        savedResponseDtoList.forEach(portfolio -> portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
+        return savedResponseDtoList;
     }
 
     public List<PortfolioResponseDto> findAll() {
-        List<PortfolioResponseDto> portfolioResponseDtoList = repository.findAll().stream()
+        List<PortfolioResponseDto> responseDtoList = repository.findAll().stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
 
-        portfolioResponseDtoList.forEach(portfolio ->
+        responseDtoList.forEach(portfolio ->
                 portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
-        return portfolioResponseDtoList;
+        return responseDtoList;
     }
 
-    public PortfolioResponseDto findById(@NotNull Long id) {
+    public PortfolioResponseDto findById(@NumberFormat Long id) {
         PortfolioEntity entity = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
@@ -86,7 +95,7 @@ public class PortfolioService {
         return portfolioResponseDto;
     }
 
-    public void deleteById(@NotNull Long id) {
+    public void deleteById(@NumberFormat Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         } else {
@@ -97,10 +106,23 @@ public class PortfolioService {
     public PortfolioResponseDto update(@NotNull PortfolioRequestDto requestDto) {
         validationService.validate(requestDto);
         PortfolioEntity entity = mapper.toEntity(requestDto);
-        PortfolioResponseDto portfolioResponseDto = mapper.toDto(repository.save(entity));
-        portfolioResponseDto.setDividendList(findAllDividendResponseDto(portfolioResponseDto));
-        return portfolioResponseDto;
+        PortfolioEntity savedEntity = repository.save(entity);
+        PortfolioResponseDto savedResponseDto = mapper.toDto(savedEntity);
+        savedResponseDto.setDividendList(findAllDividendResponseDto(savedResponseDto));
+        return savedResponseDto;
     }
+
+    public Boolean existsByName(@ModelName String name) {
+        return repository.existsByName(name);
+    }
+
+    public PortfolioResponseDto findByName(@ModelName String name) {
+        PortfolioEntity foundEntity = repository.findByName(name).orElseThrow(() -> new PortfolioNotFoundException("Portfolio with " +
+                "name " + name + " was not found"));
+        return mapper.toDto(foundEntity);
+    }
+
+
 
     private List<DividendResponseDto> findAllDividendResponseDto(@NotNull PortfolioResponseDto portfolioResponseDto) {
         Set<String> tickerSetInPortfolio = new HashSet<>();
@@ -108,6 +130,8 @@ public class PortfolioService {
                 tickerSetInPortfolio.add(transaction.getTicker()));
         return dividendService.findAllByTickerList(List.copyOf(tickerSetInPortfolio));
     }
+
+
 
     @Async
     @Scheduled(fixedRateString = "PT1M")
@@ -123,8 +147,7 @@ public class PortfolioService {
         portfolioCurrencyList.parallelStream()
                 .forEach(portfolioCurrency -> transactionCurrencyList.parallelStream()
                         .forEach(transactionCurrency -> apiCurrencyService
-                                .loadCurrencyPairsToContext(portfolioCurrency, transactionCurrency))); //TODO change method or create a new
+                                .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, LocalDate.now())));
     }
-
 
 }

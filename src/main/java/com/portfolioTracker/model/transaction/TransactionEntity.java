@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.transaction;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.PortfolioEntity;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.validation.annotation.Date;

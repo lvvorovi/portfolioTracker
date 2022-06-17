@@ -2,7 +2,7 @@ package com.portfolioTracker;
 
 import org.junit.jupiter.api.Test;
 
-public class PositionServiceTest {
+public class PositionDtoServiceTest {
 
     @Test
     void checkCapitalGainLogic() {

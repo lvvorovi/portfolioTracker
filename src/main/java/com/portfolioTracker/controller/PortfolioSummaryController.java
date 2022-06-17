@@ -1,7 +1,7 @@
 package com.portfolioTracker.controller;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.PortfolioSummary;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.service.PortfolioSummaryService;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.PortfolioSummaryDto;
+import com.portfolioTracker.model.dto.portfolioSummaryDto.PortfolioSummaryDtoService;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/portfolio/summary")
 public class PortfolioSummaryController {
 
-    private final PortfolioSummaryService portfolioSummaryService;
+    private final PortfolioSummaryDtoService portfolioSummaryDtoService;
 
-    public PortfolioSummaryController(PortfolioSummaryService portfolioSummaryService) {
-        this.portfolioSummaryService = portfolioSummaryService;
+    public PortfolioSummaryController(PortfolioSummaryDtoService portfolioSummaryDtoService) {
+        this.portfolioSummaryDtoService = portfolioSummaryDtoService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PortfolioSummary> getSummaryByPortfolioId(@NumberFormat @PathVariable Long id) {
-        return ResponseEntity.ok(portfolioSummaryService.buildByPortfolioId(id));
+    public ResponseEntity<PortfolioSummaryDto> getSummaryByPortfolioId(@NumberFormat @PathVariable Long id) {
+        return ResponseEntity.ok(portfolioSummaryDtoService.getSummaryByPortfolioId(id));
     }
 
 

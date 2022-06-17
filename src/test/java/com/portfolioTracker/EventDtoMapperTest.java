@@ -1,0 +1,154 @@
+package com.portfolioTracker;
+
+import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
+import com.portfolioTracker.model.dto.event.EventDto;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
+import com.portfolioTracker.model.dto.event.mapper.EventDtoMapper;
+import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest
+public class EventDtoMapperTest {
+
+    @Autowired
+    private EventDtoMapper eventDtoMapper;
+
+    private TransactionResponseDto getTransactionOfTypeBuy() {
+        TransactionResponseDto transaction = new TransactionResponseDto();
+        transaction.setId(10L);
+        transaction.setTicker("KHC");
+        transaction.setDate(LocalDate.now());
+        transaction.setPrice(new BigDecimal(1001));
+        transaction.setShares(new BigDecimal(500));
+        transaction.setCommission(new BigDecimal(102));
+        transaction.setType(EventType.BUY);
+        transaction.setPortfolioId(1L);
+        transaction.setBought(transaction.getPrice().multiply(transaction.getShares()));
+        transaction.setSold(new BigDecimal(0));
+        return transaction;
+    }
+
+    private EventDto getEventTypeBuy() {
+        EventDto eventDtoBuy = new EventDto();
+        eventDtoBuy.setId(1L);
+        eventDtoBuy.setTicker("Ticker");
+        eventDtoBuy.setDate(LocalDate.now());
+        eventDtoBuy.setPriceAmount(new BigDecimal(100));
+        eventDtoBuy.setShares(new BigDecimal(1000));
+        eventDtoBuy.setCommission(new BigDecimal(20));
+        eventDtoBuy.setType(EventType.BUY);
+        eventDtoBuy.setBought(new BigDecimal(1000));
+        return eventDtoBuy;
+    }
+
+    private EventDto getEventTypeSell() {
+        EventDto eventDtoSell = new EventDto();
+        eventDtoSell.setId(1L);
+        eventDtoSell.setTicker("Ticker");
+        eventDtoSell.setDate(LocalDate.now());
+        eventDtoSell.setPriceAmount(new BigDecimal(100));
+        eventDtoSell.setShares(new BigDecimal(1000));
+        eventDtoSell.setCommission(new BigDecimal(20));
+        eventDtoSell.setType(EventType.SELL);
+        eventDtoSell.setSold(new BigDecimal(1000));
+        return eventDtoSell;
+    }
+
+    private EventDto getEventTypeDividend() {
+        EventDto eventDtoDividend = new EventDto();
+        eventDtoDividend.setId(1L);
+        eventDtoDividend.setTicker("Ticker");
+        eventDtoDividend.setDate(LocalDate.now());
+        eventDtoDividend.setType(EventType.DIVIDEND);
+        eventDtoDividend.setDividend(new BigDecimal(1000));
+        eventDtoDividend.setExDate(LocalDate.now().minusDays(2));
+        return eventDtoDividend;
+    }
+
+    private DividendResponseDto getDividend() {
+        DividendResponseDto dividend = new DividendResponseDto();
+        dividend.setId(10L);
+        dividend.setTicker("KHC");
+        dividend.setDate(LocalDate.now());
+        dividend.setType(EventType.DIVIDEND);
+        dividend.setAmount(new BigDecimal(150));
+        dividend.setExDate(LocalDate.now().minusDays(2));
+        return dividend;
+    }
+
+    @Test
+    void mapsTransactionToEvent() {
+        TransactionResponseDto transaction = getTransactionOfTypeBuy();
+        EventDto eventDto = eventDtoMapper.transactionToEvent(transaction);
+        assertEquals(transaction.getId(), eventDto.getId());
+        assertEquals(transaction.getTicker(), eventDto.getTicker());
+        assertEquals(transaction.getDate(), eventDto.getDate());
+        assertEquals(transaction.getPrice(), eventDto.getPriceAmount());
+        assertEquals(transaction.getShares(), eventDto.getShares());
+        assertEquals(transaction.getCommission(), eventDto.getCommission());
+        assertEquals(transaction.getType(), eventDto.getType());
+        assertEquals(transaction.getBought(), eventDto.getBought());
+        assertEquals(transaction.getSold(), eventDto.getSold());
+
+
+    }
+
+    @Test
+    void mapsDividendToEvent() {
+        DividendResponseDto dividend = getDividend();
+        EventDto eventDto = eventDtoMapper.dividendToEvent(dividend);
+        assertEquals(dividend.getId(), eventDto.getId());
+        assertEquals(dividend.getTicker(), eventDto.getTicker());
+        assertEquals(dividend.getDate(), eventDto.getDate());
+        assertEquals(dividend.getExDate(), eventDto.getExDate());
+        assertEquals(dividend.getAmount(), eventDto.getDividend());
+        assertEquals(dividend.getType(), eventDto.getType());
+    }
+
+    @Test
+    void mapEventToTransactionBuy() {
+        EventDto eventDtoTypeBuy = getEventTypeBuy();
+        TransactionResponseDto transcation = eventDtoMapper.eventToTransaction(eventDtoTypeBuy);
+        assertEquals(eventDtoTypeBuy.getId(), transcation.getId());
+        assertEquals(eventDtoTypeBuy.getTicker(), transcation.getTicker());
+        assertEquals(eventDtoTypeBuy.getDate(), transcation.getDate());
+        assertEquals(eventDtoTypeBuy.getPriceAmount(), transcation.getPrice());
+        assertEquals(eventDtoTypeBuy.getShares(), transcation.getShares());
+        assertEquals(eventDtoTypeBuy.getCommission(), transcation.getCommission());
+        assertEquals(eventDtoTypeBuy.getType(), transcation.getType());
+        assertEquals(eventDtoTypeBuy.getBought(), transcation.getBought());
+    }
+
+    @Test
+    void mapEventToTransactionSell() {
+        EventDto eventDtoTypeSell = getEventTypeSell();
+        TransactionResponseDto transcation = eventDtoMapper.eventToTransaction(eventDtoTypeSell);
+        assertEquals(eventDtoTypeSell.getId(), transcation.getId());
+        assertEquals(eventDtoTypeSell.getTicker(), transcation.getTicker());
+        assertEquals(eventDtoTypeSell.getDate(), transcation.getDate());
+        assertEquals(eventDtoTypeSell.getPriceAmount(), transcation.getPrice());
+        assertEquals(eventDtoTypeSell.getShares(), transcation.getShares());
+        assertEquals(eventDtoTypeSell.getCommission(), transcation.getCommission());
+        assertEquals(eventDtoTypeSell.getType(), transcation.getType());
+        assertEquals(eventDtoTypeSell.getSold(), transcation.getSold());
+    }
+
+    @Test
+    void mapEventToDividend() {
+        EventDto eventDtoDividend = getEventTypeDividend();
+        DividendResponseDto dividend = eventDtoMapper.eventToDividend(eventDtoDividend);
+        assertEquals(eventDtoDividend.getId(), dividend.getId());
+        assertEquals(eventDtoDividend.getTicker(), dividend.getTicker());
+        assertEquals(eventDtoDividend.getDate(), dividend.getDate());
+        assertEquals(eventDtoDividend.getExDate(), dividend.getExDate());
+        assertEquals(eventDtoDividend.getType(), dividend.getType());
+        assertEquals(eventDtoDividend.getDividend(), dividend.getAmount());
+    }
+}

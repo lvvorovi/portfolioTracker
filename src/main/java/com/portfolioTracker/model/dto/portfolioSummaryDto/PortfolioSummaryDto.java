@@ -1,7 +1,7 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto;
+package com.portfolioTracker.model.dto.portfolioSummaryDto;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.PositionSummary;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.summaryTotals.SummaryTotals;
+import com.portfolioTracker.model.dto.positionSummaryDto.PositionSummaryDto;
+import com.portfolioTracker.model.dto.summaryTotalsDto.SummaryTotalsDto;
 import com.portfolioTracker.validation.annotation.Currency;
 import com.portfolioTracker.validation.annotation.ModelName;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import java.util.List;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class PortfolioSummary {
+public class PortfolioSummaryDto {
 
     @NotNull
     private Long portfolioId;
@@ -30,8 +30,8 @@ public class PortfolioSummary {
     @Currency
     private String portfolioCurrency;
     @NotNull
-    private List<PositionSummary> positionSummaryList;
+    private List<PositionSummaryDto> positionSummaryList;
     @NotNull
-    private SummaryTotals summaryTotals;
+    private SummaryTotalsDto summaryTotals;
 
 }

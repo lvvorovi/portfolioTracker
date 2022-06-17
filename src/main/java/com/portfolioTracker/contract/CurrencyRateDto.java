@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @EqualsAndHashCode
-public abstract class CurrencyRateResponse {
+public abstract class CurrencyRateDto {
 
     @Currency
     String portfolioCurrency;

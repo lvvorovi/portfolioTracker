@@ -1,13 +1,12 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.service;
+package com.portfolioTracker.model.dto.position;
 
 import com.portfolioTracker.contract.ApiCurrencyService;
 import com.portfolioTracker.contract.ApiTickerService;
-import com.portfolioTracker.contract.CurrencyRateResponse;
+import com.portfolioTracker.contract.CurrencyRateDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.Position;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.exception.PositionServiceException;
+import com.portfolioTracker.model.dto.event.EventDto;
+import com.portfolioTracker.model.dto.event.EventDtoService;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
@@ -27,31 +26,34 @@ import java.util.stream.Collectors;
 
 @Service
 @Validated
-public class PositionService {
+public class PositionDtoService {
 
     private final ApiTickerService apiTickerService;
-    private final EventService eventService;
+    private final EventDtoService eventService;
     private final ApiCurrencyService apiCurrencyService;
 
-    public PositionService(ApiTickerService apiTickerService, EventService eventService, ApiCurrencyService apiCurrencyService) {
+    public PositionDtoService(ApiTickerService apiTickerService, EventDtoService eventService, ApiCurrencyService apiCurrencyService) {
         this.apiTickerService = apiTickerService;
         this.eventService = eventService;
         this.apiCurrencyService = apiCurrencyService;
     }
 
-    public List<Position> getPositions(@NotNull PortfolioResponseDto portfolio) {
-        Map<String, List<Event>> mapOfEvents = eventService.getMapOfTickerAndEventLists(portfolio);
-        return getPositionsFromMapOfEvents(mapOfEvents, portfolio.getCurrency());
+    public List<PositionDto> getPositionList(@NotNull PortfolioResponseDto portfolio) {
+        Map<String, List<EventDto>> eventListMap = eventService.getMapOfTickerAndEventLists(portfolio);
+        return getPositionListFromEventListMap(eventListMap, portfolio.getCurrency());
     }
 
-    private List<Position> getPositionsFromMapOfEvents(@NotNull Map<String, List<Event>> eventsMap, @Currency String portfolioCurrency) {
-        List<Position> positionList = new ArrayList<>();
+    private List<PositionDto> getPositionListFromEventListMap(
+            @NotNull Map<String, List<EventDto>> eventsMap,
+            @Currency String portfolioCurrency) {
+        List<PositionDto> positionList = new ArrayList<>();
         eventsMap.forEach((ticker, eventList) -> {
-            Position position = new Position();
+            PositionDto position = new PositionDto();
 
             String tickerCurrency = apiTickerService.getTickerCurrency(ticker);
-            CurrencyRateResponse currencyDto = apiCurrencyService.getRateForCurrencyPairOnDate(portfolioCurrency, tickerCurrency, LocalDate.now());
-            BigDecimal currentExchangeRateClientSells = currencyDto.getRateClientSells();
+            CurrencyRateDto currencyRate = apiCurrencyService
+                    .getRateForCurrencyPairOnDate(portfolioCurrency, tickerCurrency, LocalDate.now());
+            BigDecimal currentExchangeRateClientSells = currencyRate.getRateClientSells();
 
             position.setName(ticker + " converted from " + tickerCurrency + " to " + portfolioCurrency);
             position.setEventList(eventList);
@@ -70,7 +72,7 @@ public class PositionService {
             position.setCommission(getTotalCommissionFromEventList(eventList));
 
             position.setCapitalGain(
-                    getCapitalGainFromEventsAdjustedToCurrency(
+                    getCapitalGainFromEventListAdjustedToCurrency(
                             eventList, portfolioCurrency, currentExchangeRateClientSells));
 
             position.setCurrencyGain(position.getCurrentValue()
@@ -89,12 +91,12 @@ public class PositionService {
             position.setTotalReturn(getAsPercentOfTotalBough(position.getTotalGain(), position.getTotalBought()));
 
             positionList.add(position);
-            positionList.sort(Comparator.comparing(pos -> pos.getEventList().get(0).getDate()));
         });
+        positionList.sort(Comparator.comparing(position -> position.getEventList().get(0).getDate()));
         return positionList;
     }
 
-    private BigDecimal getTotalSoldFromEventList(@NotNull List<Event> eventList) {
+    private BigDecimal getTotalSoldFromEventList(@NotNull List<EventDto> eventList) {
         return eventList.stream()
                 .filter(event -> event.getType().equals(EventType.SELL))
                 .map(eventService::eventToTransaction)
@@ -102,7 +104,7 @@ public class PositionService {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private BigDecimal getTotalBoughtFromEventList(@NotNull List<Event> eventList) {
+    private BigDecimal getTotalBoughtFromEventList(@NotNull List<EventDto> eventList) {
         return eventList.stream()
                 .filter(event -> event.getType().equals(EventType.BUY))
                 .map(eventService::eventToTransaction)
@@ -110,7 +112,7 @@ public class PositionService {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private BigDecimal getTotalSharesFromEventList(@NotNull List<Event> eventList) {
+    private BigDecimal getTotalSharesFromEventList(@NotNull List<EventDto> eventList) {
         BigDecimal sharesBough = eventList.stream()
                 .filter(event -> event.getType().equals(EventType.BUY))
                 .map(eventService::eventToTransaction)
@@ -126,7 +128,7 @@ public class PositionService {
         return sharesBough.subtract(sharesSold);
     }
 
-    private BigDecimal getTotalDividendAmountFromEventList(@NotNull List<Event> eventList) {
+    private BigDecimal getTotalDividendAmountFromEventList(@NotNull List<EventDto> eventList) {
         return eventList.stream()
                 .filter(event -> event.getType().equals(EventType.DIVIDEND))
                 .map(eventService::eventToDividend)
@@ -134,7 +136,7 @@ public class PositionService {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private BigDecimal getTotalCommissionFromEventList(@NotNull List<Event> eventList) {
+    private BigDecimal getTotalCommissionFromEventList(@NotNull List<EventDto> eventList) {
         return eventList.stream()
                 .filter(event -> !event.getType().equals(EventType.DIVIDEND))
                 .map(eventService::eventToTransaction)
@@ -142,8 +144,10 @@ public class PositionService {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private BigDecimal getCapitalGainFromEventsAdjustedToCurrency(
-            @NotNull List<Event> eventList, @Currency String portfolioCurrency, @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
+    private BigDecimal getCapitalGainFromEventListAdjustedToCurrency(
+            @NotNull List<EventDto> eventList,
+            @Currency String portfolioCurrency,
+            @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
 
         List<TransactionResponseDto> transactionList = getTransactionListFromEventList(eventList);
 
@@ -151,16 +155,13 @@ public class PositionService {
         String transactionCurrency = apiTickerService.getTickerCurrency(ticker);
         BigDecimal currentPrice = apiTickerService.getTickerCurrentPrice(ticker);
 
-        List<Share> shareListBought = getSharesBoughFromTransactionList(transactionList, portfolioCurrency, transactionCurrency);
-        List<Share> shareListSold = getSharesSoldFromTransactionList(transactionList, portfolioCurrency, transactionCurrency);
+        List<Share> shareListBought = getSharesBoughFromTransactionList(
+                transactionList, portfolioCurrency, transactionCurrency);
+        List<Share> shareListSold = getSharesSoldFromTransactionList(
+                transactionList, portfolioCurrency, transactionCurrency);
 
         shareListBought.sort(Comparator.comparing(share -> share.date));
         shareListSold.sort(Comparator.comparing(share -> share.date));
-
-        if (shareListSold.size() > shareListBought.size()) {
-            throw new PositionServiceException("Shares Sold List is greater than Shares Bought List for eventList "
-                    + eventList);
-        }
 
         List<Share> liquidatedShares = getLiquidatedShares(shareListBought, shareListSold);
 
@@ -170,15 +171,17 @@ public class PositionService {
         BigDecimal capitalGainCurrencyAdjustedFromLiquidatedShares =
                 getCapitalGainCurrencyAdjustedFromLiquidatedShares(liquidatedShares);
 
-        BigDecimal capitalGainCurrencyAdjustedFromActiveShares =
-                getCapitalGainCurrencyAdjustedFromActiveShares(activeShares, currentPrice, currentExchangeRateClientSells);
+        BigDecimal capitalGainCurrencyAdjustedFromActiveShares = getCapitalGainCurrencyAdjustedFromActiveShares(
+                activeShares, currentPrice, currentExchangeRateClientSells);
 
         return capitalGainCurrencyAdjustedFromLiquidatedShares
                 .add(capitalGainCurrencyAdjustedFromActiveShares);
     }
 
     private BigDecimal getCapitalGainCurrencyAdjustedFromActiveShares(
-            @NotNull List<Share> activeShares, @AmountOfMoney BigDecimal currentPrice, @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
+            @NotNull List<Share> activeShares,
+            @AmountOfMoney BigDecimal currentPrice,
+            @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
         return activeShares.stream()
                 .map(share -> (currentPrice.subtract(share.priceBought))
                         .divide(currentExchangeRateClientSells, 2, RoundingMode.HALF_DOWN))
@@ -202,10 +205,13 @@ public class PositionService {
         return liquidatedShareList;
     }
 
-    private List<Share> getSharesSoldFromTransactionList(@NotNull List<TransactionResponseDto> transactionList, @Currency String portfolioCurrency, @Currency String transactionCurrency) {
+    private List<Share> getSharesSoldFromTransactionList(
+            @NotNull List<TransactionResponseDto> transactionList,
+            @Currency String portfolioCurrency,
+            @Currency String transactionCurrency) {
         return transactionList.stream()
                 .map(transaction -> {
-                    CurrencyRateResponse currencyDto = apiCurrencyService
+                    CurrencyRateDto currencyDto = apiCurrencyService
                             .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
                     return getSharesSoldFromTransaction(transaction, currencyDto);
                 })
@@ -213,10 +219,13 @@ public class PositionService {
                 .collect(Collectors.toList());
     }
 
-    private List<Share> getSharesBoughFromTransactionList(@NotNull List<TransactionResponseDto> transactionList, @Currency String portfolioCurrency, @Currency String transactionCurrency) {
+    private List<Share> getSharesBoughFromTransactionList(
+            @NotNull List<TransactionResponseDto> transactionList,
+            @Currency String portfolioCurrency,
+            @Currency String transactionCurrency) {
         return transactionList.stream()
                 .map(transaction -> {
-                    CurrencyRateResponse currencyDto = apiCurrencyService
+                    CurrencyRateDto currencyDto = apiCurrencyService
                             .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, transaction.getDate());
                     return getSharesBoughFromTransaction(transaction, currencyDto);
                 })
@@ -224,7 +233,9 @@ public class PositionService {
                 .collect(Collectors.toList());
     }
 
-    private List<Share> getSharesSoldFromTransaction(@NotNull TransactionResponseDto transaction, @Currency CurrencyRateResponse currencyDto) {
+    private List<Share> getSharesSoldFromTransaction(
+            @NotNull TransactionResponseDto transaction,
+            @Currency CurrencyRateDto currencyRate) {
         List<Share> shareListSold = new ArrayList<>();
         int transactionSize = transaction.getShares().intValue();
         for (int i = 0; i < transactionSize; i++) {
@@ -232,14 +243,16 @@ public class PositionService {
                 Share share = new Share();
                 share.date = transaction.getDate();
                 share.priceSold = transaction.getPrice();
-                share.rateSold = currencyDto.getRateClientSells();
+                share.rateSold = currencyRate.getRateClientSells();
                 shareListSold.add(share);
             }
         }
         return shareListSold;
     }
 
-    private List<Share> getSharesBoughFromTransaction(@NotNull TransactionResponseDto transaction, @NotNull CurrencyRateResponse currencyDto) {
+    private List<Share> getSharesBoughFromTransaction(
+            @NotNull TransactionResponseDto transaction,
+            @NotNull CurrencyRateDto currencyRate) {
         List<Share> shareListSold = new ArrayList<>();
         int transactionSize = transaction.getShares().intValue();
         for (int i = 0; i < transactionSize; i++) {
@@ -247,14 +260,14 @@ public class PositionService {
                 Share share = new Share();
                 share.date = transaction.getDate();
                 share.priceBought = transaction.getPrice();
-                share.rateBought = currencyDto.getRateClientBuys();
+                share.rateBought = currencyRate.getRateClientBuys();
                 shareListSold.add(share);
             }
         }
         return shareListSold;
     }
 
-    private List<TransactionResponseDto> getTransactionListFromEventList(@NotNull List<Event> eventList) {
+    private List<TransactionResponseDto> getTransactionListFromEventList(@NotNull List<EventDto> eventList) {
         return eventList.stream()
                 .filter(event -> !event.getType().equals(EventType.DIVIDEND))
                 .map(eventService::eventToTransaction)

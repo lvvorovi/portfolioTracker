@@ -22,6 +22,7 @@ import java.util.List;
 @Validated
 public class PortfolioResponseDto extends RepresentationModel<PortfolioResponseDto> {
 
+    @NotNull
     private Long id;
     @ModelName
     private String name;

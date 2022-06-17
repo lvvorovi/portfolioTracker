@@ -1,13 +1,13 @@
 package com.portfolioTracker.model.transaction.mapper;
 
 import com.portfolioTracker.contract.ModelMapperContract;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.model.transaction.TransactionEntity;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
-import com.portfolioTracker.model.transaction.validation.exception.UnknownTransactionTypeTransactionException;
+import com.portfolioTracker.model.transaction.validation.exception.UnknownTransactionTypeException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -58,7 +58,7 @@ public class MyTransactionMapper implements
             responseDto.setSold(entity.getPrice().multiply(entity.getShares()));
             responseDto.setBought(new BigDecimal(0));
         } else {
-            throw new UnknownTransactionTypeTransactionException("Transaction type "
+            throw new UnknownTransactionTypeException("Transaction type "
                     + entity.getType() + "is not known to TransactionMapper of "
                     + this.getClass());
         }

@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.transaction.dto;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.validation.annotation.Date;
 import com.portfolioTracker.validation.annotation.Quantity;
@@ -24,6 +24,7 @@ import java.time.LocalDate;
 @Validated
 public class TransactionResponseDto extends RepresentationModel<TransactionResponseDto> {
 
+    @NotNull
     private Long id;
     @Ticker
     private String ticker;

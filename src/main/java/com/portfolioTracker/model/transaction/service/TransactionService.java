@@ -7,6 +7,7 @@ import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.repository.TransactionRepository;
 import com.portfolioTracker.model.transaction.validation.exception.TransactionException;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -14,8 +15,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Validated
 @Service
+@Validated
 public class TransactionService {
 
     private final ValidationService<TransactionRequestDto> validationService;
@@ -35,17 +36,18 @@ public class TransactionService {
 
     public TransactionResponseDto save(@NotNull TransactionRequestDto dtoRequest) {
         validationService.validate(dtoRequest);
-        var entity = mapper.toEntity(dtoRequest);
-        return mapper.toDto(repository.save(entity));
+        TransactionEntity entity = mapper.toEntity(dtoRequest);
+        TransactionEntity savedEntity = repository.save(entity);
+        return mapper.toDto(savedEntity);
     }
 
-    public List<TransactionResponseDto> saveAll(@NotNull List<TransactionRequestDto> requestDtos) {
-        requestDtos.forEach(validationService::validate);
-        List<TransactionEntity> entities = requestDtos.stream()
+    public List<TransactionResponseDto> saveAll(@NotNull List<TransactionRequestDto> requestDtoList) {
+        requestDtoList.forEach(validationService::validate);
+        List<TransactionEntity> entityList = requestDtoList.stream()
                 .map(mapper::toEntity)
                 .collect(Collectors.toList());
-        entities = repository.saveAll(entities);
-        return entities.stream()
+        List<TransactionEntity> savedEntityList = repository.saveAll(entityList);
+        return savedEntityList.stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -56,13 +58,13 @@ public class TransactionService {
                 .collect(Collectors.toList());
     }
 
-    public TransactionResponseDto findById(@NotNull Long id) {
-        var entity = repository.findById(id)
+    public TransactionResponseDto findById(@NumberFormat Long id) {
+        TransactionEntity entity = repository.findById(id)
                 .orElseThrow(() -> new TransactionException("no entity with id " + id + " found"));
         return mapper.toDto(entity);
     }
 
-    public void deleteById(@NotNull Long id) {
+    public void deleteById(@NumberFormat Long id) {
         repository.deleteById(id);
     }
 
@@ -76,8 +78,9 @@ public class TransactionService {
             throw new TransactionException("id shall not be null for method update()");
 
         if (existsById(dtoRequest.getId())) {
-            var entity = mapper.toEntity(dtoRequest);
-            return mapper.toDto(repository.save(entity));
+            TransactionEntity entity = mapper.toEntity(dtoRequest);
+            TransactionEntity savedEntity = repository.save(entity);
+            return mapper.toDto(savedEntity);
 
         } else {
             throw new TransactionException("EquityTransaction with id " +
@@ -85,7 +88,7 @@ public class TransactionService {
         }
     }
 
-    public Boolean existsById(@NotNull Long id) {
+    public Boolean existsById(@NumberFormat Long id) {
         return repository.existsById(id);
     }
 

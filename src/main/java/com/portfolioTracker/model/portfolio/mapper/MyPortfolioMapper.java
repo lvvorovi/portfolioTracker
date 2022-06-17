@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,14 +41,14 @@ public class MyPortfolioMapper implements ModelMapperContract<PortfolioEntity, P
     }
 
     @Override
-    public PortfolioResponseDto toDto(@NotNull PortfolioEntity portfolioEntity) {
+    public PortfolioResponseDto toDto(@NotNull PortfolioEntity entity) {
         PortfolioResponseDto responseDto = new PortfolioResponseDto();
-        responseDto.setId(portfolioEntity.getId());
-        responseDto.setName(portfolioEntity.getName());
-        responseDto.setStrategy(portfolioEntity.getStrategy());
-        responseDto.setCurrency(portfolioEntity.getCurrency());
-        responseDto.setTransactionList(mapTransactionEntityListToDtoList(portfolioEntity.getTransactionEntityList()));
-        responseDto.setDividendList(mapDividendEntityListToDtoList(portfolioEntity.getDividendEntityList()));
+        responseDto.setId(entity.getId());
+        responseDto.setName(entity.getName());
+        responseDto.setStrategy(entity.getStrategy());
+        responseDto.setCurrency(entity.getCurrency());
+        responseDto.setTransactionList(mapTransactionEntityListToDtoList(entity.getTransactionEntityList()));
+        responseDto.setDividendList(mapDividendEntityListToDtoList(entity.getDividendEntityList()));
         return responseDto;
     }
 
@@ -55,14 +56,14 @@ public class MyPortfolioMapper implements ModelMapperContract<PortfolioEntity, P
         if (entityList != null) return entityList.stream()
                 .map(transactionMapper::toDto)
                 .collect(Collectors.toList());
-        return null;
+        return new ArrayList<>();
     }
 
     private List<DividendResponseDto> mapDividendEntityListToDtoList(List<DividendEntity> entityList) {
         if (entityList != null) return entityList.stream()
                 .map(dividendMapper::toDto)
                 .collect(Collectors.toList());
-        return null;
+        return new ArrayList<>();
     }
 
 }

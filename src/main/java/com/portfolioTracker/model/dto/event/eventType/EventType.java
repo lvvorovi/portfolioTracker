@@ -1,8 +1,8 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType;
+package com.portfolioTracker.model.dto.event.eventType;
 
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Validated
 public enum EventType {
@@ -13,7 +13,7 @@ public enum EventType {
 
     private final String code;
 
-    EventType(@NotNull String code) {
+    EventType(@NotEmpty String code) {
         this.code = code;
     }
 

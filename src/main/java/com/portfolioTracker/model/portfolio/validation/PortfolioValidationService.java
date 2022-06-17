@@ -9,8 +9,8 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Validated
 @Service
+@Validated
 public class PortfolioValidationService implements ValidationService<PortfolioRequestDto> {
 
     private final List<PortfolioValidationRule> validationRules;
@@ -20,7 +20,7 @@ public class PortfolioValidationService implements ValidationService<PortfolioRe
     }
 
     @Override
-    public void validate(@NotNull PortfolioRequestDto portfolioRequestDto) {
-        validationRules.forEach(rule -> rule.validate(portfolioRequestDto));
+    public void validate(@NotNull PortfolioRequestDto requestDto) {
+        validationRules.forEach(rule -> rule.validate(requestDto));
     }
 }

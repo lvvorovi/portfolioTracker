@@ -13,15 +13,15 @@ import java.util.List;
 @Service
 public class TransactionValidationService implements ValidationService<TransactionRequestDto> {
 
-    private final List<TransactionValidationRule> validationRules;
+    private final List<TransactionValidationRule> validationRuleList;
 
-    public TransactionValidationService(List<TransactionValidationRule> validationRules) {
-        this.validationRules = validationRules;
+    public TransactionValidationService(List<TransactionValidationRule> validationRuleList) {
+        this.validationRuleList = validationRuleList;
     }
 
     @Override
     public void validate(@NotNull TransactionRequestDto dtoRequest) {
-        validationRules.forEach(rule -> rule.validate(dtoRequest));
+        validationRuleList.forEach(rule -> rule.validate(dtoRequest));
     }
 
 }

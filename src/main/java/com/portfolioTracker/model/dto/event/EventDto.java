@@ -1,6 +1,6 @@
-package com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event;
+package com.portfolioTracker.model.dto.event;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.eventType.EventType;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.validation.annotation.Date;
 import com.portfolioTracker.validation.annotation.Ticker;
 import lombok.EqualsAndHashCode;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class Event {
+public class EventDto {
 
     private Long id;
     @Ticker

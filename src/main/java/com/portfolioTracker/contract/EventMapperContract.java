@@ -1,7 +1,7 @@
 package com.portfolioTracker.contract;
 
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.dto.positionSummary.position.event.Event;
+import com.portfolioTracker.model.dto.event.EventDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import org.springframework.validation.annotation.Validated;
 
@@ -10,12 +10,12 @@ import javax.validation.constraints.NotNull;
 @Validated
 public interface EventMapperContract {
 
-    Event transactionToEvent(@NotNull TransactionResponseDto transaction);
+    EventDto transactionToEvent(@NotNull TransactionResponseDto transaction);
 
-    Event dividendToEvent(@NotNull DividendResponseDto dividend);
+    EventDto dividendToEvent(@NotNull DividendResponseDto dividend);
 
-    DividendResponseDto eventToDividend(@NotNull Event event);
+    DividendResponseDto eventToDividend(@NotNull EventDto eventDto);
 
-    TransactionResponseDto eventToTransaction(@NotNull Event event);
+    TransactionResponseDto eventToTransaction(@NotNull EventDto eventDto);
 
 }

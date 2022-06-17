@@ -11,6 +11,6 @@ public interface ApiCurrencyService {
 
     Boolean isCurrencySupported(@Currency String currency); //TODO no validation for CURRENCY in input data
 
-    CurrencyRateResponse getRateForCurrencyPairOnDate(@Currency String currencyFrom, @Currency String currencyTo, @Date LocalDate onDate);
+    CurrencyRateDto getRateForCurrencyPairOnDate(@Currency String currencyFrom, @Currency String currencyTo, @Date LocalDate onDate);
 
 }
