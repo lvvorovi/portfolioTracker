@@ -2,6 +2,7 @@ public class ToDo {
 
 /*
 TODO:
+        - reformat validation annotations with validators
         - reformat hardcoded variables
         - annotation for validation of @CurrencyRate
         - Move all logic from APIservice to internal Dto Services, Api only left for API calls

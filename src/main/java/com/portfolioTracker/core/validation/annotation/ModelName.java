@@ -1,4 +1,4 @@
-package com.portfolioTracker.validation.annotation;
+package com.portfolioTracker.core.validation.annotation;
 
 import javax.validation.constraints.NotBlank;
 import java.lang.annotation.*;

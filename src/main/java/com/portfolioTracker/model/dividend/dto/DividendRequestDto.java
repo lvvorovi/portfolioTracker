@@ -1,9 +1,9 @@
 package com.portfolioTracker.model.dividend.dto;
 
 import com.portfolioTracker.model.dto.event.eventType.EventType;
-import com.portfolioTracker.validation.annotation.AmountOfMoney;
-import com.portfolioTracker.validation.annotation.Date;
-import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.core.validation.annotation.Date;
+import com.portfolioTracker.core.validation.annotation.Ticker;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

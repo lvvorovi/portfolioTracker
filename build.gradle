@@ -22,15 +22,14 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.apache.httpcomponents:httpclient'
 
-//    implementation project(':yahoo')
-
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     runtimeOnly 'mysql:mysql-connector-java'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'junit:junit:4.13.2'
+
 }
 
 tasks.named('test') {

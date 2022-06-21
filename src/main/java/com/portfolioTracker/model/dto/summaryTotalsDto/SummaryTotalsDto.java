@@ -1,7 +1,7 @@
 package com.portfolioTracker.model.dto.summaryTotalsDto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.portfolioTracker.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

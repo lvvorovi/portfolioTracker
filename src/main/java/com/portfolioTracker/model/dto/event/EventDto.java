@@ -1,8 +1,8 @@
 package com.portfolioTracker.model.dto.event;
 
 import com.portfolioTracker.model.dto.event.eventType.EventType;
-import com.portfolioTracker.validation.annotation.Date;
-import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.core.validation.annotation.Date;
+import com.portfolioTracker.core.validation.annotation.Ticker;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

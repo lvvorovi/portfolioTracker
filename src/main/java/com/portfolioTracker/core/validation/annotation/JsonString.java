@@ -1,6 +1,6 @@
-package com.portfolioTracker.validation.annotation;
+package com.portfolioTracker.core.validation.annotation;
 
-import com.portfolioTracker.validation.validator.JsonStringValidator;
+import com.portfolioTracker.core.validation.validator.JsonStringValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

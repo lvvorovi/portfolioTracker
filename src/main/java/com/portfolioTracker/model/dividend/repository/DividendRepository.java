@@ -1,8 +1,8 @@
 package com.portfolioTracker.model.dividend.repository;
 
 import com.portfolioTracker.model.dividend.DividendEntity;
-import com.portfolioTracker.validation.annotation.Date;
-import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.core.validation.annotation.Date;
+import com.portfolioTracker.core.validation.annotation.Ticker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.validation.annotation.Validated;
 

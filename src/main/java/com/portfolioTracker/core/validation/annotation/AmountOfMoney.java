@@ -1,4 +1,4 @@
-package com.portfolioTracker.validation.annotation;
+package com.portfolioTracker.core.validation.annotation;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;

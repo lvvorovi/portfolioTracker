@@ -1,7 +1,7 @@
 package com.portfolioTracker.contract;
 
-import com.portfolioTracker.validation.annotation.Currency;
-import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.core.validation.annotation.Currency;
+import com.portfolioTracker.core.validation.annotation.Date;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;

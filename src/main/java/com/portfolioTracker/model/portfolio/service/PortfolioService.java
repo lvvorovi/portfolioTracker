@@ -13,14 +13,13 @@ import com.portfolioTracker.model.portfolio.validation.PortfolioValidationServic
 import com.portfolioTracker.model.portfolio.validation.exception.PortfolioNotFoundException;
 import com.portfolioTracker.model.transaction.service.TransactionService;
 import com.portfolioTracker.model.transaction.validation.exception.PortfolioNotFoundTransactionException;
-import com.portfolioTracker.validation.annotation.ModelName;
+import com.portfolioTracker.core.validation.annotation.ModelName;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -36,7 +35,7 @@ public class PortfolioService {
     private final PortfolioRepository repository;
     private final ModelMapperContract<PortfolioEntity, PortfolioRequestDto,
             PortfolioResponseDto> mapper;
-    private final DividendService dividendService;
+//    private final DividendService dividendService;
     private final TransactionService transactionService;
     private final ApiTickerService apiTickerService;
     private final ApiCurrencyService apiCurrencyService;
@@ -44,11 +43,11 @@ public class PortfolioService {
     public PortfolioService(
             PortfolioValidationService validationService,
             PortfolioRepository repository,
-            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, DividendService dividendService, ApiTickerService apiTickerService, TransactionService transactionService, ApiCurrencyService apiCurrencyService) {
+            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, /*DividendService dividendService, */ApiTickerService apiTickerService, TransactionService transactionService, ApiCurrencyService apiCurrencyService) {
         this.validationService = validationService;
         this.repository = repository;
         this.mapper = mapper;
-        this.dividendService = dividendService;
+//        this.dividendService = dividendService;
         this.apiTickerService = apiTickerService;
         this.transactionService = transactionService;
         this.apiCurrencyService = apiCurrencyService;
@@ -72,7 +71,7 @@ public class PortfolioService {
         List<PortfolioResponseDto> savedResponseDtoList = savedEntityList.stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
-        savedResponseDtoList.forEach(portfolio -> portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
+//        savedResponseDtoList.forEach(portfolio -> portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
         return savedResponseDtoList;
     }
 
@@ -81,8 +80,8 @@ public class PortfolioService {
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
 
-        responseDtoList.forEach(portfolio ->
-                portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
+//        responseDtoList.forEach(portfolio ->
+//                portfolio.setDividendList(findAllDividendResponseDto(portfolio)));
         return responseDtoList;
     }
 
@@ -91,7 +90,7 @@ public class PortfolioService {
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
         PortfolioResponseDto portfolioResponseDto = mapper.toDto(entity);
-        portfolioResponseDto.setDividendList(findAllDividendResponseDto(portfolioResponseDto));
+//        portfolioResponseDto.setDividendList(findAllDividendResponseDto(portfolioResponseDto));
         return portfolioResponseDto;
     }
 
@@ -108,7 +107,7 @@ public class PortfolioService {
         PortfolioEntity entity = mapper.toEntity(requestDto);
         PortfolioEntity savedEntity = repository.save(entity);
         PortfolioResponseDto savedResponseDto = mapper.toDto(savedEntity);
-        savedResponseDto.setDividendList(findAllDividendResponseDto(savedResponseDto));
+//        savedResponseDto.setDividendList(findAllDividendResponseDto(savedResponseDto));
         return savedResponseDto;
     }
 
@@ -124,14 +123,12 @@ public class PortfolioService {
 
 
 
-    private List<DividendResponseDto> findAllDividendResponseDto(@NotNull PortfolioResponseDto portfolioResponseDto) {
-        Set<String> tickerSetInPortfolio = new HashSet<>();
-        portfolioResponseDto.getTransactionList().forEach(transaction ->
-                tickerSetInPortfolio.add(transaction.getTicker()));
-        return dividendService.findAllByTickerList(List.copyOf(tickerSetInPortfolio));
-    }
-
-
+//    private List<DividendResponseDto> findAllDividendResponseDto(@NotNull PortfolioResponseDto portfolioResponseDto) {
+//        Set<String> tickerSetInPortfolio = new HashSet<>();
+//        portfolioResponseDto.getTransactionList().forEach(transaction ->
+//                tickerSetInPortfolio.add(transaction.getTicker()));
+//        return dividendService.findAllByTickerList(List.copyOf(tickerSetInPortfolio));
+//    }
 
     @Async
     @Scheduled(fixedRateString = "PT1M")

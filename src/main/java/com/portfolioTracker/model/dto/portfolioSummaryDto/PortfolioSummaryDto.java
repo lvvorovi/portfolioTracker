@@ -2,8 +2,8 @@ package com.portfolioTracker.model.dto.portfolioSummaryDto;
 
 import com.portfolioTracker.model.dto.positionSummaryDto.PositionSummaryDto;
 import com.portfolioTracker.model.dto.summaryTotalsDto.SummaryTotalsDto;
-import com.portfolioTracker.validation.annotation.Currency;
-import com.portfolioTracker.validation.annotation.ModelName;
+import com.portfolioTracker.core.validation.annotation.Currency;
+import com.portfolioTracker.core.validation.annotation.ModelName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.portfolioTracker.validation.annotation;
+package com.portfolioTracker.core.validation.annotation;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -9,6 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @NotNull
 @Positive
-public @interface PortfolioId {
-    String message() default "should be of type Long, positive";
+public @interface Quantity {
+    String message() default "value must be positive";
 }

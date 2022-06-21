@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.transaction.dto;
 
-import com.portfolioTracker.validation.annotation.*;
+import com.portfolioTracker.core.validation.annotation.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

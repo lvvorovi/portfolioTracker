@@ -17,13 +17,26 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
-@RequestMapping("/dividend")
+@RequestMapping("/api/v1/dividends")
 public class DividendController {
 
     private final DividendService service;
 
     public DividendController(DividendService service) {
         this.service = service;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DividendResponseDto> findById(@NumberFormat @PathVariable Long id) {
+        DividendResponseDto responseDto = service.findById(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DividendResponseDto>> findALl() {
+        List<DividendResponseDto> responseDtoList = service.findAll();
+        responseDtoList.forEach(this::addSelfRefToJson);
+        return ResponseEntity.ok(responseDtoList);
     }
 
     @PostMapping
@@ -39,19 +52,6 @@ public class DividendController {
         List<DividendResponseDto> responseDtoList = service.saveAll(requestDtoList);
         responseDtoList.forEach(this::addSelfRefToJson);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<DividendResponseDto> findById(@NumberFormat @PathVariable Long id) {
-        DividendResponseDto responseDto = service.findById(id);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DividendResponseDto>> findALl() {
-        List<DividendResponseDto> responseDtoList = service.findAll();
-        responseDtoList.forEach(this::addSelfRefToJson);
-        return ResponseEntity.ok(responseDtoList);
     }
 
     @DeleteMapping("/{id}")

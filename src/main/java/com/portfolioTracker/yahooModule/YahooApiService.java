@@ -55,20 +55,31 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
 
     @Override
     public Boolean isCurrencySupported(@Currency String currency) {
-        YahooResponseDto responseDto = getObjectFromTicker(currency + currency + "=X");
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(currency + currency + "=X");
+        } catch (YahooResponseDtoNullException ex) {
+            return false;
+        }
         return responseDto.getTicker().equalsIgnoreCase(currency + currency + "=X");
     }
 
     @Override
     public YahooCurrencyRateDto getRateForCurrencyPairOnDate(@Currency String portfolioCurrency, @Currency String eventCurrency, @Date LocalDate date) {
-        YahooResponseDto responseDto = getObjectFromTicker(portfolioCurrency + eventCurrency + "=X");
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(portfolioCurrency + eventCurrency + "=X");
+        } catch (YahooResponseDtoNullException ex) {
+            throw new YahooResponseDtoNullException("currency pair " + portfolioCurrency + eventCurrency +
+                    " is not supported by Yahoo Api");
+        }
 
         YahooCurrencyRateDto currencyRateDto = new YahooCurrencyRateDto();
         currencyRateDto.setDate(date);
         currencyRateDto.setEventCurrency(eventCurrency);
         currencyRateDto.setPortfolioCurrency(portfolioCurrency);
 
-        BigDecimal baseRate = getBaseRateFromResponseDto(responseDto, date);
+        BigDecimal baseRate = getCurrencyBaseRateFromResponseDto(responseDto, date);
 
         currencyRateDto.setRateClientBuys(baseRate.multiply(new BigDecimal("1.02")));
         currencyRateDto.setRateClientSells(baseRate.multiply(new BigDecimal("0.98")));
@@ -78,32 +89,56 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
 
     @Override
     public Boolean isTickerSupported(@Ticker String ticker) {
-        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(ticker);
+        } catch (YahooResponseDtoNullException ex) {
+            throw new YahooResponseDtoNullException("ticker " + ticker +
+                    " is not supported by Yahoo Api");
+        }
         return responseDto.getTicker().equalsIgnoreCase(ticker);
     }
 
     @Override
     public BigDecimal getTickerCurrentPrice(@Ticker String ticker) {
-        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(ticker);
+        } catch (YahooResponseDtoNullException ex) {
+            throw new YahooResponseDtoNullException("ticker " + ticker +
+                    " is not supported by Yahoo Api");
+        }
         return responseDto.getCurrentMarketPrice();
     }
 
     @Override
     public String getTickerCurrency(@Ticker String ticker) {
-        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(ticker);
+        } catch (YahooResponseDtoNullException ex) {
+            throw new YahooResponseDtoNullException("ticker " + ticker +
+                    " is not supported by Yahoo Api");
+        }
         return responseDto.getCurrency();
     }
 
     @Override
     public List<YahooSplitEventDto> getSplitEventList(@Ticker String ticker) {
-        YahooResponseDto responseDto = getObjectFromTicker(ticker);
+        YahooResponseDto responseDto;
+        try {
+            responseDto = getObjectFromTicker(ticker);
+        } catch (YahooResponseDtoNullException ex) {
+            throw new YahooResponseDtoNullException("ticker " + ticker +
+                    " is not supported by Yahoo Api");
+        }
         return responseDto.getYahooSplitEventDtoList()
                 .stream()
                 .filter(event -> event.getType().equalsIgnoreCase("SPLIT"))
                 .collect(Collectors.toList());
     }
 
-    private @NotNull YahooResponseDto getObjectFromTicker(@Ticker String ticker) {
+    private @NotNull YahooResponseDto getObjectFromTicker(@Ticker String ticker) throws YahooResponseDtoNullException{
         if (dtoMap.containsKey(ticker) && dtoMap.get(ticker).getUpdateDateTime().isAfter(LocalDateTime.now().minusMinutes(5))) {
             return dtoMap.get(ticker);
         }
@@ -115,7 +150,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         return responseDto;
     }
 
-    private @NotNull YahooResponseDto deserializeYahooJson(@JsonString String jsonString) {
+    private @NotNull YahooResponseDto deserializeYahooJson (@JsonString String jsonString) throws YahooResponseDtoNullException{
         ObjectMapper yahooDtoMapper = new ObjectMapper();
         yahooDtoMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -125,8 +160,8 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         YahooResponseDto responseDto;
         try {
             responseDto = yahooDtoMapper.readValue(jsonString, YahooResponseDto.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (JsonProcessingException | NullPointerException e) {
+            throw new YahooResponseDtoNullException("could not deserialize request " + jsonString);
         }
 
         if (responseDto == null) throw new YahooResponseDtoNullException("deserializeYahooJson() method " +
@@ -159,7 +194,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         }
     }
 
-    private BigDecimal getBaseRateFromResponseDto(@NotNull YahooResponseDto responseDto, @Date LocalDate date) {
+    private BigDecimal getCurrencyBaseRateFromResponseDto(@NotNull YahooResponseDto responseDto, @Date LocalDate date) {
         try {
             if (date.equals(LocalDate.now())) {
                 return responseDto.getCurrentMarketPrice();
@@ -186,32 +221,6 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         long seconds = Duration.of(days, ChronoUnit.DAYS).toSeconds();
         return Long.toString(seconds);
     }
-
-
-/*
-
-    private List<YahooSplitEventDto> getDividendEventList() {
-        return currentDto.getContext().getDispatcher().getStores().getHistoricalPriceStore().getEventsDataList()
-                .stream()
-                .filter(event -> event.getType().equals("DIVIDEND"))
-                .collect(Collectors.toList());
-    }
-
-    public List<YahooSplitEventDto> getSplitEventList(@NotNull String ticker) {
-        setCurrentVariables(ticker);
-        return currentDto.getContext().getDispatcher().getStores().getHistoricalPriceStore().getEventsDataList()
-                .stream()
-                .filter(event -> event.getType().equalsIgnoreCase("SPLIT"))
-                .collect(Collectors.toList());
-    }
-
-    private BigDecimal rateForCurrencyPair(@NotNull String currencyFrom, @NotNull String currencyTo) {
-        setCurrentVariables(currencyTo + currencyFrom + "=X");
-        return currentDto.getContext().getDispatcher().getStores().getQuoteSummaryStore().getPrice()
-                .getRegularMarketPrice().getFmt();
-    }
-
-*/
 
 }
 

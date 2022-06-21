@@ -16,7 +16,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
-@RequestMapping("/portfolio")
+@RequestMapping("/api/v1/portfolios")
 public class PortfolioController {
 
     private final PortfolioService service;
@@ -25,16 +25,16 @@ public class PortfolioController {
         this.service = service;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<PortfolioResponseDto> findById(@NumberFormat @PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<PortfolioResponseDto>> findAll() {
         List<PortfolioResponseDto> portfolioResponseList = service.findAll();
         portfolioResponseList.forEach(this::addLinkToResponseObject);
         return ResponseEntity.ok(portfolioResponseList);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PortfolioResponseDto> findById(@NumberFormat @PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping

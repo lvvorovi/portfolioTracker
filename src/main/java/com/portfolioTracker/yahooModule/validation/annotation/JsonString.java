@@ -1,6 +1,7 @@
 package com.portfolioTracker.yahooModule.validation.annotation;
 
-import com.portfolioTracker.validation.validator.JsonStringValidator;
+
+import com.portfolioTracker.yahooModule.validation.validator.JsonStringValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

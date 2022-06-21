@@ -1,7 +1,7 @@
 package com.portfolioTracker.contract;
 
 import com.portfolioTracker.yahooModule.dto.YahooSplitEventDto;
-import com.portfolioTracker.validation.annotation.Ticker;
+import com.portfolioTracker.core.validation.annotation.Ticker;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;

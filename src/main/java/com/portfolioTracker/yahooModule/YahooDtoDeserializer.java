@@ -33,7 +33,7 @@ class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
     }
 
     @Override
-    public @Valid YahooResponseDto deserialize(@NotNull JsonParser parser, @NotNull DeserializationContext context) throws JsonProcessingException {
+    public @Valid YahooResponseDto deserialize(JsonParser parser, DeserializationContext context) throws JsonProcessingException, NullPointerException {
 
         YahooResponseDto yahooDto = new YahooResponseDto();
         ObjectCodec codec = parser.getCodec();

@@ -1,0 +1,544 @@
+2022-06-21 12:49:24.773  WARN 12128 --- [Test worker] ory$DuplicateJsonObjectContextCustomizer : 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/vi/.gradle/caches/modules-2/files-2.1/org.json/json/20220320/6df2c050972619466f6dcef7654ef9bcc01dfd0/json-20220320.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/vi/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2022-06-21 12:49:24.824  INFO 12128 --- [Test worker] c.p.controller.DividendControllerTest    : Starting DividendControllerTest using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 12128 (started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 12:49:24.827  INFO 12128 --- [Test worker] c.p.controller.DividendControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 12:49:30.230  INFO 12128 --- [Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2022-06-21 12:49:30.232  INFO 12128 --- [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2022-06-21 12:49:30.235  INFO 12128 --- [Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2022-06-21 12:49:30.290  INFO 12128 --- [Test worker] c.p.controller.DividendControllerTest    : Started DividendControllerTest in 7.831 seconds (JVM running for 15.046)
+2022-06-21 12:49:30.538  INFO 12128 --- [Test worker] c.p.config.MyLoggerFilter                : Request id 5804af46-b445-4ff5-adc7-61424de59521 requested path http://localhost/dividend
+2022-06-21 12:49:54.581  INFO 10276 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 10276 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 12:49:54.588  INFO 10276 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 12:49:58.167  INFO 10276 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 12:49:58.694  INFO 10276 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 499 ms. Found 3 JPA repository interfaces.
+2022-06-21 12:50:03.922  INFO 10276 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 12:50:03.971  INFO 10276 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 12:50:03.973  INFO 10276 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 12:50:04.573  INFO 10276 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 12:50:04.574  INFO 10276 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 9820 ms
+2022-06-21 12:50:05.293  INFO 10276 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 12:50:06.453  INFO 10276 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 12:50:06.583  INFO 10276 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 12:50:06.585  INFO 10276 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 12:50:06.782  INFO 10276 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.077s)
+2022-06-21 12:50:06.822  INFO 10276 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 12:50:06.825  INFO 10276 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 12:50:07.343  INFO 10276 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 12:50:07.765  INFO 10276 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 12:50:08.458  INFO 10276 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 12:50:09.037  INFO 10276 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 12:50:10.948  INFO 10276 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 12:50:10.972  INFO 10276 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 12:50:13.896  WARN 10276 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 12:50:14.746  INFO 10276 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 12:50:14.772  INFO 10276 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 21.48 seconds (JVM running for 22.7)
+2022-06-21 12:50:53.073  INFO 10276 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 12:50:53.079  INFO 10276 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 12:50:53.083  INFO 10276 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-06-21 12:50:53.133  INFO 10276 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id a33c72b2-03e5-44d3-98c1-7c8ce3d3a990 requested path http://localhost:8080/portfolio
+2022-06-21 12:51:32.602  INFO 10276 --- [http-nio-8080-exec-3] c.p.config.MyLoggerFilter                : Request id 738c0f71-16e0-4476-993d-d9aa87f594df requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:51:48.570  INFO 10276 --- [http-nio-8080-exec-4] c.p.config.MyLoggerFilter                : Request id 34a17277-19da-4867-8194-a02aa3360358 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:51:48.767  WARN 10276 --- [http-nio-8080-exec-4] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:51:58.630  INFO 10276 --- [http-nio-8080-exec-5] c.p.config.MyLoggerFilter                : Request id f9ee8c33-c065-4a30-9874-5d412b909d93 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:02.750  INFO 10276 --- [http-nio-8080-exec-6] c.p.config.MyLoggerFilter                : Request id 4d6d32e2-6960-40e3-ad2a-16236a9d90e5 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:04.125  INFO 10276 --- [http-nio-8080-exec-7] c.p.config.MyLoggerFilter                : Request id c9ec13ea-9491-45d6-95a2-891799ab1639 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:05.188  INFO 10276 --- [http-nio-8080-exec-8] c.p.config.MyLoggerFilter                : Request id 83d54ae8-5a7a-44c3-a719-857160b95772 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:06.079  INFO 10276 --- [http-nio-8080-exec-9] c.p.config.MyLoggerFilter                : Request id 7caee580-5e29-49bc-b199-102ab4776f49 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:31.562  INFO 10276 --- [http-nio-8080-exec-10] c.p.config.MyLoggerFilter                : Request id 05df6a0c-7846-483d-b499-79d26aa54fd6 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:52:31.566  WARN 10276 --- [http-nio-8080-exec-10] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:53:10.925  INFO 10276 --- [http-nio-8080-exec-1] c.p.config.MyLoggerFilter                : Request id 55f0ba50-6c61-45a0-a1e2-80a53ce4bc03 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:53:23.674  INFO 10276 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id 836f36dc-adf7-4a39-83df-ec82f7d5595a requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:53:23.684  WARN 10276 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:53:39.228  INFO 10276 --- [http-nio-8080-exec-3] c.p.config.MyLoggerFilter                : Request id 17dbc49d-b597-42aa-9b84-9cb2724fd474 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:53:39.233  WARN 10276 --- [http-nio-8080-exec-3] c.p.core.CustomExceptionHandler          : JSON parse error: Unexpected character ('/' (code 47)): maybe a (non-standard) comment? (not recognized as one since Feature 'ALLOW_COMMENTS' not enabled for parser); nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('/' (code 47)): maybe a (non-standard) comment? (not recognized as one since Feature 'ALLOW_COMMENTS' not enabled for parser)
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 2, column: 6]
+2022-06-21 12:54:38.054  INFO 10276 --- [http-nio-8080-exec-4] c.p.config.MyLoggerFilter                : Request id deb30335-496f-4eb4-95c8-244aa1bfc407 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:54:38.061  WARN 10276 --- [http-nio-8080-exec-4] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:54:46.160  INFO 10276 --- [http-nio-8080-exec-5] c.p.config.MyLoggerFilter                : Request id 3b6057a8-a518-4dca-b69f-3e0323096955 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:54:46.165  WARN 10276 --- [http-nio-8080-exec-5] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:56:07.999  INFO 3676 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 3676 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 12:56:08.006  INFO 3676 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 12:56:10.165  INFO 3676 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 12:56:10.374  INFO 3676 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 182 ms. Found 3 JPA repository interfaces.
+2022-06-21 12:56:12.874  INFO 3676 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 12:56:12.898  INFO 3676 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 12:56:12.899  INFO 3676 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 12:56:13.226  INFO 3676 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 12:56:13.228  INFO 3676 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5077 ms
+2022-06-21 12:56:13.795  INFO 3676 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 12:56:14.782  INFO 3676 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 12:56:14.924  INFO 3676 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 12:56:14.927  INFO 3676 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 12:56:15.114  INFO 3676 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.086s)
+2022-06-21 12:56:15.171  INFO 3676 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 12:56:15.176  INFO 3676 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 12:56:15.633  INFO 3676 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 12:56:15.955  INFO 3676 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 12:56:17.232  INFO 3676 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 12:56:17.645  INFO 3676 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 12:56:19.294  INFO 3676 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 12:56:19.309  INFO 3676 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 12:56:22.406  WARN 3676 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 12:56:23.351  INFO 3676 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 12:56:23.371  INFO 3676 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 16.483 seconds (JVM running for 17.825)
+2022-06-21 12:56:44.261  INFO 3676 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 12:56:44.262  INFO 3676 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 12:56:44.266  INFO 3676 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-06-21 12:56:44.298  INFO 3676 --- [http-nio-8080-exec-1] c.p.config.MyLoggerFilter                : Request id 7f5fa2e4-fcdb-4170-9643-46cbcb911d6a requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:56:47.693  INFO 3676 --- [http-nio-8080-exec-3] c.p.config.MyLoggerFilter                : Request id bbf7439a-b5a5-43ab-8943-31d7bbda8dc0 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:56:47.882  WARN 3676 --- [http-nio-8080-exec-3] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:57:41.693  INFO 6588 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 6588 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 12:57:41.701  INFO 6588 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 12:57:45.248  INFO 6588 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 12:57:46.015  INFO 6588 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 706 ms. Found 3 JPA repository interfaces.
+2022-06-21 12:57:48.871  INFO 6588 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 12:57:48.912  INFO 6588 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 12:57:48.915  INFO 6588 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 12:57:49.432  INFO 6588 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 12:57:49.434  INFO 6588 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7593 ms
+2022-06-21 12:57:50.150  INFO 6588 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 12:57:51.021  INFO 6588 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 12:57:51.202  INFO 6588 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 12:57:51.204  INFO 6588 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 12:57:51.385  INFO 6588 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.086s)
+2022-06-21 12:57:51.549  INFO 6588 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 12:57:51.551  INFO 6588 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 12:57:52.274  INFO 6588 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 12:57:52.574  INFO 6588 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 12:57:53.418  INFO 6588 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 12:57:53.923  INFO 6588 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 12:57:57.016  INFO 6588 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 12:57:57.043  INFO 6588 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 12:58:02.188  WARN 6588 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 12:58:03.758  INFO 6588 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 12:58:03.797  INFO 6588 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 23.726 seconds (JVM running for 25.068)
+2022-06-21 12:58:08.375  INFO 6588 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 12:58:08.378  INFO 6588 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 12:58:08.384  INFO 6588 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2022-06-21 12:58:08.427  INFO 6588 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id ad4f263d-a7f1-4b73-bb44-10d397a8ba86 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:58:09.248  WARN 6588 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : null
+2022-06-21 12:58:46.244  INFO 12380 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 12380 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 12:58:46.258  INFO 12380 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 12:58:50.181  INFO 12380 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 12:58:50.634  INFO 12380 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 415 ms. Found 3 JPA repository interfaces.
+2022-06-21 12:58:54.051  INFO 12380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 12:58:54.076  INFO 12380 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 12:58:54.077  INFO 12380 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 12:58:54.551  INFO 12380 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 12:58:54.555  INFO 12380 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7975 ms
+2022-06-21 12:58:55.067  INFO 12380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 12:58:56.036  INFO 12380 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 12:58:56.175  INFO 12380 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 12:58:56.183  INFO 12380 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 12:58:56.441  INFO 12380 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.170s)
+2022-06-21 12:58:56.563  INFO 12380 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 12:58:56.571  INFO 12380 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 12:58:56.799  INFO 12380 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 12:58:56.921  INFO 12380 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 12:58:57.783  INFO 12380 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 12:58:58.577  INFO 12380 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 12:59:01.891  INFO 12380 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 12:59:01.938  INFO 12380 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 12:59:05.668  WARN 12380 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 12:59:06.944  INFO 12380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 12:59:06.966  INFO 12380 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 23.075 seconds (JVM running for 24.536)
+2022-06-21 12:59:12.919  INFO 12380 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 12:59:12.921  INFO 12380 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 12:59:12.933  INFO 12380 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 10 ms
+2022-06-21 12:59:12.982  INFO 12380 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id a23a1c59-ce1b-4b2e-85c4-f9bdbce0cd59 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 12:59:13.718  WARN 12380 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : java.lang.NullPointerException
+2022-06-21 13:00:48.145  INFO 14228 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 14228 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:00:48.153  INFO 14228 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:00:51.833  INFO 14228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:00:52.143  INFO 14228 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 266 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:00:55.699  INFO 14228 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:00:55.726  INFO 14228 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:00:55.728  INFO 14228 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:00:56.118  INFO 14228 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:00:56.120  INFO 14228 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7675 ms
+2022-06-21 13:00:57.461  INFO 14228 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:00:58.967  INFO 14228 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:00:59.110  INFO 14228 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:00:59.114  INFO 14228 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:00:59.319  INFO 14228 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.111s)
+2022-06-21 13:00:59.371  INFO 14228 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:00:59.374  INFO 14228 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:00:59.948  INFO 14228 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:01:00.185  INFO 14228 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:01:00.884  INFO 14228 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:01:01.397  INFO 14228 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:01:04.636  INFO 14228 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:01:04.665  INFO 14228 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:01:11.016  WARN 14228 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:01:13.109  INFO 14228 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:01:13.160  INFO 14228 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 27.773 seconds (JVM running for 29.957)
+2022-06-21 13:01:18.442  INFO 14228 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:01:18.445  INFO 14228 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:01:18.454  INFO 14228 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2022-06-21 13:01:18.535  INFO 14228 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id 8aa40590-ff90-4a09-80de-7c8f1c3ba5b1 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:05:04.585  INFO 4912 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 4912 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:05:04.602  INFO 4912 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:05:07.525  INFO 4912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:05:07.799  INFO 4912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 247 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:05:11.012  INFO 4912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:05:11.036  INFO 4912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:05:11.037  INFO 4912 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:05:11.445  INFO 4912 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:05:11.450  INFO 4912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6631 ms
+2022-06-21 13:05:12.164  INFO 4912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:05:13.515  INFO 4912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:05:13.662  INFO 4912 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:05:13.666  INFO 4912 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:05:13.871  INFO 4912 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.062s)
+2022-06-21 13:05:13.917  INFO 4912 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:05:13.919  INFO 4912 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:05:14.577  INFO 4912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:05:14.722  INFO 4912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:05:15.222  INFO 4912 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:05:15.601  INFO 4912 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:05:17.937  INFO 4912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:05:17.962  INFO 4912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:05:21.447  WARN 4912 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'portfolioController' defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\controller\PortfolioController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'portfolioService' defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\service\PortfolioService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'portfolioValidationService' defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\validation\PortfolioValidationService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'portfolioNameValidationRule' defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\validation\rule\PortfolioNameValidationRule.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name 'portfolioService': Requested bean is currently in creation: Is there an unresolvable circular reference?
+2022-06-21 13:05:21.450  INFO 4912 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:05:21.456  INFO 4912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-06-21 13:05:21.504  INFO 4912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-06-21 13:05:21.509  INFO 4912 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-06-21 13:05:21.535  INFO 4912 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-06-21 13:05:21.609 ERROR 4912 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   portfolioController defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\controller\PortfolioController.class]
+???????
+|  portfolioService defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\service\PortfolioService.class]
+?     ?
+|  portfolioValidationService defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\validation\PortfolioValidationService.class]
+?     ?
+|  portfolioNameValidationRule defined in file [C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main\com\portfolioTracker\model\portfolio\validation\rule\PortfolioNameValidationRule.class]
+???????
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2022-06-21 13:12:46.296  INFO 724 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 724 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:12:46.332  INFO 724 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:12:50.583  INFO 724 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:12:50.949  INFO 724 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 331 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:12:56.683  INFO 724 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:12:56.726  INFO 724 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:12:56.727  INFO 724 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:12:57.255  INFO 724 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:12:57.258  INFO 724 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 10530 ms
+2022-06-21 13:12:57.917  INFO 724 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:12:59.488  INFO 724 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:12:59.621  INFO 724 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:12:59.622  INFO 724 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:12:59.761  INFO 724 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.069s)
+2022-06-21 13:12:59.790  INFO 724 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:12:59.791  INFO 724 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:13:00.170  INFO 724 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:13:00.348  INFO 724 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:13:01.006  INFO 724 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:13:01.433  INFO 724 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:13:04.786  INFO 724 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:13:04.821  INFO 724 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:13:12.652  WARN 724 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:13:15.052  INFO 724 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:13:15.091  INFO 724 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 31.428 seconds (JVM running for 33.406)
+2022-06-21 13:15:03.540  INFO 7472 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 7472 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:15:03.578  INFO 7472 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:15:07.134  INFO 7472 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:15:07.456  INFO 7472 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 287 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:15:11.136  INFO 7472 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:15:11.178  INFO 7472 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:15:11.180  INFO 7472 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:15:11.784  INFO 7472 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:15:11.791  INFO 7472 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8006 ms
+2022-06-21 13:15:12.537  INFO 7472 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:15:13.740  INFO 7472 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:15:13.875  INFO 7472 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:15:13.884  INFO 7472 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:15:14.642  INFO 7472 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.217s)
+2022-06-21 13:15:14.686  INFO 7472 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:15:14.689  INFO 7472 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:15:15.114  INFO 7472 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:15:15.333  INFO 7472 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:15:16.010  INFO 7472 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:15:16.419  INFO 7472 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:15:19.289  INFO 7472 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:15:19.314  INFO 7472 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:15:25.698  WARN 7472 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:15:27.901  INFO 7472 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:15:27.934  INFO 7472 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 26.37 seconds (JVM running for 28.002)
+2022-06-21 13:15:33.491  INFO 7472 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:15:33.494  INFO 7472 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:15:33.498  INFO 7472 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-06-21 13:15:33.579  INFO 7472 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id 50ab75cc-9db8-49b3-b4ad-16696216bc46 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:16:27.222  WARN 7472 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m3s68ms963µs).
+2022-06-21 13:16:36.075  WARN 7472 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : java.lang.NullPointerException
+2022-06-21 13:16:50.579  INFO 7472 --- [http-nio-8080-exec-4] c.p.config.MyLoggerFilter                : Request id c712ad26-a320-42c3-89f5-af8c3ed33494 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:23:32.543  INFO 7116 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 7116 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:23:32.551  INFO 7116 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:23:34.983  INFO 7116 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:23:35.172  INFO 7116 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 164 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:23:37.553  INFO 7116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:23:37.579  INFO 7116 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:23:37.580  INFO 7116 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:23:38.062  INFO 7116 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:23:38.064  INFO 7116 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5340 ms
+2022-06-21 13:23:38.700  INFO 7116 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:23:39.711  INFO 7116 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:23:39.802  INFO 7116 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:23:39.803  INFO 7116 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:23:39.992  INFO 7116 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.098s)
+2022-06-21 13:23:40.044  INFO 7116 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:23:40.047  INFO 7116 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:23:40.616  INFO 7116 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:23:40.786  INFO 7116 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:23:41.175  INFO 7116 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:23:41.726  INFO 7116 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:23:43.339  INFO 7116 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:23:43.358  INFO 7116 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:23:46.527  WARN 7116 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:23:48.379  INFO 7116 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:23:48.404  INFO 7116 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 17.354 seconds (JVM running for 18.209)
+2022-06-21 13:24:17.604  INFO 7116 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:24:17.606  INFO 7116 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:24:17.608  INFO 7116 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-21 13:24:17.650  INFO 7116 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id 2351e644-1a66-4d80-84d5-f75bffdd64c2 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:24:18.941  WARN 7116 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : javax.validation.ConstraintDefinitionException: HV000243: Constraint com.portfolioTracker.yahooModule.validation.annotation.JsonString references constraint validator type com.portfolioTracker.core.validation.validator.JsonStringValidator, but this validator is defined for constraint type com.portfolioTracker.core.validation.annotation.JsonString.
+2022-06-21 13:27:49.345  INFO 912 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 912 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:27:49.353  INFO 912 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:27:51.539  INFO 912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:27:51.766  INFO 912 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 204 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:27:54.170  INFO 912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:27:54.193  INFO 912 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:27:54.194  INFO 912 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:27:54.713  INFO 912 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:27:54.722  INFO 912 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5234 ms
+2022-06-21 13:27:55.234  INFO 912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:27:55.843  INFO 912 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:27:55.937  INFO 912 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:27:55.940  INFO 912 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:27:56.127  INFO 912 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.094s)
+2022-06-21 13:27:56.205  INFO 912 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:27:56.207  INFO 912 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:27:56.655  INFO 912 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:27:56.791  INFO 912 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:27:57.473  INFO 912 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:27:57.778  INFO 912 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:27:59.406  INFO 912 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:27:59.439  INFO 912 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:28:02.312  WARN 912 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:28:03.279  INFO 912 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:28:03.300  INFO 912 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 15.641 seconds (JVM running for 17.068)
+2022-06-21 13:28:09.040  INFO 912 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:28:09.042  INFO 912 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:28:09.049  INFO 912 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2022-06-21 13:28:09.094  INFO 912 --- [http-nio-8080-exec-1] c.p.config.MyLoggerFilter                : Request id 1370883c-5d89-4800-862e-5169b51d23d2 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:28:10.149  INFO 912 --- [http-nio-8080-exec-1] c.p.yahooModule.YahooApiService          : YahooService calling for EUREUR=X
+2022-06-21 13:28:11.514  WARN 912 --- [http-nio-8080-exec-1] c.p.core.CustomExceptionHandler          : javax.validation.ConstraintDeclarationException: HV000151: A method overriding another method must not redefine the parameter constraint configuration, but method YahooDtoDeserializer#deserialize(JsonParser, DeserializationContext) redefines the configuration of JsonDeserializer#deserialize(JsonParser, DeserializationContext).
+2022-06-21 13:33:16.467  INFO 7300 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 7300 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:33:16.483  INFO 7300 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:33:19.524  INFO 7300 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:33:19.945  INFO 7300 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 398 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:33:22.355  INFO 7300 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:33:22.379  INFO 7300 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:33:22.381  INFO 7300 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:33:22.727  INFO 7300 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:33:22.730  INFO 7300 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5909 ms
+2022-06-21 13:33:23.154  INFO 7300 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:33:24.010  INFO 7300 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:33:24.094  INFO 7300 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:33:24.096  INFO 7300 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:33:24.218  INFO 7300 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.067s)
+2022-06-21 13:33:24.289  INFO 7300 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:33:24.291  INFO 7300 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:33:24.666  INFO 7300 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:33:24.871  INFO 7300 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:33:25.345  INFO 7300 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:33:25.631  INFO 7300 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:33:27.291  INFO 7300 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:33:27.310  INFO 7300 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:33:30.529  WARN 7300 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:33:31.539  INFO 7300 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:33:31.563  INFO 7300 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 16.999 seconds (JVM running for 18.416)
+2022-06-21 13:33:47.846  INFO 7300 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:33:47.860  INFO 7300 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:33:47.868  INFO 7300 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2022-06-21 13:33:48.009  INFO 7300 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id f5cea62c-1917-4943-91a5-b38f8635cb67 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:33:50.177  INFO 7300 --- [http-nio-8080-exec-2] c.p.yahooModule.YahooApiService          : YahooService calling for EUREUR=X
+2022-06-21 13:34:06.178  INFO 7300 --- [http-nio-8080-exec-3] c.p.config.MyLoggerFilter                : Request id 0000baa4-ec32-460e-949b-a0927964b5fd requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:34:09.715  INFO 7300 --- [http-nio-8080-exec-4] c.p.config.MyLoggerFilter                : Request id b17ad69a-784f-4e44-942d-66c745e59782 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:34:09.742  WARN 7300 --- [http-nio-8080-exec-4] c.p.core.CustomExceptionHandler          : com.portfolioTracker.model.portfolio.validation.exception.PortfolioNameValidationException: Portfolio name Long Term Investment Portfolio already exists
+2022-06-21 13:38:20.922  INFO 7300 --- [http-nio-8080-exec-6] c.p.config.MyLoggerFilter                : Request id 7cfbfae6-5321-4fd2-83ae-2d11c17d1fd8 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:38:20.937  INFO 7300 --- [http-nio-8080-exec-6] c.p.yahooModule.YahooApiService          : YahooService calling for SS=X
+2022-06-21 13:38:21.999  WARN 7300 --- [http-nio-8080-exec-6] c.p.core.CustomExceptionHandler          : java.lang.NullPointerException
+2022-06-21 13:43:55.510  INFO 13496 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 13496 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:43:55.519  INFO 13496 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:43:59.279  INFO 13496 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:43:59.560  INFO 13496 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 255 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:44:04.539  INFO 13496 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:44:04.570  INFO 13496 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:44:04.571  INFO 13496 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:44:05.032  INFO 13496 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:44:05.034  INFO 13496 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 9317 ms
+2022-06-21 13:44:06.028  INFO 13496 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:44:07.693  INFO 13496 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:44:07.816  INFO 13496 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:44:07.820  INFO 13496 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:44:07.984  INFO 13496 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.090s)
+2022-06-21 13:44:08.131  INFO 13496 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:44:08.134  INFO 13496 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:44:08.773  INFO 13496 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:44:08.997  INFO 13496 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:44:09.722  INFO 13496 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:44:10.018  INFO 13496 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:44:11.034  WARN 13496 --- [main] o.h.c.beanvalidation.TypeSafeActivator   : HHH000274: Unable to apply constraints on DDL for com.portfolioTracker.model.portfolio.PortfolioEntity
+
+javax.validation.ConstraintDefinitionException: HV000074: com.portfolioTracker.core.validation.annotation.Currency contains Constraint annotation, but does not contain a groups parameter.
+	at org.hibernate.validator.internal.metadata.core.ConstraintHelper.assertGroupsParameterExists(ConstraintHelper.java:1042) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.core.ConstraintHelper.lambda$isConstraintAnnotation$3(ConstraintHelper.java:1004) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1705) ~[na:na]
+	at org.hibernate.validator.internal.metadata.core.ConstraintHelper.isConstraintAnnotation(ConstraintHelper.java:1002) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.findConstraintAnnotations(AnnotationMetaDataProvider.java:534) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.findConstraints(AnnotationMetaDataProvider.java:479) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.findConstraints(AnnotationMetaDataProvider.java:461) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.findPropertyMetaData(AnnotationMetaDataProvider.java:236) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.getFieldMetaData(AnnotationMetaDataProvider.java:229) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.retrieveBeanConfiguration(AnnotationMetaDataProvider.java:129) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.provider.AnnotationMetaDataProvider.getBeanConfiguration(AnnotationMetaDataProvider.java:120) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.BeanMetaDataManagerImpl.getBeanConfigurationForHierarchy(BeanMetaDataManagerImpl.java:234) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.BeanMetaDataManagerImpl.createBeanMetaData(BeanMetaDataManagerImpl.java:201) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.metadata.BeanMetaDataManagerImpl.getBeanMetaData(BeanMetaDataManagerImpl.java:165) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.validator.internal.engine.ValidatorImpl.getConstraintsForClass(ValidatorImpl.java:316) ~[hibernate-validator-6.2.3.Final.jar:6.2.3.Final]
+	at org.hibernate.cfg.beanvalidation.TypeSafeActivator.applyDDL(TypeSafeActivator.java:206) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.cfg.beanvalidation.TypeSafeActivator.applyRelationalConstraints(TypeSafeActivator.java:190) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.cfg.beanvalidation.TypeSafeActivator.applyRelationalConstraints(TypeSafeActivator.java:149) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.cfg.beanvalidation.TypeSafeActivator.activate(TypeSafeActivator.java:97) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.hibernate.cfg.beanvalidation.BeanValidationIntegrator.integrate(BeanValidationIntegrator.java:137) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:300) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:471) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1498) ~[hibernate-core-5.6.8.Final.jar:5.6.8.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:58) ~[spring-orm-5.3.19.jar:5.3.19]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:365) ~[spring-orm-5.3.19.jar:5.3.19]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409) ~[spring-orm-5.3.19.jar:5.3.19]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396) ~[spring-orm-5.3.19.jar:5.3.19]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:341) ~[spring-orm-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.19.jar:5.3.19]
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1154) ~[spring-context-5.3.19.jar:5.3.19]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:908) ~[spring-context-5.3.19.jar:5.3.19]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583) ~[spring-context-5.3.19.jar:5.3.19]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:740) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:415) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312) ~[spring-boot-2.6.7.jar:2.6.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301) ~[spring-boot-2.6.7.jar:2.6.7]
+	at com.portfolioTracker.PortfolioTrackerApplication.main(PortfolioTrackerApplication.java:9) ~[main/:na]
+
+2022-06-21 13:44:12.334  INFO 13496 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:44:12.361  INFO 13496 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:44:16.947  WARN 13496 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:44:18.371  INFO 13496 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:44:18.407  INFO 13496 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 24.361 seconds (JVM running for 26.347)
+2022-06-21 13:45:16.804  INFO 9836 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 9836 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 13:45:16.852  INFO 9836 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 13:45:19.604  INFO 9836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 13:45:19.889  INFO 9836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 258 ms. Found 3 JPA repository interfaces.
+2022-06-21 13:45:25.553  INFO 9836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 13:45:25.610  INFO 9836 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 13:45:25.613  INFO 9836 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 13:45:26.251  INFO 9836 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 13:45:26.252  INFO 9836 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 9164 ms
+2022-06-21 13:45:27.414  INFO 9836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 13:45:29.305  INFO 9836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 13:45:29.505  INFO 9836 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 13:45:29.546  INFO 9836 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 13:45:29.833  INFO 9836 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.076s)
+2022-06-21 13:45:29.870  INFO 9836 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 13:45:29.881  INFO 9836 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 13:45:30.265  INFO 9836 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 13:45:30.439  INFO 9836 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 13:45:31.105  INFO 9836 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 13:45:31.425  INFO 9836 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 13:45:34.353  INFO 9836 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 13:45:34.380  INFO 9836 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 13:45:39.887  WARN 9836 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 13:45:41.746  INFO 9836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 13:45:41.780  INFO 9836 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 27.363 seconds (JVM running for 29.69)
+2022-06-21 13:45:48.738  INFO 9836 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 13:45:48.739  INFO 9836 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 13:45:48.741  INFO 9836 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2022-06-21 13:45:48.771  INFO 9836 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id 28e1c1b1-add4-40b7-9c1d-101bbd2eb563 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:45:51.857  INFO 9836 --- [http-nio-8080-exec-3] c.p.config.MyLoggerFilter                : Request id 92e995ed-43e8-4e3b-87be-c61fa388a58b requested path http://localhost:8080/api/v1/portfolios/1
+2022-06-21 13:46:00.069  INFO 9836 --- [http-nio-8080-exec-4] c.p.config.MyLoggerFilter                : Request id b1de2f3b-9d43-4e9c-bb37-5040672b64c9 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:46:00.215  INFO 9836 --- [http-nio-8080-exec-4] c.p.core.CustomExceptionHandler          : Request with ID b1de2f3b-9d43-4e9c-bb37-5040672b64c9, errors: currency: String should be of type 'XXX'
+2022-06-21 13:46:22.345  INFO 9836 --- [http-nio-8080-exec-6] c.p.config.MyLoggerFilter                : Request id 98adf3c3-a7d1-4cd2-9e34-0b86c84bd2e3 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:46:22.482  INFO 9836 --- [http-nio-8080-exec-6] c.p.yahooModule.YahooApiService          : YahooService calling for EUREUR=X
+2022-06-21 13:46:30.765  INFO 9836 --- [http-nio-8080-exec-7] c.p.config.MyLoggerFilter                : Request id a3b577cd-7ede-4953-bd74-98fced6a630e requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:46:30.771  INFO 9836 --- [http-nio-8080-exec-7] c.p.core.CustomExceptionHandler          : Request with ID a3b577cd-7ede-4953-bd74-98fced6a630e, errors: currency: String should be of type 'XXX'
+2022-06-21 13:47:47.905  INFO 9836 --- [http-nio-8080-exec-9] c.p.config.MyLoggerFilter                : Request id dba56336-1ea7-4b6e-a59e-77d90ac3fba7 requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:47:47.944  WARN 9836 --- [http-nio-8080-exec-9] c.p.core.CustomExceptionHandler          : com.portfolioTracker.model.portfolio.validation.exception.PortfolioNameValidationException: Portfolio name Long Term Investment Portfolio already exists
+2022-06-21 13:47:54.409  INFO 9836 --- [http-nio-8080-exec-10] c.p.config.MyLoggerFilter                : Request id 893868f4-1575-48e6-b723-39ff40a85f7d requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 13:47:54.423  INFO 9836 --- [http-nio-8080-exec-10] c.p.yahooModule.YahooApiService          : YahooService calling for DDDDDD=X
+2022-06-21 13:47:55.496  WARN 9836 --- [http-nio-8080-exec-10] c.p.core.CustomExceptionHandler          : java.lang.NullPointerException
+2022-06-21 14:00:43.009  INFO 6432 --- [main] c.p.PortfolioTrackerApplication          : Starting PortfolioTrackerApplication using Java 11.0.13 on DESKTOP-49SQ1U8 with PID 6432 (C:\Users\vi\Documents\git\portfolioTracker\build\classes\java\main started by vi in C:\Users\vi\Documents\git\portfolioTracker)
+2022-06-21 14:00:43.021  INFO 6432 --- [main] c.p.PortfolioTrackerApplication          : No active profile set, falling back to 1 default profile: "default"
+2022-06-21 14:00:45.623  INFO 6432 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-06-21 14:00:45.935  INFO 6432 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 284 ms. Found 3 JPA repository interfaces.
+2022-06-21 14:00:48.455  INFO 6432 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-06-21 14:00:48.474  INFO 6432 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-21 14:00:48.475  INFO 6432 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.62]
+2022-06-21 14:00:48.869  INFO 6432 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-21 14:00:48.873  INFO 6432 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5583 ms
+2022-06-21 14:00:49.516  INFO 6432 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-06-21 14:00:50.374  INFO 6432 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-06-21 14:00:50.530  INFO 6432 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.0.5 by Redgate
+2022-06-21 14:00:50.536  INFO 6432 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/tracker (MySQL 8.0)
+2022-06-21 14:00:50.901  INFO 6432 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.067s)
+2022-06-21 14:00:50.949  INFO 6432 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `tracker`: 1
+2022-06-21 14:00:50.951  INFO 6432 --- [main] o.f.core.internal.command.DbMigrate      : Schema `tracker` is up to date. No migration necessary.
+2022-06-21 14:00:51.370  INFO 6432 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-06-21 14:00:51.580  INFO 6432 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.8.Final
+2022-06-21 14:00:52.109  INFO 6432 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-06-21 14:00:52.511  INFO 6432 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-06-21 14:00:54.216  INFO 6432 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-06-21 14:00:54.231  INFO 6432 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-06-21 14:00:57.034  WARN 6432 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-06-21 14:00:58.372  INFO 6432 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-06-21 14:00:58.400  INFO 6432 --- [main] c.p.PortfolioTrackerApplication          : Started PortfolioTrackerApplication in 16.543 seconds (JVM running for 17.449)
+2022-06-21 14:01:07.877  INFO 6432 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-21 14:01:07.879  INFO 6432 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-21 14:01:07.883  INFO 6432 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-06-21 14:01:07.919  INFO 6432 --- [http-nio-8080-exec-2] c.p.config.MyLoggerFilter                : Request id a20da247-fe84-4d5b-9993-12e7470daf6e requested path http://localhost:8080/api/v1/portfolios
+2022-06-21 14:01:08.868  INFO 6432 --- [http-nio-8080-exec-2] c.p.yahooModule.YahooApiService          : YahooService calling for DDDDDD=X
+2022-06-21 14:01:10.489  WARN 6432 --- [http-nio-8080-exec-2] c.p.core.CustomExceptionHandler          : com.portfolioTracker.model.portfolio.validation.exception.PortfolioCurrencyException: Currency DDD is not supported

@@ -2,8 +2,8 @@ package com.portfolioTracker.model.portfolio;
 
 import com.portfolioTracker.model.dividend.DividendEntity;
 import com.portfolioTracker.model.transaction.TransactionEntity;
-import com.portfolioTracker.validation.annotation.Currency;
-import com.portfolioTracker.validation.annotation.ModelName;
+import com.portfolioTracker.core.validation.annotation.Currency;
+import com.portfolioTracker.core.validation.annotation.ModelName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package com.portfolioTracker.validation.validator;
+package com.portfolioTracker.yahooModule.validation.validator;
 
-import com.portfolioTracker.validation.annotation.JsonString;
+import com.portfolioTracker.yahooModule.validation.annotation.JsonString;
 import org.json.JSONException;
 import org.json.JSONObject;
 

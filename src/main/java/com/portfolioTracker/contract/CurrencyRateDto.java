@@ -1,8 +1,8 @@
 package com.portfolioTracker.contract;
 
-import com.portfolioTracker.validation.annotation.AmountOfMoney;
-import com.portfolioTracker.validation.annotation.Currency;
-import com.portfolioTracker.validation.annotation.Date;
+import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
+import com.portfolioTracker.core.validation.annotation.Currency;
+import com.portfolioTracker.core.validation.annotation.Date;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
