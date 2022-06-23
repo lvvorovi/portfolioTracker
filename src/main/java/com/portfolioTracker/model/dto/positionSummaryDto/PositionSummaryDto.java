@@ -1,33 +1,19 @@
 package com.portfolioTracker.model.dto.positionSummaryDto;
 
-import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
-import com.portfolioTracker.core.validation.annotation.Quantity;
-import com.portfolioTracker.core.validation.annotation.Ticker;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Validated
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class PositionSummaryDto {
 
-    @Ticker
     private String ticker;
-    @AmountOfMoney
     private BigDecimal totalBough;
-    @Quantity
     private BigDecimal totalShares;
-    @AmountOfMoney
     private BigDecimal currentSharePrice;
-    @AmountOfMoney
     private BigDecimal currentValue;
     @NotNull
     private BigDecimal capitalGain;

@@ -1,15 +1,14 @@
 package com.portfolioTracker.model.dto.position;
 
-import com.portfolioTracker.contract.ApiCurrencyService;
-import com.portfolioTracker.contract.ApiTickerService;
-import com.portfolioTracker.contract.CurrencyRateDto;
+import com.portfolioTracker.core.contract.ApiCurrencyService;
+import com.portfolioTracker.core.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.CurrencyRateDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dto.event.EventDto;
 import com.portfolioTracker.model.dto.event.EventDtoService;
 import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.core.validation.annotation.Currency;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -147,7 +146,7 @@ public class PositionDtoService {
     private BigDecimal getCapitalGainFromEventListAdjustedToCurrency(
             @NotNull List<EventDto> eventList,
             @Currency String portfolioCurrency,
-            @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
+            BigDecimal currentExchangeRateClientSells) {
 
         List<TransactionResponseDto> transactionList = getTransactionListFromEventList(eventList);
 
@@ -180,8 +179,8 @@ public class PositionDtoService {
 
     private BigDecimal getCapitalGainCurrencyAdjustedFromActiveShares(
             @NotNull List<Share> activeShares,
-            @AmountOfMoney BigDecimal currentPrice,
-            @AmountOfMoney BigDecimal currentExchangeRateClientSells) {
+            BigDecimal currentPrice,
+            BigDecimal currentExchangeRateClientSells) {
         return activeShares.stream()
                 .map(share -> (currentPrice.subtract(share.priceBought))
                         .divide(currentExchangeRateClientSells, 2, RoundingMode.HALF_DOWN))
@@ -274,7 +273,7 @@ public class PositionDtoService {
                 .collect(Collectors.toList());
     }
 
-    private BigDecimal getAsPercentOfTotalBough(@AmountOfMoney BigDecimal input, @AmountOfMoney BigDecimal totalBough) {
+    private BigDecimal getAsPercentOfTotalBough(BigDecimal input, BigDecimal totalBough) {
         return input
                 .divide(totalBough, 4, RoundingMode.HALF_DOWN);
     }

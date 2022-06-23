@@ -1,6 +1,6 @@
 package com.portfolioTracker;
 
-import com.portfolioTracker.contract.ModelMapperContract;
+import com.portfolioTracker.core.contract.ModelMapperContract;
 import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.PortfolioEntity;
 import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;

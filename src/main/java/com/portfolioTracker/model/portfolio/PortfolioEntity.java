@@ -3,21 +3,15 @@ package com.portfolioTracker.model.portfolio;
 import com.portfolioTracker.model.dividend.DividendEntity;
 import com.portfolioTracker.model.transaction.TransactionEntity;
 import com.portfolioTracker.core.validation.annotation.Currency;
-import com.portfolioTracker.core.validation.annotation.ModelName;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 @Validated
 @Entity
 @Table(name = "portfolios")
@@ -26,10 +20,10 @@ public class PortfolioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ModelName
+    @NotBlank
     @Column(name = "name")
     private String name;
-    @NotEmpty
+    @NotBlank
     @Column(name = "strategy")
     private String strategy;
     @Currency

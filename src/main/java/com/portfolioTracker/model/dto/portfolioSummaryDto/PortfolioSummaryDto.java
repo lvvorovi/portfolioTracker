@@ -3,7 +3,6 @@ package com.portfolioTracker.model.dto.portfolioSummaryDto;
 import com.portfolioTracker.model.dto.positionSummaryDto.PositionSummaryDto;
 import com.portfolioTracker.model.dto.summaryTotalsDto.SummaryTotalsDto;
 import com.portfolioTracker.core.validation.annotation.Currency;
-import com.portfolioTracker.core.validation.annotation.ModelName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +22,6 @@ public class PortfolioSummaryDto {
 
     @NotNull
     private Long portfolioId;
-    @ModelName
     private String portfolioName;
     @NotEmpty
     private String portfolioStrategy;

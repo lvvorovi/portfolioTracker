@@ -1,37 +1,43 @@
 package com.portfolioTracker.model.transaction.dto;
 
-import com.portfolioTracker.core.validation.annotation.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.portfolioTracker.model.dto.event.eventType.EventType;
+import lombok.*;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 @Validated
 public class TransactionRequestDto {
 
     private Long id;
-    @Ticker
+    @NotBlank
     private String ticker;
-    @Date
+    @NotNull
+    @PastOrPresent
     private LocalDate date;
-    @AmountOfMoney
+    @NotNull
+    @NumberFormat
+    @Positive
     private BigDecimal price;
-    @Quantity
+    @NotNull
+    @NumberFormat
+    @Positive
     private BigDecimal shares;
-    @AmountOfMoney
+    @NotNull
+    @NumberFormat
+    @PositiveOrZero
     private BigDecimal commission;
     @NotNull
-    private String type;
-    @PortfolioId
+    private EventType type;
+    @NotNull
+    @NumberFormat
     private Long portfolioId;
 
 }

@@ -12,7 +12,7 @@ create TABLE transactions (
     ticker              VARCHAR(10)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
-    price               DECIMAL(50,30)  NOT NULL,
+    price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,

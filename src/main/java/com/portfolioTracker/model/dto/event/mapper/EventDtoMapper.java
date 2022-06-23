@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.dto.event.mapper;
 
-import com.portfolioTracker.contract.EventMapperContract;
+import com.portfolioTracker.core.contract.EventMapperContract;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dto.event.EventDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;

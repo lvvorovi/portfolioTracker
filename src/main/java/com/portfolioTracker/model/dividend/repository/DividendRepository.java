@@ -1,8 +1,6 @@
 package com.portfolioTracker.model.dividend.repository;
 
 import com.portfolioTracker.model.dividend.DividendEntity;
-import com.portfolioTracker.core.validation.annotation.Date;
-import com.portfolioTracker.core.validation.annotation.Ticker;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,8 +11,8 @@ import java.util.Optional;
 @Validated
 public interface DividendRepository extends JpaRepository<DividendEntity, Long> {
 
-    Optional<DividendEntity> findByTickerAndExDate(@Ticker String ticker, @Date LocalDate exDate);
+    Optional<DividendEntity> findByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, Long portfolioId);
 
-    List<DividendEntity> findAllByTicker(@Ticker String ticker);
+    List<DividendEntity> findAllByTicker(String ticker);
 
 }

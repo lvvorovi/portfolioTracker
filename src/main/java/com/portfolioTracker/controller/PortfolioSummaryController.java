@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/portfolio/summary")
+@RequestMapping("/api/v1/portfolios/summary")
 public class PortfolioSummaryController {
 
     private final PortfolioSummaryDtoService portfolioSummaryDtoService;

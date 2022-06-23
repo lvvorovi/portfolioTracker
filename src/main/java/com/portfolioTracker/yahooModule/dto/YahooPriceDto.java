@@ -5,19 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.portfolioTracker.yahooModule.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.yahooModule.validation.annotation.Date;
 import com.portfolioTracker.yahooModule.validation.annotation.Quantity;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 
 @Validated
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 @JsonIgnoreProperties({"data", "type", "numerator", "denominator", "splitRatio", "amount"})
 public class YahooPriceDto {
 

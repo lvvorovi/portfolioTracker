@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.dividend.validation;
 
-import com.portfolioTracker.contract.ValidationService;
+import com.portfolioTracker.core.contract.ValidationService;
 import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.validation.rule.DividendValidationRule;
 import org.springframework.stereotype.Service;

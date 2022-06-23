@@ -16,7 +16,6 @@ public class CurrencyValidator implements ConstraintValidator<Currency, String> 
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) return false;
         if (value.isEmpty()) return false;
-        if (value.length() != 3) return false;
-        return true;
+        return value.length() == 3;
     }
 }

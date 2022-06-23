@@ -1,7 +1,7 @@
 package com.portfolioTracker.model.transaction.service;
 
-import com.portfolioTracker.contract.ModelMapperContract;
-import com.portfolioTracker.contract.ValidationService;
+import com.portfolioTracker.core.contract.ModelMapperContract;
+import com.portfolioTracker.core.contract.ValidationService;
 import com.portfolioTracker.model.transaction.TransactionEntity;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;

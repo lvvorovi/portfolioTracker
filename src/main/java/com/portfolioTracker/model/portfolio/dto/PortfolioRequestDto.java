@@ -1,26 +1,19 @@
 package com.portfolioTracker.model.portfolio.dto;
 
 import com.portfolioTracker.core.validation.annotation.Currency;
-import com.portfolioTracker.core.validation.annotation.ModelName;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 @Validated
 public class PortfolioRequestDto {
 
     private Long id;
-    @ModelName
+    @NotBlank
     private String name;
-    @NotEmpty
+    @NotBlank
     private String strategy;
     @Currency
     private String currency;

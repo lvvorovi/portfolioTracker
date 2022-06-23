@@ -4,6 +4,7 @@ import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.portfolio.service.PortfolioService;
 import org.springframework.format.annotation.NumberFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class PortfolioController {
     public ResponseEntity<PortfolioResponseDto> save(@Valid @RequestBody PortfolioRequestDto requestDto) {
         PortfolioResponseDto responseDto = service.save(requestDto);
         addLinkToResponseObject(responseDto);
-        return ResponseEntity.ok(responseDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -54,7 +55,7 @@ public class PortfolioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     private void addLinkToResponseObject(@Valid PortfolioResponseDto responseDto) {

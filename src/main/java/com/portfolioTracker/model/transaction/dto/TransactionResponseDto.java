@@ -1,45 +1,49 @@
 package com.portfolioTracker.model.transaction.dto;
 
 import com.portfolioTracker.model.dto.event.eventType.EventType;
-import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
-import com.portfolioTracker.core.validation.annotation.Date;
-import com.portfolioTracker.core.validation.annotation.Quantity;
-import com.portfolioTracker.core.validation.annotation.Ticker;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(callSuper = false)
-@ToString
 @Validated
 public class TransactionResponseDto extends RepresentationModel<TransactionResponseDto> {
 
     @NotNull
+    @NumberFormat
+    @Positive
     private Long id;
-    @Ticker
+    @NotBlank
     private String ticker;
-    @Date
+    @NotNull
+    @PastOrPresent
     private LocalDate date;
-    @AmountOfMoney
+    @NotNull
+    @NumberFormat
+    @Positive
     private BigDecimal price;
-    @Quantity
+    @NotNull
+    @NumberFormat
+    @Positive
     private BigDecimal shares;
-    @AmountOfMoney
+    @NotNull
+    @NumberFormat
+    @PositiveOrZero
     private BigDecimal commission;
     @NotEmpty
     private EventType type;
     @NotNull
+    @NumberFormat
+    @Positive
     private Long portfolioId;
+    @NumberFormat
     private BigDecimal bought;
+    @NumberFormat
     private BigDecimal sold;
 }

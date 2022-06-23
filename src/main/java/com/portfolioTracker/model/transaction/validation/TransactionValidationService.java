@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.transaction.validation;
 
-import com.portfolioTracker.contract.ValidationService;
+import com.portfolioTracker.core.contract.ValidationService;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.validation.rule.TransactionValidationRule;
 import org.springframework.stereotype.Service;

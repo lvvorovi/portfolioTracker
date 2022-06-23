@@ -3,11 +3,7 @@ package com.portfolioTracker.model.dto.position;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.portfolioTracker.model.dto.event.EventDto;
-import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
@@ -17,10 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Validated
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 public class PositionDto {
 
     @NotEmpty
@@ -31,7 +24,6 @@ public class PositionDto {
     private BigDecimal netOriginalCosts;
     @PositiveOrZero
     private BigDecimal totalShares;
-    @AmountOfMoney
     private BigDecimal currentSharePrice;
     @NotNull
     private BigDecimal currentValue;

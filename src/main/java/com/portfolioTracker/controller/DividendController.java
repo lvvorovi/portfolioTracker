@@ -1,5 +1,6 @@
 package com.portfolioTracker.controller;
 
+import com.portfolioTracker.core.ValidList;
 import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dividend.service.DividendService;
@@ -48,7 +49,7 @@ public class DividendController {
 
     @PostMapping("/batch")
     public ResponseEntity<List<DividendResponseDto>> saveAll(
-            @Valid @RequestBody List<DividendRequestDto> requestDtoList) {
+            @RequestBody @Valid ValidList<DividendRequestDto> requestDtoList) {
         List<DividendResponseDto> responseDtoList = service.saveAll(requestDtoList);
         responseDtoList.forEach(this::addSelfRefToJson);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
@@ -60,7 +61,7 @@ public class DividendController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping
     public ResponseEntity<?> deleteAll() {
         service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

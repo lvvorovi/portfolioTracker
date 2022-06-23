@@ -20,7 +20,8 @@ public class MyLoggerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("request_id", UUID.randomUUID().toString());
 
-        log.info("Request id " + MDC.get("request_id") + " requested path " + request.getRequestURL());
+        log.info("Request id {} requested url {}, with method {}",
+                MDC.get("request_id"), request.getRequestURL(), request.getMethod());
 
         try {
             filterChain.doFilter(request, response);

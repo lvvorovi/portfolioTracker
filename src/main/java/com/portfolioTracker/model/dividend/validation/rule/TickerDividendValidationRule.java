@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.dividend.validation.rule;
 
-import com.portfolioTracker.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.ApiTickerService;
 import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.validation.exception.TickerNotFoundDividendException;
 import com.portfolioTracker.model.dividend.validation.exception.TickerNullDividendException;

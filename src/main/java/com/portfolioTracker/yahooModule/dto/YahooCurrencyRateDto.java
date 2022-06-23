@@ -1,6 +1,6 @@
 package com.portfolioTracker.yahooModule.dto;
 
-import com.portfolioTracker.contract.CurrencyRateDto;
+import com.portfolioTracker.core.contract.CurrencyRateDto;
 
 public class YahooCurrencyRateDto extends CurrencyRateDto {
 

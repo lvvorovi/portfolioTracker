@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.portfolioTracker.contract.ApiCurrencyService;
-import com.portfolioTracker.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.ApiCurrencyService;
+import com.portfolioTracker.core.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.SplitEventDto;
 import com.portfolioTracker.yahooModule.dto.YahooResponseDto;
-import com.portfolioTracker.yahooModule.dto.YahooSplitEventDto;
 import com.portfolioTracker.yahooModule.validation.annotation.Date;
 import com.portfolioTracker.yahooModule.validation.annotation.Ticker;
 import com.portfolioTracker.yahooModule.validation.exception.YahooAPIException;
@@ -124,7 +124,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     }
 
     @Override
-    public List<YahooSplitEventDto> getSplitEventList(@Ticker String ticker) {
+    public List<SplitEventDto> getSplitEventList(@Ticker String ticker) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(ticker);

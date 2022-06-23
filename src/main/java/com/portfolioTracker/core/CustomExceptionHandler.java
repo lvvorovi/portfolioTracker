@@ -1,8 +1,8 @@
 package com.portfolioTracker.core;
 
-import com.portfolioTracker.contract.ValidationException;
+import com.portfolioTracker.core.contract.ValidationException;
+import com.portfolioTracker.model.dto.errorDto.ErrorDto;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Currency;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,7 +31,7 @@ public class CustomExceptionHandler {
             return ResponseEntity.badRequest().body(new ErrorDto(ex.getMessage()));
         }
 
-        log.warn(ex.toString());
+        log.error(ex.toString());
         ex.printStackTrace();
         return ResponseEntity.internalServerError().body(new ErrorDto(ex.toString()));
     }

@@ -1,5 +1,6 @@
 package com.portfolioTracker.controller;
 
+import com.portfolioTracker.core.ValidList;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import com.portfolioTracker.model.transaction.service.TransactionService;
@@ -17,7 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
-@RequestMapping("/api/v1/transaction")
+@RequestMapping("/api/v1/transactions")
 public class TransactionController {
 
     private final TransactionService service;
@@ -48,7 +49,7 @@ public class TransactionController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<TransactionResponseDto>> saveAll(@Valid @RequestBody List<TransactionRequestDto> requestDtoList) {
+    public ResponseEntity<List<TransactionResponseDto>> saveAll(@Valid @RequestBody ValidList<TransactionRequestDto> requestDtoList) {
         List<TransactionResponseDto> responseDtoList = service.saveAll(requestDtoList);
         responseDtoList.forEach(this::addLink);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
@@ -67,7 +68,7 @@ public class TransactionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping
     public ResponseEntity<?> deleteAll() {
         service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

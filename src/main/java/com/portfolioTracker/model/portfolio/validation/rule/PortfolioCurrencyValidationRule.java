@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.portfolio.validation.rule;
 
-import com.portfolioTracker.contract.ApiCurrencyService;
+import com.portfolioTracker.core.contract.ApiCurrencyService;
 import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
 import com.portfolioTracker.model.portfolio.validation.exception.PortfolioCurrencyException;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.portfolioTracker.model.dividend.service;
 
-import com.portfolioTracker.contract.ModelMapperContract;
-import com.portfolioTracker.contract.ValidationService;
+import com.portfolioTracker.core.contract.ModelMapperContract;
+import com.portfolioTracker.core.contract.ValidationService;
 import com.portfolioTracker.model.dividend.DividendEntity;
 import com.portfolioTracker.model.dividend.dto.DividendRequestDto;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;

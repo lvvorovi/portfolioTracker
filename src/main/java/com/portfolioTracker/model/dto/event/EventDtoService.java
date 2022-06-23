@@ -1,16 +1,11 @@
 package com.portfolioTracker.model.dto.event;
 
-import com.portfolioTracker.contract.ApiCurrencyService;
-import com.portfolioTracker.contract.ApiTickerService;
-import com.portfolioTracker.contract.CurrencyRateDto;
-import com.portfolioTracker.contract.EventMapperContract;
+import com.portfolioTracker.core.contract.*;
+import com.portfolioTracker.core.validation.annotation.Currency;
 import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
 import com.portfolioTracker.model.dto.event.eventType.EventType;
 import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
 import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.core.validation.annotation.AmountOfMoney;
-import com.portfolioTracker.core.validation.annotation.Currency;
-import com.portfolioTracker.yahooModule.dto.YahooSplitEventDto;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -38,7 +33,7 @@ public class EventDtoService {
         List<EventDto> eventList = new ArrayList<>();
 
         List<TransactionResponseDto> transactionList = portfolio.getTransactionList();
-        Map<String, List<YahooSplitEventDto>> splitEventMap = getSplitEventMapForTransactionList(transactionList);
+        Map<String, List<SplitEventDto>> splitEventMap = getSplitEventMapForTransactionList(transactionList);
         transactionList = adjustTransactionListToSplits(transactionList, splitEventMap);
         transactionList = adjustTransactionListToCurrencyRate(transactionList, portfolio.getCurrency());
 
@@ -89,7 +84,7 @@ public class EventDtoService {
                     String transactionCurrency = apiTickerService.getTickerCurrency(transaction.getTicker());
 
                     CurrencyRateDto currencyRate = apiCurrencyRateService.getRateForCurrencyPairOnDate(
-                                    portfolioCurrency, transactionCurrency, transaction.getDate());
+                            portfolioCurrency, transactionCurrency, transaction.getDate());
 
                     BigDecimal transactionCurrencyRateClientBuys = currencyRate.getRateClientBuys();
                     BigDecimal transactionCurrencyRateClientSells = currencyRate.getRateClientSells();
@@ -125,14 +120,14 @@ public class EventDtoService {
     }
 
     private BigDecimal adjustToCurrencyRate(
-            @AmountOfMoney BigDecimal input,
-            @AmountOfMoney BigDecimal currencyRate) {
+            BigDecimal input,
+            BigDecimal currencyRate) {
         return input.divide(currencyRate, 2, RoundingMode.HALF_DOWN);
     }
 
-    private Map<String, List<YahooSplitEventDto>> getSplitEventMapForTransactionList(
+    private Map<String, List<SplitEventDto>> getSplitEventMapForTransactionList(
             @NotNull List<TransactionResponseDto> transactionList) {
-        Map<String, List<YahooSplitEventDto>> splitEventMap = new HashMap<>();
+        Map<String, List<SplitEventDto>> splitEventMap = new HashMap<>();
         transactionList.forEach(transaction ->
                 splitEventMap.put(
                         transaction.getTicker(),
@@ -142,7 +137,7 @@ public class EventDtoService {
 
     private List<TransactionResponseDto> adjustTransactionListToSplits(
             @NotNull List<TransactionResponseDto> transactionList,
-            @NotNull Map<String, List<YahooSplitEventDto>> splitEventMap) {
+            @NotNull Map<String, List<SplitEventDto>> splitEventMap) {
         return transactionList.stream()
                 .peek(transaction -> splitEventMap.forEach((ticker, eventList) -> {
                     if (transaction.getTicker().equals(ticker)) {

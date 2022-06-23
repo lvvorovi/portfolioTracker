@@ -4,10 +4,7 @@ import com.portfolioTracker.yahooModule.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.yahooModule.validation.annotation.Currency;
 import com.portfolioTracker.yahooModule.validation.annotation.Date;
 import com.portfolioTracker.yahooModule.validation.annotation.Ticker;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
@@ -16,10 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Validated
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
 public class YahooResponseDto {
 
     @Ticker

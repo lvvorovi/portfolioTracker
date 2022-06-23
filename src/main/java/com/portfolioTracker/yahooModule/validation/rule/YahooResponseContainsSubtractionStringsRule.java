@@ -16,7 +16,7 @@ public class YahooResponseContainsSubtractionStringsRule implements YahooValidat
     public void validate(@NotEmpty String responseString) {
         if (!responseString.contains(TICKER_ROOT_APP_MAIN_JSON_START)
                 || !responseString.contains(TICKER_ROOT_APP_MAIN_JSON_END)) {
-            throw new YahooServiceLogicException("YahooService Logic does not work, exctacting Json by key Strings "
+            throw new YahooServiceLogicException("YahooService Logic does not work, extracting Json by key Strings "
                     + "'" + TICKER_ROOT_APP_MAIN_JSON_START + "'" + " and/or " + "'" + TICKER_ROOT_APP_MAIN_JSON_END + "'");
         }
 

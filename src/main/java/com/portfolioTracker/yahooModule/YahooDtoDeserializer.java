@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,7 +32,8 @@ class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
     }
 
     @Override
-    public @Valid YahooResponseDto deserialize(JsonParser parser, DeserializationContext context) throws JsonProcessingException, NullPointerException {
+    public @Valid YahooResponseDto deserialize(JsonParser parser, DeserializationContext context)
+            throws JsonProcessingException, NullPointerException {
 
         YahooResponseDto yahooDto = new YahooResponseDto();
         ObjectCodec codec = parser.getCodec();
@@ -63,10 +63,12 @@ class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<YahooPriceDto> yahooPriceDtoList = objectMapper.readValue(priceListNode.toString(), new TypeReference<>() {
-        });
-        List<YahooSplitEventDto> yahooSplitEventDtoList = objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
-        });
+        List<YahooPriceDto> yahooPriceDtoList =
+                objectMapper.readValue(priceListNode.toString(), new TypeReference<>() {
+                });
+        List<YahooSplitEventDto> yahooSplitEventDtoList =
+                objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
+                });
         //TODO map eventListNode to DividendEventDtoList
 
         yahooDto.setYahooPriceDtoList(yahooPriceDtoList);

@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.transaction.validation.rule;
 
-import com.portfolioTracker.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.ApiTickerService;
 import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
 import com.portfolioTracker.model.transaction.validation.exception.TickerNullTransactionException;
 import com.portfolioTracker.model.transaction.validation.exception.TransactionException;

@@ -1,6 +1,6 @@
 package com.portfolioTracker.model.dividend.validation.exception;
 
-import com.portfolioTracker.contract.ValidationException;
+import com.portfolioTracker.core.contract.ValidationException;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
