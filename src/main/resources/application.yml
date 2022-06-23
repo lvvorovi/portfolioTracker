@@ -21,3 +21,7 @@ logging:
     root: info
     com:
       tracker: info
+
+yahoo:
+  jsonExtractionStart: "root.App.main = "
+  jsonExtractionEnd: "}(this));"

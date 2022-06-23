@@ -1,14 +1,20 @@
 package com.portfolioTracker.yahooModule.validation.annotation;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import com.portfolioTracker.yahooModule.validation.validator.CurrencyValidator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
+@Constraint(validatedBy = CurrencyValidator.class)
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@NotNull
-@Size(min = 3, max = 3)
 public @interface Currency {
-    String message() default "String should be of type 'XXX'";
+    String message() default "Currency should be of type 'XXX'";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

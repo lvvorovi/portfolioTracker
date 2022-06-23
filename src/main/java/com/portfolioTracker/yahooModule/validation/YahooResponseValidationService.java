@@ -4,7 +4,7 @@ import com.portfolioTracker.yahooModule.validation.rule.YahooValidationRule;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class YahooResponseValidationService {
         this.yahooValidationRuleList = yahooValidationRuleList;
     }
 
-    public void validate(@NotEmpty String responseString) {
+    public void validate(@NotBlank String responseString) {
         yahooValidationRuleList.forEach(rule -> rule.validate(responseString));
     }
 }

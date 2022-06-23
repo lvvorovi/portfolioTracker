@@ -6,10 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.portfolioTracker.core.contract.ApiCurrencyService;
 import com.portfolioTracker.core.contract.ApiTickerService;
+import com.portfolioTracker.core.contract.CurrencyRateDto;
 import com.portfolioTracker.core.contract.SplitEventDto;
 import com.portfolioTracker.yahooModule.dto.YahooResponseDto;
-import com.portfolioTracker.yahooModule.validation.annotation.Date;
-import com.portfolioTracker.yahooModule.validation.annotation.Ticker;
 import com.portfolioTracker.yahooModule.validation.exception.YahooAPIException;
 import com.portfolioTracker.yahooModule.validation.exception.YahooResponseDtoNullException;
 import com.portfolioTracker.yahooModule.dto.YahooCurrencyRateDto;
@@ -22,8 +21,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -54,7 +55,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     }
 
     @Override
-    public Boolean isCurrencySupported(@Currency String currency) {
+    public Boolean isCurrencySupported(String currency) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(currency + currency + "=X");
@@ -64,31 +65,30 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         return responseDto.getTicker().equalsIgnoreCase(currency + currency + "=X");
     }
 
-    @Override
-    public YahooCurrencyRateDto getRateForCurrencyPairOnDate(@Currency String portfolioCurrency, @Currency String eventCurrency, @Date LocalDate date) {
-        YahooResponseDto responseDto;
-        try {
-            responseDto = getObjectFromTicker(portfolioCurrency + eventCurrency + "=X");
-        } catch (YahooResponseDtoNullException ex) {
-            throw new YahooResponseDtoNullException("currency pair " + portfolioCurrency + eventCurrency +
-                    " is not supported by Yahoo Api");
+        @Override
+        public YahooCurrencyRateDto getRateForCurrencyPairOnDate(String portfolioCurrency, String eventCurrency, LocalDate date) {
+            YahooResponseDto responseDto;
+            try {
+                responseDto = getObjectFromTicker(portfolioCurrency + eventCurrency + "=X");
+            } catch (YahooResponseDtoNullException ex) {
+                throw new YahooResponseDtoNullException("currency pair " + portfolioCurrency + eventCurrency +
+                        " is not supported by Yahoo Api");
+            }
+
+            YahooCurrencyRateDto currencyRateDto = new YahooCurrencyRateDto();
+            currencyRateDto.setDate(date);
+            currencyRateDto.setEventCurrency(eventCurrency);
+            currencyRateDto.setPortfolioCurrency(portfolioCurrency);
+
+            BigDecimal baseRate = getCurrencyBaseRateFromResponseDto(responseDto, date);
+
+            currencyRateDto.setRateClientBuys(baseRate.multiply(new BigDecimal("1.02")));
+            currencyRateDto.setRateClientSells(baseRate.multiply(new BigDecimal("0.98")));
+
+            return currencyRateDto;
         }
-
-        YahooCurrencyRateDto currencyRateDto = new YahooCurrencyRateDto();
-        currencyRateDto.setDate(date);
-        currencyRateDto.setEventCurrency(eventCurrency);
-        currencyRateDto.setPortfolioCurrency(portfolioCurrency);
-
-        BigDecimal baseRate = getCurrencyBaseRateFromResponseDto(responseDto, date);
-
-        currencyRateDto.setRateClientBuys(baseRate.multiply(new BigDecimal("1.02")));
-        currencyRateDto.setRateClientSells(baseRate.multiply(new BigDecimal("0.98")));
-
-        return currencyRateDto;
-    }
-
     @Override
-    public Boolean isTickerSupported(@Ticker String ticker) {
+    public Boolean isTickerSupported(String ticker) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(ticker);
@@ -100,7 +100,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     }
 
     @Override
-    public BigDecimal getTickerCurrentPrice(@Ticker String ticker) {
+    public BigDecimal getTickerCurrentPrice(String ticker) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(ticker);
@@ -112,7 +112,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     }
 
     @Override
-    public String getTickerCurrency(@Ticker String ticker) {
+    public String getTickerCurrency(String ticker) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(ticker);
@@ -124,7 +124,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     }
 
     @Override
-    public List<SplitEventDto> getSplitEventList(@Ticker String ticker) {
+    public List<SplitEventDto> getSplitEventList(String ticker) {
         YahooResponseDto responseDto;
         try {
             responseDto = getObjectFromTicker(ticker);
@@ -138,7 +138,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
                 .collect(Collectors.toList());
     }
 
-    private @NotNull YahooResponseDto getObjectFromTicker(@Ticker String ticker) throws YahooResponseDtoNullException{
+    private @NotNull YahooResponseDto getObjectFromTicker(@NotBlank String ticker) throws YahooResponseDtoNullException{
         if (dtoMap.containsKey(ticker) && dtoMap.get(ticker).getUpdateDateTime().isAfter(LocalDateTime.now().minusMinutes(5))) {
             return dtoMap.get(ticker);
         }
@@ -175,7 +175,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
                 response.indexOf(TICKER_ROOT_APP_MAIN_JSON_END));
     }
 
-    private String getYahooResponseString(@Ticker String ticker) {
+    private String getYahooResponseString(String ticker) {
 
         String url = "https://finance.yahoo.com/quote/" + ticker.replace("^", "%5E").toUpperCase() +
                 "/history" +
@@ -194,7 +194,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         }
     }
 
-    private BigDecimal getCurrencyBaseRateFromResponseDto(@NotNull YahooResponseDto responseDto, @Date LocalDate date) {
+    private BigDecimal getCurrencyBaseRateFromResponseDto(@NotNull YahooResponseDto responseDto, LocalDate date) {
         try {
             if (date.equals(LocalDate.now())) {
                 return responseDto.getCurrentMarketPrice();
@@ -215,7 +215,7 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
         }
     }
 
-    private String getSecondsFromDate(@Date LocalDate localDate) {
+    private String getSecondsFromDate(LocalDate localDate) {
         LocalDate yahooBaseDate = LocalDate.of(1970, 1, 1);
         long days = ChronoUnit.DAYS.between(yahooBaseDate, localDate);
         long seconds = Duration.of(days, ChronoUnit.DAYS).toSeconds();

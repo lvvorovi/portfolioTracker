@@ -2,11 +2,11 @@ package com.portfolioTracker.yahooModule.validation.rule;
 
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Validated
 public interface YahooValidationRule {
 
-    void validate(@NotEmpty String responseString);
+    void validate(@NotBlank String responseString);
 
 }

@@ -1,9 +1,6 @@
 package com.portfolioTracker.yahooModule.dto;
 
-import com.portfolioTracker.yahooModule.validation.annotation.AmountOfMoney;
 import com.portfolioTracker.yahooModule.validation.annotation.Currency;
-import com.portfolioTracker.yahooModule.validation.annotation.Date;
-import com.portfolioTracker.yahooModule.validation.annotation.Ticker;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,17 +13,14 @@ import java.util.List;
 @Data
 public class YahooResponseDto {
 
-    @Ticker
     private String ticker;
     @Currency
     private String currency;
-    @AmountOfMoney
     private BigDecimal currentMarketPrice;
     @NotNull
     private List<YahooPriceDto> yahooPriceDtoList;
     @NotNull
     private List<YahooSplitEventDto> yahooSplitEventDtoList;
-    @Date
     private LocalDateTime updateDateTime;
 
 }

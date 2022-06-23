@@ -36,7 +36,7 @@ public class TransactionResponseDto extends RepresentationModel<TransactionRespo
     @NumberFormat
     @PositiveOrZero
     private BigDecimal commission;
-    @NotEmpty
+    @NotNull
     private EventType type;
     @NotNull
     @NumberFormat

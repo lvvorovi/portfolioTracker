@@ -30,9 +30,7 @@ public class PortfolioService {
 
     private final PortfolioValidationService validationService;
     private final PortfolioRepository repository;
-    private final ModelMapperContract<PortfolioEntity, PortfolioRequestDto,
-            PortfolioResponseDto> mapper;
-//    private final DividendService dividendService;
+    private final ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper;
     private final TransactionService transactionService;
     private final ApiTickerService apiTickerService;
     private final ApiCurrencyService apiCurrencyService;
@@ -40,11 +38,10 @@ public class PortfolioService {
     public PortfolioService(
             PortfolioValidationService validationService,
             PortfolioRepository repository,
-            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, /*DividendService dividendService, */ApiTickerService apiTickerService, TransactionService transactionService, ApiCurrencyService apiCurrencyService) {
+            ModelMapperContract<PortfolioEntity, PortfolioRequestDto, PortfolioResponseDto> mapper, ApiTickerService apiTickerService, TransactionService transactionService, ApiCurrencyService apiCurrencyService) {
         this.validationService = validationService;
         this.repository = repository;
         this.mapper = mapper;
-//        this.dividendService = dividendService;
         this.apiTickerService = apiTickerService;
         this.transactionService = transactionService;
         this.apiCurrencyService = apiCurrencyService;
@@ -72,14 +69,14 @@ public class PortfolioService {
                 .collect(Collectors.toList());
     }
 
-    public PortfolioResponseDto findById(@NumberFormat Long id) {
+    public PortfolioResponseDto findById(@NotNull @NumberFormat Long id) {
         PortfolioEntity entity = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
         return mapper.toDto(entity);
     }
 
-    public void deleteById(@NumberFormat Long id) {
+    public void deleteById(@NotNull @NumberFormat Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
         } else {

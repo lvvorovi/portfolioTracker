@@ -4,6 +4,7 @@ import com.portfolioTracker.model.dto.event.eventType.EventType;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 public class EventDto {
 
     private Long id;
+    @NotBlank
     private String ticker;
     @NotNull
     private EventType type;

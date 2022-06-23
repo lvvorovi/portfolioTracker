@@ -1,11 +1,14 @@
 package com.portfolioTracker.yahooModule.validation.exception;
 
 
-import javax.validation.constraints.NotEmpty;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+
+@Validated
 public class YahooAPIException extends RuntimeException {
 
-    public YahooAPIException(@NotEmpty String message) {
+    public YahooAPIException(@NotBlank String message) {
         super(message);
     }
 }

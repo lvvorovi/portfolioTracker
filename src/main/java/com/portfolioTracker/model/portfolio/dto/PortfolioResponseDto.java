@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,8 +19,9 @@ public class PortfolioResponseDto extends RepresentationModel<PortfolioResponseD
 
     @NotNull
     private Long id;
+    @NotBlank
     private String name;
-    @NotEmpty
+    @NotBlank
     private String strategy;
     @Currency
     private String currency;
