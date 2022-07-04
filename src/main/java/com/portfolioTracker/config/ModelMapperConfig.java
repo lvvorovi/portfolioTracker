@@ -6,9 +6,10 @@ import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 public class ModelMapperConfig {
 
     @Bean

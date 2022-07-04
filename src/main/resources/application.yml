@@ -11,6 +11,24 @@ spring:
   data:
     rest:
       default-media-type: application/json
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: http://localhost:9090/oauth/token_key
+
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: http://localhost:9090/oauth/token_key
+    client:
+      client_id: 130b8098-d282-45ee-9ddd-71389e3e3486
+      client_secret: secret
+
+server:
+  port: 8080
 
 logging:
   file:
@@ -25,3 +43,13 @@ logging:
 yahoo:
   jsonExtractionStart: "root.App.main = "
   jsonExtractionEnd: "}(this));"
+  baseRateClientBuys: 1.02
+  baseRateClientSells: 0.98
+  validityOfResponseMinutes: 15
+  coreUri: "https://finance.yahoo.com/quote/"
+  period1Uri: "/history?period1="
+  period2Uri: "&period2="
+  finalUri: "&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
+  responseHistoryStartYear: 2017
+  dataReferenceDate: "1970-01-01"
+

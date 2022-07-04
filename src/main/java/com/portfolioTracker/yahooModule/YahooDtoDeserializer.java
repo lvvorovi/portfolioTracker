@@ -69,7 +69,6 @@ class YahooDtoDeserializer extends StdDeserializer<YahooResponseDto> {
         List<YahooSplitEventDto> yahooSplitEventDtoList =
                 objectMapper.readValue(eventListNode.toString(), new TypeReference<>() {
                 });
-        //TODO map eventListNode to DividendEventDtoList
 
         yahooDto.setYahooPriceDtoList(yahooPriceDtoList);
         yahooDto.setYahooSplitEventDtoList(yahooSplitEventDtoList);

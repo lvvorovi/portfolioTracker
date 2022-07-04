@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS currency_rates, dividends, transactions, flyway_schema_hist
 CREATE TABLE portfolios (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
     name                VARCHAR(50)     NOT NULL,
-    strategy            VARCHAR(150),
+    strategy            VARCHAR(150)    NOT NULL,
     currency            VARCHAR(3)      NOT NULL,
 
     PRIMARY KEY (id)
@@ -15,7 +15,7 @@ CREATE TABLE trade_transactions (
     ticker              VARCHAR(10)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
-    yahooPriceDto          DECIMAL(50,30)  NOT NULL,
+    yahooPriceDto       DECIMAL(50,30)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,

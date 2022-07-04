@@ -6,7 +6,6 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.stream.Stream;
 
-@Validated
 @Converter(autoApply = true)
 public class EventDtoTypeConverter implements AttributeConverter<EventType, String> {
 
@@ -26,7 +25,7 @@ public class EventDtoTypeConverter implements AttributeConverter<EventType, Stri
         return Stream.of(EventType.values())
                 .filter(value -> value.getCode().equals(dbData))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("EventDtoTypeConverter failed to convert DB data " +
+                .orElseThrow(() -> new RuntimeException("EventDtoTypeConverter failed to convert DB data " + //TODO correct exception
                         dbData + " to a EventType value"));
     }
 }
