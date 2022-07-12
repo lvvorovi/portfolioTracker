@@ -1,8 +1,8 @@
 package com.portfolioTracker.domain.dto.position;
 
-import com.portfolioTracker.core.contract.ApiCurrencyService;
-import com.portfolioTracker.core.contract.ApiTickerService;
-import com.portfolioTracker.core.contract.CurrencyRateDto;
+import com.portfolioTracker.domain.currency.ApiCurrencyService;
+import com.portfolioTracker.domain.ticker.ApiTickerService;
+import com.portfolioTracker.domain.currency.CurrencyRateDto;
 import com.portfolioTracker.core.validation.annotation.Currency;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
 import com.portfolioTracker.domain.dto.event.EventDto;

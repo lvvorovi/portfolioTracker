@@ -27,8 +27,8 @@ public class TransactionController {
     private final TransactionService service;
 
     @GetMapping
-    public ResponseEntity<List<TransactionDtoResponse>> findAll() {
-        List<TransactionDtoResponse> transactionList = service.findAll();
+    public ResponseEntity<List<TransactionDtoResponse>> findAll(@RequestParam(required = false) Long portfolioId) {
+        List<TransactionDtoResponse> transactionList = service.findAll(portfolioId);
         transactionList.forEach(this::addLink);
         return ResponseEntity.ok(transactionList);
     }
@@ -64,12 +64,6 @@ public class TransactionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<?> deleteAll() {
-        service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

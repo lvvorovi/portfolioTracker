@@ -13,7 +13,7 @@ public interface TransactionRepository {
 
 //    Iterable<TransactionEntity> saveAll(Iterable<TransactionEntity> entityList);
 
-    List<TransactionEntity> findAll();
+    List<TransactionEntity> findAllByUsername(String username);
 
     Optional<TransactionEntity> findById(Long id);
 
@@ -22,4 +22,6 @@ public interface TransactionRepository {
     void deleteAll();
 
     boolean existsById(Long id);
+
+    List<TransactionEntity> findAllByPortfolioId(Long portfolioId);
 }

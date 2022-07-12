@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.dividend.validation.rule;
 
-import com.portfolioTracker.core.contract.ApiTickerService;
+import com.portfolioTracker.domain.ticker.ApiTickerService;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoCreateRequest;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
 import com.portfolioTracker.domain.dividend.validation.exception.TickerNotSupportedDividendException;

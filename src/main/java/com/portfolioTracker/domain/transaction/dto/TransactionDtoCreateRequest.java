@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class TransactionDtoCreateRequest {
 
     @NotBlank
+    @Size(max = 50, message = "max 50 characters")
     private String ticker;
     @NotNull
     @PastOrPresent
@@ -35,5 +36,8 @@ public class TransactionDtoCreateRequest {
     @NotNull
     @NumberFormat
     private Long portfolioId;
+    @NotBlank
+    @Size(max = 50, message = "max 50 characters")
+    private String username;
 
 }

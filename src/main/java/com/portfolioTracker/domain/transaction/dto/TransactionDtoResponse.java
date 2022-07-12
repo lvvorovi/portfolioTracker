@@ -47,4 +47,6 @@ public class TransactionDtoResponse extends RepresentationModel<TransactionDtoRe
     private BigDecimal bought;
     @NumberFormat
     private BigDecimal sold;
+    @NotBlank
+    private String username;
 }

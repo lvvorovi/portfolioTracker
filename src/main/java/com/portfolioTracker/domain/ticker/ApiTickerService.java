@@ -1,4 +1,4 @@
-package com.portfolioTracker.core.contract;
+package com.portfolioTracker.domain.ticker;
 
 import org.springframework.validation.annotation.Validated;
 

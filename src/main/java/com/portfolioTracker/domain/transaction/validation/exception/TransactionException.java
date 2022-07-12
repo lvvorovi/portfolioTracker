@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.transaction.validation.exception;
 
-import com.portfolioTracker.core.contract.ValidationException;
+import com.portfolioTracker.core.validation.ValidationException;
 
 public class TransactionException extends ValidationException {
 

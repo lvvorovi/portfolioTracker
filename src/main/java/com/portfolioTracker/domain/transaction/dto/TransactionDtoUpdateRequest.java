@@ -16,6 +16,7 @@ public class TransactionDtoUpdateRequest {
     @NotNull
     private Long id;
     @NotBlank
+    @Size(max = 50, message = "max 50 characters")
     private String ticker;
     @NotNull
     @PastOrPresent
@@ -37,5 +38,8 @@ public class TransactionDtoUpdateRequest {
     @NotNull
     @NumberFormat
     private Long portfolioId;
+    @NotBlank
+    @Size(max = 50, message = "max 50 characters")
+    private String username;
 
 }

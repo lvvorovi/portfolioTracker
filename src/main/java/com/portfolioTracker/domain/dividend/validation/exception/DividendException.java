@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.dividend.validation.exception;
 
-import com.portfolioTracker.core.contract.ValidationException;
+import com.portfolioTracker.core.validation.ValidationException;
 
 public class DividendException extends ValidationException {
 

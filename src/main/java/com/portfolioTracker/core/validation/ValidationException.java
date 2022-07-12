@@ -1,4 +1,4 @@
-package com.portfolioTracker.core.contract;
+package com.portfolioTracker.core.validation;
 
 public class ValidationException extends RuntimeException {
 

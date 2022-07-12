@@ -1,6 +1,6 @@
 package com.portfolioTracker.yahooModule.dto;
 
-import com.portfolioTracker.core.contract.SplitEventDto;
+import com.portfolioTracker.domain.ticker.SplitEventDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.validation.annotation.Validated;

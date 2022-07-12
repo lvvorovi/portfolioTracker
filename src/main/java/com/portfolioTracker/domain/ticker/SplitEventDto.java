@@ -1,4 +1,4 @@
-package com.portfolioTracker.core.contract;
+package com.portfolioTracker.domain.ticker;
 
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;

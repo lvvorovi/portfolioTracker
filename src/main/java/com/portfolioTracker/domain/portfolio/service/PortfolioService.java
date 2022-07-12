@@ -1,24 +1,34 @@
 package com.portfolioTracker.domain.portfolio.service;
 
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoCreateRequest;
-import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoUpdateRequest;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoResponse;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
+import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoUpdateRequest;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
 public interface PortfolioService {
 
+    @PostAuthorize("returnObject.username == authentication.name")
     PortfolioDtoResponse findById(Long id);
 
+    @PostFilter("filterObject.username == authentication.name")
     List<PortfolioDtoResponse> findAll();
 
-    PortfolioDtoResponse save(PortfolioDtoCreateRequest dto);
+    @PreAuthorize("#requestDto.username == authentication.name")
+    PortfolioDtoResponse save(PortfolioDtoCreateRequest requestDto);
 
-    PortfolioDtoResponse update(PortfolioDtoUpdateRequest dto);
+    @PreAuthorize("#requestDto.username == authentication.name")
+    PortfolioDtoResponse update(PortfolioDtoUpdateRequest requestDto);
 
+    @PreAuthorize("@portfolioServiceImpl.isPrincipalOwnerOfResource(#id)")
     void deleteById(Long id);
 
     void loadTickersToContext();
+
+    boolean isPrincipalOwnerOfResource(Long id);
+
+//    boolean isPrincipalOwnerOfResourceList(List<String> id);
 }

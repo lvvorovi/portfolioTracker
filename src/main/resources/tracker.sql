@@ -12,13 +12,14 @@ create TABLE portfolios (
 
 create TABLE transactions (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
-    ticker              VARCHAR(10)     NOT NULL,
+    ticker              VARCHAR(50)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
     price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,
+    username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id)
@@ -26,13 +27,13 @@ create TABLE transactions (
 
 create TABLE dividends (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
-    ticker              VARCHAR(10)     NOT NULL,
+    ticker              VARCHAR(50)     NOT NULL,
     ex_dividend_date    DATE            NOT NULL,
     payment_date        DATE            NOT NULL,
     amount              DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,
-
+    username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
@@ -93,4 +94,8 @@ SELECT * FROM dividends;
 SELECT * FROM transactions;
 SELECT * FROM portfolios;
 
-INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'bill@email.com')
+INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'john@email.com')
+INSERT INTO transactions VALUES (id, ticker, trade_date, quantity, price, commission, event_type, portfolio_id, username)
+INSERT INTO transactions VALUES (null, 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', 4, 'bill@email.com')
+
+UPDATE transactions SET event_type = 'Buy' WHERE event_type = 'BUY'

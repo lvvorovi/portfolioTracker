@@ -1,11 +1,14 @@
 package com.portfolioTracker.domain.dto.event;
 
-import com.portfolioTracker.core.contract.*;
 import com.portfolioTracker.core.validation.annotation.Currency;
+import com.portfolioTracker.domain.currency.ApiCurrencyService;
+import com.portfolioTracker.domain.currency.CurrencyRateDto;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
 import com.portfolioTracker.domain.dto.event.eventType.EventType;
 import com.portfolioTracker.domain.dto.event.mapper.EventDtoMapper;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoResponse;
+import com.portfolioTracker.domain.ticker.ApiTickerService;
+import com.portfolioTracker.domain.ticker.SplitEventDto;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

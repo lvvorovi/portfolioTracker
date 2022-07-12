@@ -29,6 +29,7 @@ public class CustomTransactionMapper implements TransactionMapper {
         entity.setDate(dto.getDate());
         entity.setCommission(dto.getCommission());
         entity.setType(dto.getType());
+        entity.setUsername(dto.getUsername());
         entity.setPortfolio(portfolioRepository.findById(dto.getPortfolioId())
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id " + dto.getPortfolioId() + " was not found")));
         return entity;
@@ -43,6 +44,7 @@ public class CustomTransactionMapper implements TransactionMapper {
         entity.setDate(dto.getDate());
         entity.setCommission(dto.getCommission());
         entity.setType(dto.getType());
+        entity.setUsername(dto.getUsername());
         entity.setPortfolio(portfolioRepository.findById(dto.getPortfolioId())
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id " + dto.getPortfolioId() + " was not found")));
         return entity;
@@ -59,6 +61,7 @@ public class CustomTransactionMapper implements TransactionMapper {
         responseDto.setCommission(entity.getCommission());
         responseDto.setType(entity.getType());
         responseDto.setPortfolioId(entity.getPortfolio().getId());
+        responseDto.setUsername(entity.getUsername());
         if (entity.getType().equals(EventType.BUY)) {
             responseDto.setBought(entity.getPrice().multiply(entity.getShares()));
             responseDto.setSold(new BigDecimal(0));

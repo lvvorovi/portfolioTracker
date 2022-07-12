@@ -1,4 +1,4 @@
-package com.portfolioTracker.core.contract;
+package com.portfolioTracker.domain.currency;
 
 import com.portfolioTracker.core.validation.annotation.Currency;
 import org.springframework.validation.annotation.Validated;

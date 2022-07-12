@@ -12,17 +12,17 @@ public interface TransactionService {
 
     List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> dtoList);
 
-    List<TransactionDtoResponse> findAll();
+    List<TransactionDtoResponse> findAll(Long portfolioId);
 
     TransactionDtoResponse findById(Long id);
 
     void deleteById(Long id);
-
-    void deleteAll();
 
     TransactionDtoResponse update(TransactionDtoUpdateRequest dtoRequest);
 
     Boolean existsById(Long id);
 
     List<String> findAllUniqueTickers();
+
+    boolean isPrincipalOwnerOfResource(Long id);
 }

@@ -49,5 +49,8 @@ public class TransactionEntity {
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioEntity portfolio;
+    @NotBlank
+    @Column(name = "username")
+    private String username;
 
 }

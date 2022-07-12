@@ -1,7 +1,6 @@
 package com.portfolioTracker.domain.portfolio.service;
 
-import com.portfolioTracker.core.contract.ApiCurrencyService;
-import com.portfolioTracker.core.contract.ApiTickerService;
+import com.portfolioTracker.domain.currency.ApiCurrencyService;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoCreateRequest;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoResponse;
@@ -9,17 +8,14 @@ import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoUpdateRequest;
 import com.portfolioTracker.domain.portfolio.mapper.PortfolioMapper;
 import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.domain.portfolio.validation.PortfolioValidationService;
+import com.portfolioTracker.domain.ticker.ApiTickerService;
 import com.portfolioTracker.domain.transaction.service.TransactionService;
 import com.portfolioTracker.domain.transaction.validation.exception.PortfolioNotFoundTransactionException;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,24 +34,6 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final ApiCurrencyService apiCurrencyService;
 
     @Override
-    @PreAuthorize("#dto.username == authentication.name")
-    public PortfolioDtoResponse save(PortfolioDtoCreateRequest dto) {
-        validationService.validate(dto);
-        PortfolioEntity requestEntity = mapper.createToEntity(dto);
-        PortfolioEntity savedEntity = repository.save(requestEntity);
-        return mapper.toDto(savedEntity);
-    }
-
-    @Override
-    @PostFilter("filterObject.username == authentication.name")
-    public List<PortfolioDtoResponse> findAll() {
-        return repository.findAll().stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @PostFilter("filterObject.username == authentication.name")
     public PortfolioDtoResponse findById(Long id) {
         PortfolioEntity entity = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
@@ -64,12 +42,18 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    @Transactional
-    @PreAuthorize("@portfolioServiceImpl.isPrincipalOwnerOfResource(#id)")
-    public void deleteById(Long id) {
-        PortfolioEntity entity = repository.findById(id).orElseThrow(() ->
-                new PortfolioNotFoundTransactionException("Portfolio with id " + id + " was not found"));
-        repository.deleteById(id);
+    public List<PortfolioDtoResponse> findAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public PortfolioDtoResponse save(PortfolioDtoCreateRequest requestDto) {
+        validationService.validate(requestDto);
+        PortfolioEntity requestEntity = mapper.createToEntity(requestDto);
+        PortfolioEntity savedEntity = repository.save(requestEntity);
+        return mapper.toDto(savedEntity);
     }
 
     @Override
@@ -80,17 +64,10 @@ public class PortfolioServiceImpl implements PortfolioService {
         return mapper.toDto(savedEntity);
     }
 
-/*    @Override
-    public Boolean existsByName(String name) {
-        return repository.existsByName(name);
-    }*/
-
-/*    @Override
-    public PortfolioDtoResponse findByName(String name) {
-        PortfolioEntity foundEntity = repository.findByName(name).orElseThrow(() -> new PortfolioNotFoundException("Portfolio with " +
-                "name " + name + " was not found"));
-        return mapper.toDto(foundEntity);
-    }*/
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 
     @Async
     @Scheduled(fixedRateString = "PT1M")
@@ -110,13 +87,20 @@ public class PortfolioServiceImpl implements PortfolioService {
                                 .getRateForCurrencyPairOnDate(portfolioCurrency, transactionCurrency, LocalDate.now())));
     }
 
+    @Override
     public boolean isPrincipalOwnerOfResource(Long id) {
-        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
-        String resourceName = repository.findById(id).orElseThrow(() ->
-                new PortfolioNotFoundTransactionException("Portfolio with id " + id + " was not found"))
+        String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        String resourceUsername = repository.findById(id)
+                .orElseThrow(() -> new PortfolioNotFoundTransactionException(
+                        "Portfolio with id " + id + " was not found"))
                 .getUsername();
 
-        return principalName.equalsIgnoreCase(resourceName);
+        return principalUsername.equalsIgnoreCase(resourceUsername);
     }
 
+//    @Override
+//    public boolean isPrincipalOwnerOfResourceList(List<String> id) {
+//        String principalName = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//    }
 }

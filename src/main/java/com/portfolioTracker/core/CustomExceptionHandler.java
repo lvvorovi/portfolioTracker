@@ -1,6 +1,6 @@
 package com.portfolioTracker.core;
 
-import com.portfolioTracker.core.contract.ValidationException;
+import com.portfolioTracker.core.validation.ValidationException;
 import com.portfolioTracker.domain.dto.errorDto.ErrorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
