@@ -1,7 +1,7 @@
 package com.portfolioTracker.core.contract;
 
 import com.portfolioTracker.core.validation.annotation.Currency;
-import lombok.*;
+import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
 

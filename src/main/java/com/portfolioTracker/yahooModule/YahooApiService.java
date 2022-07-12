@@ -14,6 +14,7 @@ import com.portfolioTracker.yahooModule.validation.YahooResponseValidationServic
 import com.portfolioTracker.yahooModule.validation.annotation.JsonString;
 import com.portfolioTracker.yahooModule.validation.exception.YahooAPIException;
 import com.portfolioTracker.yahooModule.validation.exception.YahooResponseDtoNullException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -35,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 @Validated
 @Slf4j
 public class YahooApiService implements ApiTickerService, ApiCurrencyService {
@@ -45,16 +47,6 @@ public class YahooApiService implements ApiTickerService, ApiCurrencyService {
     private final YahooResponseValidationService responseValidationService;
     private final YahooDtoDeserializer yahooDtoDeserializer;
     private final YahooModuleConfig yahooConfig;
-
-    public YahooApiService(RestTemplate restTemplate,
-                           YahooResponseValidationService responseValidationService,
-                           YahooDtoDeserializer yahooDtoDeserializer,
-                           YahooModuleConfig yahooConfig) {
-        this.restTemplate = restTemplate;
-        this.responseValidationService = responseValidationService;
-        this.yahooDtoDeserializer = yahooDtoDeserializer;
-        this.yahooConfig = yahooConfig;
-    }
 
     @Override
     public Boolean isCurrencySupported(String currency) {

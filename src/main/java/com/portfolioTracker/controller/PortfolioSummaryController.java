@@ -1,7 +1,7 @@
 package com.portfolioTracker.controller;
 
-import com.portfolioTracker.model.dto.portfolioSummaryDto.PortfolioSummaryDto;
-import com.portfolioTracker.model.dto.portfolioSummaryDto.PortfolioSummaryDtoService;
+import com.portfolioTracker.domain.dto.portfolioSummaryDto.PortfolioSummaryDto;
+import com.portfolioTracker.domain.dto.portfolioSummaryDto.PortfolioSummaryDtoService;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

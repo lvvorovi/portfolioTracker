@@ -1,12 +1,11 @@
 package com.portfolioTracker;
 
-import com.portfolioTracker.core.contract.ModelMapperContract;
-import com.portfolioTracker.model.dto.event.eventType.EventType;
-import com.portfolioTracker.model.portfolio.PortfolioEntity;
-import com.portfolioTracker.model.portfolio.repository.PortfolioRepository;
-import com.portfolioTracker.model.transaction.TransactionEntity;
-import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
-import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
+import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.domain.portfolio.PortfolioEntity;
+import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
+import com.portfolioTracker.domain.transaction.TransactionEntity;
+import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
+import com.portfolioTracker.domain.transaction.mapper.TransactionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TransactionMapperTest {
 
     @Autowired
-    private ModelMapperContract<TransactionEntity, TransactionRequestDto, TransactionResponseDto> transactionMapper;
+    private TransactionMapper transactionMapper;
     @MockBean
     private PortfolioRepository portfolioRepository;
 
@@ -40,7 +39,7 @@ public class TransactionMapperTest {
         entity.setType(EventType.SELL);
         entity.setPortfolio(portfolio);
 
-        TransactionResponseDto response = transactionMapper.toDto(entity);
+        TransactionDtoResponse response = transactionMapper.toDto(entity);
         assertEquals(response.getId(), entity.getId());
         assertEquals(response.getTicker(), entity.getTicker());
         assertEquals(response.getDate(), entity.getDate());
@@ -68,7 +67,7 @@ public class TransactionMapperTest {
         entity.setType(EventType.BUY);
         entity.setPortfolio(portfolio);
 
-        TransactionResponseDto response = transactionMapper.toDto(entity);
+        TransactionDtoResponse response = transactionMapper.toDto(entity);
         assertEquals(response.getId(), entity.getId());
         assertEquals(response.getTicker(), entity.getTicker());
         assertEquals(response.getDate(), entity.getDate());

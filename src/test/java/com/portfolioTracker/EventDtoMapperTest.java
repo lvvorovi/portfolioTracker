@@ -1,10 +1,10 @@
 package com.portfolioTracker;
 
-import com.portfolioTracker.model.dividend.dto.DividendResponseDto;
-import com.portfolioTracker.model.dto.event.EventDto;
-import com.portfolioTracker.model.dto.event.eventType.EventType;
-import com.portfolioTracker.model.dto.event.mapper.EventDtoMapper;
-import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
+import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
+import com.portfolioTracker.domain.dto.event.EventDto;
+import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.domain.dto.event.mapper.EventDtoMapper;
+import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +20,8 @@ public class EventDtoMapperTest {
     @Autowired
     private EventDtoMapper eventDtoMapper;
 
-    private TransactionResponseDto getTransactionOfTypeBuy() {
-        TransactionResponseDto transaction = new TransactionResponseDto();
+    private TransactionDtoResponse getTransactionOfTypeBuy() {
+        TransactionDtoResponse transaction = new TransactionDtoResponse();
         transaction.setId(10L);
         transaction.setTicker("KHC");
         transaction.setDate(LocalDate.now());
@@ -72,8 +72,8 @@ public class EventDtoMapperTest {
         return eventDtoDividend;
     }
 
-    private DividendResponseDto getDividend() {
-        DividendResponseDto dividend = new DividendResponseDto();
+    private DividendDtoResponse getDividend() {
+        DividendDtoResponse dividend = new DividendDtoResponse();
         dividend.setId(10L);
         dividend.setTicker("KHC");
         dividend.setDate(LocalDate.now());
@@ -85,8 +85,8 @@ public class EventDtoMapperTest {
 
     @Test
     void mapsTransactionToEvent() {
-        TransactionResponseDto transaction = getTransactionOfTypeBuy();
-        EventDto eventDto = eventDtoMapper.transactionToEvent(transaction);
+        TransactionDtoResponse transaction = getTransactionOfTypeBuy();
+        EventDto eventDto = eventDtoMapper.toEvent(transaction);
         assertEquals(transaction.getId(), eventDto.getId());
         assertEquals(transaction.getTicker(), eventDto.getTicker());
         assertEquals(transaction.getDate(), eventDto.getDate());
@@ -102,8 +102,8 @@ public class EventDtoMapperTest {
 
     @Test
     void mapsDividendToEvent() {
-        DividendResponseDto dividend = getDividend();
-        EventDto eventDto = eventDtoMapper.dividendToEvent(dividend);
+        DividendDtoResponse dividend = getDividend();
+        EventDto eventDto = eventDtoMapper.toEvent(dividend);
         assertEquals(dividend.getId(), eventDto.getId());
         assertEquals(dividend.getTicker(), eventDto.getTicker());
         assertEquals(dividend.getDate(), eventDto.getDate());
@@ -115,7 +115,7 @@ public class EventDtoMapperTest {
     @Test
     void mapEventToTransactionBuy() {
         EventDto eventDtoTypeBuy = getEventTypeBuy();
-        TransactionResponseDto transcation = eventDtoMapper.eventToTransaction(eventDtoTypeBuy);
+        TransactionDtoResponse transcation = eventDtoMapper.toTransaction(eventDtoTypeBuy);
         assertEquals(eventDtoTypeBuy.getId(), transcation.getId());
         assertEquals(eventDtoTypeBuy.getTicker(), transcation.getTicker());
         assertEquals(eventDtoTypeBuy.getDate(), transcation.getDate());
@@ -129,7 +129,7 @@ public class EventDtoMapperTest {
     @Test
     void mapEventToTransactionSell() {
         EventDto eventDtoTypeSell = getEventTypeSell();
-        TransactionResponseDto transcation = eventDtoMapper.eventToTransaction(eventDtoTypeSell);
+        TransactionDtoResponse transcation = eventDtoMapper.toTransaction(eventDtoTypeSell);
         assertEquals(eventDtoTypeSell.getId(), transcation.getId());
         assertEquals(eventDtoTypeSell.getTicker(), transcation.getTicker());
         assertEquals(eventDtoTypeSell.getDate(), transcation.getDate());
@@ -143,7 +143,7 @@ public class EventDtoMapperTest {
     @Test
     void mapEventToDividend() {
         EventDto eventDtoDividend = getEventTypeDividend();
-        DividendResponseDto dividend = eventDtoMapper.eventToDividend(eventDtoDividend);
+        DividendDtoResponse dividend = eventDtoMapper.toDividend(eventDtoDividend);
         assertEquals(eventDtoDividend.getId(), dividend.getId());
         assertEquals(eventDtoDividend.getTicker(), dividend.getTicker());
         assertEquals(eventDtoDividend.getDate(), dividend.getDate());

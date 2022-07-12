@@ -1,6 +1,7 @@
 package com.portfolioTracker.config;
 
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -9,15 +10,15 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.stereotype.Component;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableScheduling
 @EnableAsync
-public class ApplicationConfig extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class ApplicationConfig {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -32,6 +33,12 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
         taskScheduler.setPoolSize(5);
         taskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
         return taskScheduler;
+    }
+
+    @Bean
+    public InitializingBean initializingBean() {
+        return () -> SecurityContextHolder
+                .setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
 
 }

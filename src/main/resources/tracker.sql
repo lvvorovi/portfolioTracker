@@ -1,21 +1,21 @@
 DROP TABLE IF EXISTS currency_rates, dividends, transactions, flyway_schema_history, trade_transactions, dividend_events, portfolios;
 
-
-CREATE TABLE portfolios (
+create TABLE portfolios (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
     name                VARCHAR(50)     NOT NULL,
     strategy            VARCHAR(150)    NOT NULL,
     currency            VARCHAR(3)      NOT NULL,
+    username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id)
 );
 
-CREATE TABLE trade_transactions (
+create TABLE transactions (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
     ticker              VARCHAR(10)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
-    yahooPriceDto       DECIMAL(50,30)  NOT NULL,
+    price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
     portfolio_id        BIGINT          NOT NULL,
@@ -30,11 +30,16 @@ create TABLE dividends (
     ex_dividend_date    DATE            NOT NULL,
     payment_date        DATE            NOT NULL,
     amount              DECIMAL(50,2)   NOT NULL,
-    event_type          VARCHAR(4)      NOT NULL,
+    event_type          VARCHAR(10)     NOT NULL,
+    portfolio_id        BIGINT          NOT NULL,
+
 
     PRIMARY KEY (id),
-    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date)
+    FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
+    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date, amount, portfolio_id)
 );
+
+/*
 
 insert into portfolios values (null, 'Long Term Investment Portfolio', 'no strategy set', 'EUR');
 
@@ -82,10 +87,10 @@ insert into dividend_events values (null, 'DANSKE.CO', '2022-03-18', '2022-03-22
 insert into dividend_events values (null, 'SHB-A.ST', '2022-03-24', '2022-03-30', '216.75', 51, 1);
 
 insert into dividend_events values (null, 'SWED-A.ST', '2022-03-31', '2022-04-06', '258.19', 27, 1);
+*/
 
 SELECT * FROM dividends;
 SELECT * FROM transactions;
 SELECT * FROM portfolios;
-SELECT * FROM currency_rates;
 
-DELETE FROM currency_rates;
+INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'bill@email.com')

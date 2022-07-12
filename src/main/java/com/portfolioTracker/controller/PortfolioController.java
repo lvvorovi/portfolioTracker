@@ -1,11 +1,16 @@
 package com.portfolioTracker.controller;
 
-import com.portfolioTracker.model.portfolio.dto.PortfolioRequestDto;
-import com.portfolioTracker.model.portfolio.dto.PortfolioResponseDto;
-import com.portfolioTracker.model.portfolio.service.PortfolioService;
+import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoCreateRequest;
+import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoUpdateRequest;
+import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoResponse;
+import com.portfolioTracker.domain.portfolio.service.PortfolioService;
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,37 +22,35 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/portfolios")
 public class PortfolioController {
 
     private final PortfolioService service;
 
-    public PortfolioController(PortfolioService service) {
-        this.service = service;
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<PortfolioResponseDto> findById(@NumberFormat @PathVariable Long id) {
+    public ResponseEntity<PortfolioDtoResponse> findById(@NumberFormat @PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<PortfolioResponseDto>> findAll() {
-        List<PortfolioResponseDto> portfolioResponseList = service.findAll();
+    public ResponseEntity<List<PortfolioDtoResponse>> findAll() {
+        List<PortfolioDtoResponse> portfolioResponseList = service.findAll();
         portfolioResponseList.forEach(this::addLinkToResponseObject);
+        portfolioResponseList.forEach(System.out::println);
         return ResponseEntity.ok(portfolioResponseList);
     }
 
     @PostMapping
-    public ResponseEntity<PortfolioResponseDto> save(@Valid @RequestBody PortfolioRequestDto requestDto) {
-        PortfolioResponseDto responseDto = service.save(requestDto);
+    public ResponseEntity<PortfolioDtoResponse> save(@Valid @RequestBody PortfolioDtoCreateRequest requestDto) {
+        PortfolioDtoResponse responseDto = service.save(requestDto);
         addLinkToResponseObject(responseDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<PortfolioResponseDto> update(@Valid @RequestBody PortfolioRequestDto requestDto) {
-        PortfolioResponseDto responseDto = service.update(requestDto);
+    public ResponseEntity<PortfolioDtoResponse> update(@Valid @RequestBody PortfolioDtoUpdateRequest requestDto) {
+        PortfolioDtoResponse responseDto = service.update(requestDto);
         addLinkToResponseObject(responseDto);
         return ResponseEntity.ok(responseDto);
     }
@@ -58,7 +61,7 @@ public class PortfolioController {
         return ResponseEntity.noContent().build();
     }
 
-    private void addLinkToResponseObject(@Valid PortfolioResponseDto responseDto) {
+    private void addLinkToResponseObject(@Valid PortfolioDtoResponse responseDto) {
         responseDto.add(linkTo(methodOn(PortfolioController.class).findById(responseDto.getId())).withSelfRel());
     }
 

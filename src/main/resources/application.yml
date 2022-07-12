@@ -1,4 +1,11 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090
+          jwk-set-uri: http://localhost:9090/oauth2/jwks
+
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/tracker
     username: root
@@ -11,21 +18,6 @@ spring:
   data:
     rest:
       default-media-type: application/json
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          issuer-uri: http://localhost:9090/oauth/token_key
-
-
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-uri: http://localhost:9090/oauth/token_key
-    client:
-      client_id: 130b8098-d282-45ee-9ddd-71389e3e3486
-      client_secret: secret
 
 server:
   port: 8080

@@ -1,18 +1,14 @@
 package com.portfolioTracker.core.contract;
 
-import com.portfolioTracker.model.dividend.mapper.DividendMapperFactory;
-import com.portfolioTracker.model.portfolio.mapper.PortfolioMapperFactory;
-import com.portfolioTracker.model.transaction.mapper.TransactionMapperFactory;
+import com.portfolioTracker.domain.dividend.mapper.DividendMapperFactory;
+import com.portfolioTracker.domain.portfolio.mapper.PortfolioMapperFactory;
+import com.portfolioTracker.domain.transaction.mapper.TransactionMapperFactory;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotNull;
 
 @Validated
 public interface ModelMapperFactory {
 
-    ModelMapperContract getInstance();
-
-    static ModelMapperFactory getFactoryOfType(@NotNull ModelType modelType) {
+    static ModelMapperFactory getFactoryOfType(ModelType modelType) {
         switch (modelType) {
             case DIVIDEND:
                 return new DividendMapperFactory();
@@ -24,6 +20,8 @@ public interface ModelMapperFactory {
 
         throw new IllegalArgumentException("Model type " + modelType + " is wrong argument");
     }
+
+    DomainMapper getInstance();
 
     public enum ModelType {
         DIVIDEND, PORTFOLIO, TRANSACTION

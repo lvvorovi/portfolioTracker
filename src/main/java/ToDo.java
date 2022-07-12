@@ -2,12 +2,12 @@ public class ToDo {
 
 /*
 TODO:
-        - userEntity
-        - rebuild mapper contracts for each model, no generics
+        - @Valid for all return types in all Mappers
+        - ApiServices -> contracts + implementation to call separate MS
+        - Unit tests
+
         - observer pattern
         - builder pattern
-        - Unit tests
-        - modularity
         - container deployment. separately DB and app
 */
 

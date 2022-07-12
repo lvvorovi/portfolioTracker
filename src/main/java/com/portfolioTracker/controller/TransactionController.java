@@ -1,9 +1,11 @@
 package com.portfolioTracker.controller;
 
 import com.portfolioTracker.core.ValidList;
-import com.portfolioTracker.model.transaction.dto.TransactionRequestDto;
-import com.portfolioTracker.model.transaction.dto.TransactionResponseDto;
-import com.portfolioTracker.model.transaction.service.TransactionService;
+import com.portfolioTracker.domain.transaction.dto.TransactionDtoCreateRequest;
+import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
+import com.portfolioTracker.domain.transaction.dto.TransactionDtoUpdateRequest;
+import com.portfolioTracker.domain.transaction.service.TransactionService;
+import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,46 +20,43 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/transactions")
 public class TransactionController {
 
     private final TransactionService service;
 
-    public TransactionController(TransactionService service) {
-        this.service = service;
-    }
-
     @GetMapping
-    public ResponseEntity<List<TransactionResponseDto>> findAll() {
-        List<TransactionResponseDto> transactionList = service.findAll();
+    public ResponseEntity<List<TransactionDtoResponse>> findAll() {
+        List<TransactionDtoResponse> transactionList = service.findAll();
         transactionList.forEach(this::addLink);
         return ResponseEntity.ok(transactionList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionResponseDto> findById(@NumberFormat @PathVariable Long id) {
-        TransactionResponseDto responseDto = service.findById(id);
+    public ResponseEntity<TransactionDtoResponse> findById(@NumberFormat @PathVariable Long id) {
+        TransactionDtoResponse responseDto = service.findById(id);
         addLink(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponseDto> save(@Valid @RequestBody TransactionRequestDto requestDto) {
-        TransactionResponseDto responseDto = service.save(requestDto);
+    public ResponseEntity<TransactionDtoResponse> save(@Valid @RequestBody TransactionDtoCreateRequest requestDto) {
+        TransactionDtoResponse responseDto = service.save(requestDto);
         addLink(responseDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<TransactionResponseDto>> saveAll(@Valid @RequestBody ValidList<TransactionRequestDto> requestDtoList) {
-        List<TransactionResponseDto> responseDtoList = service.saveAll(requestDtoList);
+    public ResponseEntity<List<TransactionDtoResponse>> saveAll(@Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
+        List<TransactionDtoResponse> responseDtoList = service.saveAll(requestDtoList);
         responseDtoList.forEach(this::addLink);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TransactionResponseDto> update(@Valid @RequestBody TransactionRequestDto requestDto) {
-        TransactionResponseDto responseDto = service.update(requestDto);
+    public ResponseEntity<TransactionDtoResponse> update(@Valid @RequestBody TransactionDtoUpdateRequest requestDto) {
+        TransactionDtoResponse responseDto = service.update(requestDto);
         addLink(responseDto);
         return ResponseEntity.ok(responseDto);
     }
@@ -74,7 +73,7 @@ public class TransactionController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private void addLink(@Valid TransactionResponseDto responseDto) {
+    private void addLink(@Valid TransactionDtoResponse responseDto) {
         responseDto.add(linkTo(methodOn(TransactionController.class).findById(responseDto.getId())).withSelfRel());
     }
 

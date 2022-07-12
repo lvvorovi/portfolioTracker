@@ -1,7 +1,7 @@
 package com.portfolioTracker.yahooModule.dto;
 
 import com.portfolioTracker.yahooModule.validation.annotation.Currency;
-import lombok.*;
+import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
