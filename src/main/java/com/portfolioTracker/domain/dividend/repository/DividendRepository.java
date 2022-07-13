@@ -1,6 +1,7 @@
 package com.portfolioTracker.domain.dividend.repository;
 
 import com.portfolioTracker.domain.dividend.DividendEntity;
+import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface DividendRepository {
     List<DividendEntity> findAll();
 
     Optional<DividendEntity> findById(Long id);
+
+    List<DividendEntity> findAllByPortfolioId(Long id);
 
     void deleteById(Long id);
 

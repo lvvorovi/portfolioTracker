@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.transaction.validation.rule;
 
-import com.portfolioTracker.domain.ticker.ApiTickerService;
+import com.portfolioTracker.domain.dto.ticker.TickerService;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoCreateRequest;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoUpdateRequest;
 import com.portfolioTracker.domain.transaction.validation.exception.TransactionException;
@@ -14,7 +14,7 @@ import javax.annotation.Priority;
 @Priority(100)
 public class TickerTransactionValidationRule implements TransactionValidationRule {
 
-    private final ApiTickerService apiTickerService;
+    private final TickerService tickerService;
 
     @Override
     public void validate(TransactionDtoCreateRequest dtoRequest) {
@@ -27,7 +27,7 @@ public class TickerTransactionValidationRule implements TransactionValidationRul
     }
 
     private void validateTicker(String ticker) {
-        if (!apiTickerService.isTickerSupported(ticker)) {
+        if (!tickerService.isTickerSupported(ticker)) {
             throw new TransactionException("Not supported ticker: " + ticker);
         }
     }

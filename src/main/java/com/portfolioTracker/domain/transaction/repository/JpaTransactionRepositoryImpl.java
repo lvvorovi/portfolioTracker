@@ -12,6 +12,4 @@ public interface JpaTransactionRepositoryImpl extends JpaRepository<TransactionE
     @Query(value = "SELECT DISTINCT ticker FROM transactions", nativeQuery = true)
     List<String> findAllUniqueTickers();
 
-//    @Override
-//    List<TransactionEntity> findAllByPortfolioId(Long portfolioId);
 }

@@ -8,15 +8,9 @@ import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.domain.transaction.validation.exception.PortfolioNotFoundTransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.Valid;
 
 @Component
 public class CustomDividendMapper implements DividendMapper {
-
-    @Autowired
-    private PortfolioRepository portfolioRepository;
 
     @Override
     public DividendEntity updateToEntity(DividendDtoUpdateRequest dto) {
@@ -27,11 +21,11 @@ public class CustomDividendMapper implements DividendMapper {
         entity.setDate(dto.getDate());
         entity.setAmount(dto.getAmount());
         entity.setType(dto.getType());
-        entity.setPortfolio(portfolioRepository.findById(dto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id " + dto.getPortfolioId() + " was not found")));
+        entity.setUsername(dto.getUsername());
         return entity;
     }
 
+    @Override
     public DividendEntity createToEntity(DividendDtoCreateRequest dto) {
         DividendEntity entity = new DividendEntity();
         entity.setTicker((dto.getTicker()));
@@ -39,8 +33,7 @@ public class CustomDividendMapper implements DividendMapper {
         entity.setDate(dto.getDate());
         entity.setAmount(dto.getAmount());
         entity.setType(dto.getType());
-        entity.setPortfolio(portfolioRepository.findById(dto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id " + dto.getPortfolioId() + " was not found")));
+        entity.setUsername(dto.getUsername());
         return entity;
     }
 
@@ -53,8 +46,8 @@ public class CustomDividendMapper implements DividendMapper {
         responseDto.setDate(entity.getDate());
         responseDto.setAmount(entity.getAmount());
         responseDto.setType(entity.getType());
+        responseDto.setUsername(entity.getUsername());
         responseDto.setPortfolioId(entity.getPortfolio().getId());
-
         return responseDto;
     }
 }

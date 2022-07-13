@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.dividend.validation.rule;
 
-import com.portfolioTracker.domain.ticker.ApiTickerService;
+import com.portfolioTracker.domain.dto.ticker.TickerService;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoCreateRequest;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
 import com.portfolioTracker.domain.dividend.validation.exception.TickerNotSupportedDividendException;
@@ -14,7 +14,7 @@ import javax.annotation.Priority;
 @Priority(1)
 public class TickerDividendValidationRule implements DividendValidationRule {
 
-    private final ApiTickerService apiTickerService;
+    private final TickerService tickerService;
 
     @Override
     public void validate(DividendDtoUpdateRequest dto) {
@@ -27,7 +27,7 @@ public class TickerDividendValidationRule implements DividendValidationRule {
     }
 
     private void validateTicker(String ticker) {
-        if (apiTickerService.isTickerSupported(ticker)) {
+        if (tickerService.isTickerSupported(ticker)) {
             return;
         }
         throw new TickerNotSupportedDividendException("Not supported ticker: " + ticker);

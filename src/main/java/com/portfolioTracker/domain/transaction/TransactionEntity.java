@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.transaction;
 
-import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.summaryModule.event.eventType.EventType;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -45,7 +45,6 @@ public class TransactionEntity {
     @NotNull
     @Column(name = "event_type")
     private EventType type;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioEntity portfolio;

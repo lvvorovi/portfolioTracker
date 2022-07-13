@@ -24,7 +24,6 @@ create TABLE transactions (
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id)
 );
-
 create TABLE dividends (
     id                  BIGINT          NOT NULL    AUTO_INCREMENT,
     ticker              VARCHAR(50)     NOT NULL,
@@ -97,5 +96,7 @@ SELECT * FROM portfolios;
 INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'john@email.com')
 INSERT INTO transactions VALUES (id, ticker, trade_date, quantity, price, commission, event_type, portfolio_id, username)
 INSERT INTO transactions VALUES (null, 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', 4, 'bill@email.com')
+
+INSERT INTO dividends VALUES (null, 'BRK-B', '2020-01-01', '2020-01-01', 100, 'Dividend', 4, 'bill@email.com')
 
 UPDATE transactions SET event_type = 'Buy' WHERE event_type = 'BUY'

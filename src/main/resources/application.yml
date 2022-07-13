@@ -31,17 +31,3 @@ logging:
     root: info
     com:
       tracker: info
-
-yahoo:
-  jsonExtractionStart: "root.App.main = "
-  jsonExtractionEnd: "}(this));"
-  baseRateClientBuys: 1.02
-  baseRateClientSells: 0.98
-  validityOfResponseMinutes: 15
-  coreUri: "https://finance.yahoo.com/quote/"
-  period1Uri: "/history?period1="
-  period2Uri: "&period2="
-  finalUri: "&interval=1d&filter=history&frequency=1d&includeAdjustedClose=true"
-  responseHistoryStartYear: 2017
-  dataReferenceDate: "1970-01-01"
-

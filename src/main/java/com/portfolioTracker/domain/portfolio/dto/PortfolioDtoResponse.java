@@ -28,8 +28,5 @@ public class PortfolioDtoResponse extends RepresentationModel<PortfolioDtoRespon
     private String currency;
     @NotBlank
     private String username;
-    @JsonIgnore
-    private List<TransactionDtoResponse> transactionList;
-    @JsonIgnore
-    private List<DividendDtoResponse> dividendList;
+
 }

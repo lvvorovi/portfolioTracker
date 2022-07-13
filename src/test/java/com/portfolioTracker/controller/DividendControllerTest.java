@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.portfolioTracker.domain.dto.event.eventType.EventType.DIVIDEND;
+import static com.portfolioTracker.summaryModule.event.eventType.EventType.DIVIDEND;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;

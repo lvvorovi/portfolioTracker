@@ -1,6 +1,6 @@
 package com.portfolioTracker;
 
-import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.summaryModule.event.eventType.EventType;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.domain.transaction.TransactionEntity;

@@ -14,15 +14,13 @@ public class PortfolioValidationServiceImpl implements PortfolioValidationServic
 
     private final List<PortfolioValidationRule> validationRules;
 
-        @Override
-        public void validate(PortfolioDtoUpdateRequest requestDto) {
-                validationRules.forEach(rule -> rule.validate(requestDto));
+    @Override
+    public void validate(PortfolioDtoUpdateRequest requestDto) {
+        validationRules.forEach(rule -> rule.validate(requestDto));
+    }
 
-        }
-
-        @Override
-        public void validate(PortfolioDtoCreateRequest requestDto) {
-                validationRules.forEach(rule -> rule.validate(requestDto));
-
-        }
+    @Override
+    public void validate(PortfolioDtoCreateRequest requestDto) {
+        validationRules.forEach(rule -> rule.validate(requestDto));
+    }
 }

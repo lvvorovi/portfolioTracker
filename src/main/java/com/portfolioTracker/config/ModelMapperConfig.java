@@ -1,7 +1,7 @@
 package com.portfolioTracker.config;
 
 import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
-import com.portfolioTracker.domain.dto.event.EventDto;
+import com.portfolioTracker.summaryModule.event.EventDtoSplitAndDividend;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
@@ -14,21 +14,21 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
-        TypeMap<TransactionDtoResponse, EventDto> transactionToEventTypeMap = mapper
-                .createTypeMap(TransactionDtoResponse.class, EventDto.class);
-        transactionToEventTypeMap.addMapping(TransactionDtoResponse::getPrice, EventDto::setPriceAmount);
+        TypeMap<TransactionDtoResponse, EventDtoSplitAndDividend> transactionToEventTypeMap = mapper
+                .createTypeMap(TransactionDtoResponse.class, EventDtoSplitAndDividend.class);
+        transactionToEventTypeMap.addMapping(TransactionDtoResponse::getPrice, EventDtoSplitAndDividend::setPriceAmount);
 
-        TypeMap<DividendDtoResponse, EventDto> dividendToEventTypeMap = mapper
-                .createTypeMap(DividendDtoResponse.class, EventDto.class);
-        dividendToEventTypeMap.addMapping(DividendDtoResponse::getAmount, EventDto::setDividend);
+        TypeMap<DividendDtoResponse, EventDtoSplitAndDividend> dividendToEventTypeMap = mapper
+                .createTypeMap(DividendDtoResponse.class, EventDtoSplitAndDividend.class);
+        dividendToEventTypeMap.addMapping(DividendDtoResponse::getAmount, EventDtoSplitAndDividend::setDividend);
 
-        TypeMap<EventDto, DividendDtoResponse> eventToDividendTypeMap = mapper
-                .createTypeMap(EventDto.class, DividendDtoResponse.class);
-        eventToDividendTypeMap.addMapping(EventDto::getDividend, DividendDtoResponse::setAmount);
+        TypeMap<EventDtoSplitAndDividend, DividendDtoResponse> eventToDividendTypeMap = mapper
+                .createTypeMap(EventDtoSplitAndDividend.class, DividendDtoResponse.class);
+        eventToDividendTypeMap.addMapping(EventDtoSplitAndDividend::getDividend, DividendDtoResponse::setAmount);
 
-        TypeMap<EventDto, TransactionDtoResponse> eventToTransactionTypeMap = mapper
-                .createTypeMap(EventDto.class, TransactionDtoResponse.class);
-        eventToTransactionTypeMap.addMapping(EventDto::getPriceAmount, TransactionDtoResponse::setPrice);
+        TypeMap<EventDtoSplitAndDividend, TransactionDtoResponse> eventToTransactionTypeMap = mapper
+                .createTypeMap(EventDtoSplitAndDividend.class, TransactionDtoResponse.class);
+        eventToTransactionTypeMap.addMapping(EventDtoSplitAndDividend::getPriceAmount, TransactionDtoResponse::setPrice);
 
         return mapper;
     }

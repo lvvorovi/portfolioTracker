@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -34,8 +35,9 @@ public class DividendController {
 
     @GetMapping
     public ResponseEntity<List<DividendDtoResponse>> findALl() {
-        List<DividendDtoResponse> responseDtoList = service.findAll();
-        responseDtoList.forEach(this::addSelfRefToJson);
+        List<DividendDtoResponse> responseDtoList = service.findAll().parallelStream()
+                .peek(this::addSelfRefToJson)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtoList);
     }
 
@@ -49,20 +51,15 @@ public class DividendController {
     @PostMapping("/batch")
     public ResponseEntity<List<DividendDtoResponse>> saveAll(
             @RequestBody @Valid ValidList<DividendDtoCreateRequest> requestDtoList) {
-        List<DividendDtoResponse> responseDtoList = service.saveAll(requestDtoList);
-        responseDtoList.forEach(this::addSelfRefToJson);
+        List<DividendDtoResponse> responseDtoList = service.saveAll(requestDtoList).parallelStream()
+                .peek(this::addSelfRefToJson)
+                .collect(Collectors.toList());
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
         service.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<?> deleteAll() {
-        service.deleteAll();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

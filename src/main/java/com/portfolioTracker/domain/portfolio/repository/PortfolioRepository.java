@@ -21,7 +21,6 @@ public interface PortfolioRepository {
 
     Optional<PortfolioEntity> findById(Long id);
 
-    boolean existsById(Long id);
-
     void deleteById(Long id);
+
 }

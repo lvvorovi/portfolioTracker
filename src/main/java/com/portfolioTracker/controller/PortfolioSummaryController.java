@@ -1,7 +1,8 @@
+/*
 package com.portfolioTracker.controller;
 
-import com.portfolioTracker.domain.dto.portfolioSummaryDto.PortfolioSummaryDto;
-import com.portfolioTracker.domain.dto.portfolioSummaryDto.PortfolioSummaryDtoService;
+import com.portfolioTracker.summaryModule.portfolioSummaryDto.PortfolioSummaryDto;
+import com.portfolioTracker.summaryModule.portfolioSummaryDto.PortfolioSummaryDtoService;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,3 +29,4 @@ public class PortfolioSummaryController {
 
 
 }
+*/

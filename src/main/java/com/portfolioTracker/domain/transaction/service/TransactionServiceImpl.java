@@ -9,9 +9,6 @@ import com.portfolioTracker.domain.transaction.repository.TransactionRepository;
 import com.portfolioTracker.domain.transaction.validation.TransactionValidationService;
 import com.portfolioTracker.domain.transaction.validation.exception.TransactionException;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -27,42 +24,14 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper mapper;
 
     @Override
-    @PostAuthorize("returnObject.username == authentication.name")
-    public TransactionDtoResponse findById(Long id) {
-        TransactionEntity entity = repository.findById(id)
-                .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id));
-        return mapper.toDto(entity);
-    }
-
-    @Override
-    @PreAuthorize("#portfolioId == null or @portfolioServiceImpl.isPrincipalOwnerOfResource(#portfolioId)")
-    public List<TransactionDtoResponse> findAll(Long portfolioId) {
-        if (portfolioId == null) {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            return repository.findAllByUsername(username).stream()
-                    .map(mapper::toDto)
-                    .collect(Collectors.toList());
-        }
-        return repository.findAllByPortfolioId(portfolioId).stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @PreAuthorize("#dtoRequest.username == authentication.name " +
-            " and " +
-            "@portfolioServiceImpl.isPrincipalOwnerOfResource(#dtoRequest.portfolioId)")
-    public TransactionDtoResponse save(TransactionDtoCreateRequest dtoRequest) {
-        validationService.validate(dtoRequest);
-        TransactionEntity entity = mapper.createToEntity(dtoRequest);
+    public TransactionDtoResponse save(TransactionDtoCreateRequest requestDto) {
+        validationService.validate(requestDto);
+        TransactionEntity entity = mapper.createToEntity(requestDto);
         TransactionEntity savedEntity = repository.save(entity);
         return mapper.toDto(savedEntity);
     }
 
     @Override
-    @PreFilter("filterObject.username == authentication.name" +
-            " and " +
-            "@portfolioServiceImpl.isPrincipalOwnerOfResource(filterObject.portfolioId)")
     public List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList) {
         requestDtoList.forEach(validationService::validate);
         return requestDtoList.stream()
@@ -73,31 +42,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @PreAuthorize("#dtoRequest.username == authentication.name" +
-            " and " +
-            "@portfolioServiceImpl.isPrincipalOwnerOfResource(#dtoRequest.portfolioId)" +
-            " and " +
-            "@transactionServiceImpl.isPrincipalOwnerOfResource(#dtoRequest.id)")
-    public TransactionDtoResponse update(TransactionDtoUpdateRequest dtoRequest) {
-        validationService.validate(dtoRequest);
-        if (dtoRequest.getId() == null)
-            throw new TransactionException("id cannot not be null for method update()");
-
-        if (existsById(dtoRequest.getId())) {
-            TransactionEntity entity = mapper.updateToEntity(dtoRequest);
-            TransactionEntity savedEntity = repository.save(entity);
-            return mapper.toDto(savedEntity);
-
-        } else {
-            throw new TransactionException("EquityTransaction with id " +
-                    dtoRequest.getId() + " was not found");
-        }
+    public TransactionDtoResponse findById(Long id) {
+        TransactionEntity entity = repository.findById(id)
+                .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id));
+        return mapper.toDto(entity);
     }
 
     @Override
-    @PreAuthorize("@transactionServiceImpl.isPrincipalOwnerOfResource(#id)")
-    public void deleteById(Long id) {
-        repository.deleteById(id);
+    public List<TransactionDtoResponse> findAll() {
+      return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -111,7 +66,36 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public boolean isPrincipalOwnerOfResource(Long id) {
+    public List<TransactionDtoResponse> findByPortfolioId(Long id) {
+        return repository.findAllByPortfolioId(id).parallelStream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+   public TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto) {
+        validationService.validate(requestDto);
+        if (requestDto.getId() == null)
+            throw new TransactionException("id cannot not be null for method update()");
+
+        if (existsById(requestDto.getId())) {
+            TransactionEntity entity = mapper.updateToEntity(requestDto);
+            TransactionEntity savedEntity = repository.save(entity);
+            return mapper.toDto(savedEntity);
+
+        } else {
+            throw new TransactionException("EquityTransaction with id " +
+                    requestDto.getId() + " was not found");
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public boolean isOwner(Long id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
                 .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id))

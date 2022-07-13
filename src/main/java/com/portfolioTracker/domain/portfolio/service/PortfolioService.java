@@ -23,12 +23,10 @@ public interface PortfolioService {
     @PreAuthorize("#requestDto.username == authentication.name")
     PortfolioDtoResponse update(PortfolioDtoUpdateRequest requestDto);
 
-    @PreAuthorize("@portfolioServiceImpl.isPrincipalOwnerOfResource(#id)")
+    @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
     void deleteById(Long id);
 
-    void loadTickersToContext();
+    boolean isOwner(Long id);
 
-    boolean isPrincipalOwnerOfResource(Long id);
-
-//    boolean isPrincipalOwnerOfResourceList(List<String> id);
+    List<String> findAllPortfolioCurrencies();
 }

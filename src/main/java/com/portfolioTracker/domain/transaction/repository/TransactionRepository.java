@@ -11,17 +11,13 @@ public interface TransactionRepository {
 
     TransactionEntity save(TransactionEntity entity);
 
-//    Iterable<TransactionEntity> saveAll(Iterable<TransactionEntity> entityList);
-
-    List<TransactionEntity> findAllByUsername(String username);
-
     Optional<TransactionEntity> findById(Long id);
 
     void deleteById(Long id);
 
-    void deleteAll();
-
     boolean existsById(Long id);
 
-    List<TransactionEntity> findAllByPortfolioId(Long portfolioId);
+    List<TransactionEntity> findAll();
+
+    List<TransactionEntity> findAllByPortfolioId(Long id);
 }

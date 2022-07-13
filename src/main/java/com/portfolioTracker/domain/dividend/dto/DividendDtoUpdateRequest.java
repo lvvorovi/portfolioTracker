@@ -1,14 +1,11 @@
 package com.portfolioTracker.domain.dividend.dto;
 
-import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.summaryModule.event.eventType.EventType;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -20,6 +17,7 @@ public class DividendDtoUpdateRequest {
     @NumberFormat
     private Long id;
     @NotBlank
+    @Size(max = 50, message = "max 50 characters")
     private String ticker;
     @NotNull
     @PastOrPresent
@@ -37,4 +35,7 @@ public class DividendDtoUpdateRequest {
     @NumberFormat
     @Positive
     private Long portfolioId;
+    @NotBlank
+    @Size(max = 50, message = "max 50 characters")
+    private String username;
 }

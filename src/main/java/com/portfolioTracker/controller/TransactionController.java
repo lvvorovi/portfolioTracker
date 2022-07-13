@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -28,8 +29,9 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<TransactionDtoResponse>> findAll(@RequestParam(required = false) Long portfolioId) {
-        List<TransactionDtoResponse> transactionList = service.findAll(portfolioId);
-        transactionList.forEach(this::addLink);
+        List<TransactionDtoResponse> transactionList = service.findAll().parallelStream()
+                .peek(this::addLink)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(transactionList);
     }
 
@@ -48,9 +50,11 @@ public class TransactionController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<TransactionDtoResponse>> saveAll(@Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
-        List<TransactionDtoResponse> responseDtoList = service.saveAll(requestDtoList);
-        responseDtoList.forEach(this::addLink);
+    public ResponseEntity<List<TransactionDtoResponse>> saveAll
+            (@Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
+        List<TransactionDtoResponse> responseDtoList = service.saveAll(requestDtoList).parallelStream()
+                .peek(this::addLink)
+                .collect(Collectors.toList());
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
     }
 

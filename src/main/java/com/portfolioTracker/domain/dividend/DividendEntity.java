@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.dividend;
 
-import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.summaryModule.event.eventType.EventType;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @Validated
 @Entity
 @Table(name = "dividends")
-public class DividendEntity {
+public class DividendEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +44,12 @@ public class DividendEntity {
     @NotNull
     @Column(name = "event_type")
     private EventType type;
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioEntity portfolio;
+    @Column(name = "username")
+    @NotBlank
+    private String username;
 
 
 }

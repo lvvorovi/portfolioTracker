@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.dividend.dto;
 
-import com.portfolioTracker.domain.dto.event.eventType.EventType;
+import com.portfolioTracker.summaryModule.event.eventType.EventType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.NumberFormat;
@@ -41,5 +41,7 @@ public class DividendDtoResponse extends RepresentationModel<DividendDtoResponse
     @NumberFormat
     @Positive
     private Long portfolioId;
+    @NotBlank
+    private String username;
 
 }
