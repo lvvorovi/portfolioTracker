@@ -1,6 +1,8 @@
 package com.portfolioTracker.domain.dto.ticker.exception;
 
-public class TickerServiceException extends RuntimeException {
+import com.portfolioTracker.core.validation.ValidationException;
+
+public class TickerServiceException extends ValidationException {
 
     public TickerServiceException(String message) {
         super(message);
