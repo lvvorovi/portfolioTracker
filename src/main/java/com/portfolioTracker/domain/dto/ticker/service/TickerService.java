@@ -1,5 +1,6 @@
-package com.portfolioTracker.domain.dto.ticker;
+package com.portfolioTracker.domain.dto.ticker.service;
 
+import com.portfolioTracker.domain.dto.ticker.SplitEventDto;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;

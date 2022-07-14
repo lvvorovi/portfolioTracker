@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.transaction;
 
-import com.portfolioTracker.summaryModule.event.eventType.EventType;
+import com.portfolioTracker.domain.dto.eventType.EventType;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;

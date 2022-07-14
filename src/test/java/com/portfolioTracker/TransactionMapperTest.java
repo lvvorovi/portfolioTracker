@@ -1,6 +1,6 @@
 package com.portfolioTracker;
 
-import com.portfolioTracker.summaryModule.event.eventType.EventType;
+import com.portfolioTracker.domain.dto.eventType.EventType;
 import com.portfolioTracker.domain.portfolio.PortfolioEntity;
 import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
 import com.portfolioTracker.domain.transaction.TransactionEntity;
@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.portfolioTracker.domain.dto.eventType.EventType.SELL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -36,7 +37,7 @@ public class TransactionMapperTest {
         entity.setPrice(new BigDecimal(125));
         entity.setShares(new BigDecimal(100));
         entity.setCommission(new BigDecimal(10));
-        entity.setType(EventType.SELL);
+        entity.setType(SELL);
         entity.setPortfolio(portfolio);
 
         TransactionDtoResponse response = transactionMapper.toDto(entity);
@@ -48,8 +49,6 @@ public class TransactionMapperTest {
         assertEquals(response.getCommission(), entity.getCommission());
         assertEquals(response.getType(), entity.getType());
         assertEquals(response.getPortfolioId(), entity.getPortfolio().getId());
-        assertEquals(response.getSold(), entity.getPrice().multiply(entity.getShares()));
-        assertEquals(response.getBought(), new BigDecimal(0));
     }
 
     @Test
@@ -76,8 +75,6 @@ public class TransactionMapperTest {
         assertEquals(response.getCommission(), entity.getCommission());
         assertEquals(response.getType(), entity.getType());
         assertEquals(response.getPortfolioId(), entity.getPortfolio().getId());
-        assertEquals(response.getBought(), entity.getPrice().multiply(entity.getShares()));
-        assertEquals(response.getSold(), new BigDecimal(0));
     }
 
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Validated
 @Data
-public abstract class SplitEventDto {
+public class SplitEventDto {
 
     @NotNull
     @NumberFormat

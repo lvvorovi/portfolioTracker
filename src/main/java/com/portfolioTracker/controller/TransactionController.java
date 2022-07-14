@@ -9,12 +9,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -27,19 +27,26 @@ public class TransactionController {
 
     private final TransactionService service;
 
-    @GetMapping
-    public ResponseEntity<List<TransactionDtoResponse>> findAll(@RequestParam(required = false) Long portfolioId) {
-        List<TransactionDtoResponse> transactionList = service.findAll().parallelStream()
-                .peek(this::addLink)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(transactionList);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDtoResponse> findById(@NumberFormat @PathVariable Long id) {
         TransactionDtoResponse responseDto = service.findById(id);
         addLink(responseDto);
         return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TransactionDtoResponse>> findAll(@Nullable @RequestParam Long portfolioId) {
+        List<TransactionDtoResponse> transactionList;
+        if (portfolioId == null) {
+            transactionList = service.findAll().parallelStream()
+                    .peek(this::addLink)
+                    .toList();
+        } else {
+            transactionList = service.findAllByPortfolioId(portfolioId).parallelStream()
+                    .peek(this::addLink)
+                    .toList();
+        }
+        return ResponseEntity.ok(transactionList);
     }
 
     @PostMapping
@@ -54,7 +61,7 @@ public class TransactionController {
             (@Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
         List<TransactionDtoResponse> responseDtoList = service.saveAll(requestDtoList).parallelStream()
                 .peek(this::addLink)
-                .collect(Collectors.toList());
+                .toList();
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
     }
 

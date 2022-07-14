@@ -14,6 +14,7 @@ import com.portfolioTracker.domain.portfolio.validation.exception.PortfolioNotFo
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +28,6 @@ public class DividendServiceImpl implements DividendService {
     private final DividendRepository repository;
     private final PortfolioRepository portfolioRepository;
 
-
     @Override
     public DividendDtoResponse save(DividendDtoCreateRequest requestDto) {
         validationService.validate(requestDto);
@@ -40,22 +40,11 @@ public class DividendServiceImpl implements DividendService {
     }
 
     @Override
+    @Transactional
     public List<DividendDtoResponse> saveAll(List<DividendDtoCreateRequest> requestDtoList) {
-        requestDtoList.forEach(validationService::validate);
-        List<DividendEntity> requestEntityList = requestDtoList.parallelStream()
-                .map(requestDto -> {
-                    DividendEntity requestEntity = mapper.createToEntity(requestDto);
-                    requestEntity.setPortfolio(portfolioRepository.findById(requestDto.getPortfolioId())
-                            .orElseThrow(() -> new PortfolioNotFoundException(
-                                    "Portfolio with requested id not found. id: " + requestDto.getPortfolioId())));
-                    return requestEntity;
-                })
-                .collect(Collectors.toList());
-
-        return requestEntityList.parallelStream()
-                .map(repository::save)
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return requestDtoList.parallelStream()
+                .map(this::save)
+                .toList();
     }
 
     @Override

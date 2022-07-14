@@ -1,6 +1,6 @@
 package com.portfolioTracker.controller;
 
-import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
+import com.portfolioTracker.domain.dividend.dto.DividendDtoCreateRequest;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
 import com.portfolioTracker.domain.dividend.service.DividendService;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.portfolioTracker.summaryModule.event.eventType.EventType.DIVIDEND;
+import static com.portfolioTracker.domain.dto.eventType.EventType.DIVIDEND;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -83,28 +83,28 @@ class DividendControllerTest {
     @WithMockUser
     @Test
     void when_save_then_status_Created_and_savedDto_returned() throws Exception {
-        DividendDtoUpdateRequest dividendDtoUpdateRequest = new DividendDtoUpdateRequest();
-        dividendDtoUpdateRequest.setTicker("BRK");
-        dividendDtoUpdateRequest.setAmount(new BigDecimal(100));
-        dividendDtoUpdateRequest.setType(DIVIDEND);
-        dividendDtoUpdateRequest.setExDate(LocalDate.now());
-        dividendDtoUpdateRequest.setDate(LocalDate.now());
-        dividendDtoUpdateRequest.setPortfolioId(1L);
+        DividendDtoCreateRequest createRequest = new DividendDtoCreateRequest();
+        createRequest.setTicker("BRK");
+        createRequest.setAmount(new BigDecimal(100));
+        createRequest.setType(DIVIDEND);
+        createRequest.setExDate(LocalDate.now());
+        createRequest.setDate(LocalDate.now());
+        createRequest.setPortfolioId(1L);
 
-        DividendDtoResponse dividendDtoResponse = new DividendDtoResponse();
-        dividendDtoResponse.setId(1L);
-        dividendDtoResponse.setAmount(dividendDtoUpdateRequest.getAmount());
-        dividendDtoResponse.setType(DIVIDEND);
-        dividendDtoResponse.setTicker(dividendDtoUpdateRequest.getTicker());
+        DividendDtoResponse response = new DividendDtoResponse();
+        response.setId(1L);
+        response.setAmount(createRequest.getAmount());
+        response.setType(DIVIDEND);
+        response.setTicker(createRequest.getTicker());
 
-        given(dividendService.save(dividendDtoUpdateRequest)).willReturn(dividendDtoResponse);
+        given(dividendService.save(createRequest)).willReturn(response);
 
         mvc.perform(post("/api/v1/dividends")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonUtil.objectToJson(dividendDtoUpdateRequest)))
+                        .content(jsonUtil.objectToJson(createRequest)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.ticker", is(dividendDtoUpdateRequest.getTicker())))
+                .andExpect(jsonPath("$.ticker", is(createRequest.getTicker())))
                 .andExpect(jsonPath("$.amount", is(100)))
                 .andExpect(jsonPath("$.id", is(1)));
 

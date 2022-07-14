@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.portfolio.validation.rule;
 
-import com.portfolioTracker.domain.dto.currency.CurrencyService;
+import com.portfolioTracker.domain.dto.currency.service.CurrencyService;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoCreateRequest;
 import com.portfolioTracker.domain.portfolio.dto.PortfolioDtoUpdateRequest;
 import com.portfolioTracker.domain.portfolio.validation.exception.PortfolioCurrencyException;

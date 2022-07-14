@@ -1,9 +1,9 @@
 package com.portfolioTracker.domain.dividend.validation.rule;
 
-import com.portfolioTracker.domain.dto.ticker.TickerService;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoCreateRequest;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
 import com.portfolioTracker.domain.dividend.validation.exception.TickerNotSupportedDividendException;
+import com.portfolioTracker.domain.dto.ticker.service.TickerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

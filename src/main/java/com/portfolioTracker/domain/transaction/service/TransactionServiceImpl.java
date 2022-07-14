@@ -1,5 +1,8 @@
 package com.portfolioTracker.domain.transaction.service;
 
+import com.portfolioTracker.domain.portfolio.PortfolioEntity;
+import com.portfolioTracker.domain.portfolio.repository.PortfolioRepository;
+import com.portfolioTracker.domain.portfolio.validation.exception.PortfolioNotFoundException;
 import com.portfolioTracker.domain.transaction.TransactionEntity;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoCreateRequest;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoResponse;
@@ -13,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,23 +24,25 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionValidationService validationService;
     private final TransactionRepository repository;
     private final TransactionMapper mapper;
+    private final PortfolioRepository portfolioRepository;
 
     @Override
     public TransactionDtoResponse save(TransactionDtoCreateRequest requestDto) {
         validationService.validate(requestDto);
-        TransactionEntity entity = mapper.createToEntity(requestDto);
-        TransactionEntity savedEntity = repository.save(entity);
+        TransactionEntity requestEntity = mapper.createToEntity(requestDto);
+        PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
+                .orElseThrow(() -> new PortfolioNotFoundException("Portfolio not found with id: " +
+                        requestDto.getPortfolioId()));
+        requestEntity.setPortfolio(portfolioEntity);
+        TransactionEntity savedEntity = repository.save(requestEntity);
         return mapper.toDto(savedEntity);
     }
 
     @Override
     public List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList) {
-        requestDtoList.forEach(validationService::validate);
-        return requestDtoList.stream()
-                .map(mapper::createToEntity)
-                .map(repository::save)
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return requestDtoList.parallelStream()
+                .map(this::save)
+                .toList();
     }
 
     @Override
@@ -50,9 +54,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDtoResponse> findAll() {
-      return repository.findAll().stream()
+        return repository.findAll().parallelStream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -66,10 +70,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDtoResponse> findByPortfolioId(Long id) {
+    public List<TransactionDtoResponse> findAllByPortfolioId(Long id) {
         return repository.findAllByPortfolioId(id).parallelStream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

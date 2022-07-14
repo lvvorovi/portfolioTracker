@@ -1,4 +1,4 @@
-package com.portfolioTracker.summaryModule.event.eventType;
+package com.portfolioTracker.domain.dto.eventType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

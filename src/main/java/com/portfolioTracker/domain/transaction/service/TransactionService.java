@@ -33,7 +33,7 @@ public interface TransactionService {
     List<String> findAllUniqueTickers();
 
     @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
-    List<TransactionDtoResponse> findByPortfolioId(Long id);
+    List<TransactionDtoResponse> findAllByPortfolioId(Long id);
 
     @PreAuthorize("#requestDto.username == authentication.name" +
             " && " +

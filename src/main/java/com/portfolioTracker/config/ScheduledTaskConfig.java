@@ -1,7 +1,7 @@
 package com.portfolioTracker.config;
 
-import com.portfolioTracker.domain.dto.currency.CurrencyService;
-import com.portfolioTracker.domain.dto.ticker.TickerService;
+import com.portfolioTracker.domain.dto.currency.service.CurrencyService;
+import com.portfolioTracker.domain.dto.ticker.service.TickerService;
 import com.portfolioTracker.domain.portfolio.service.PortfolioService;
 import com.portfolioTracker.domain.transaction.service.TransactionService;
 import lombok.AllArgsConstructor;

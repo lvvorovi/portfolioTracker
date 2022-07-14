@@ -1,4 +1,4 @@
-package com.portfolioTracker.summaryModule.event.eventType;
+package com.portfolioTracker.domain.dto.eventType;
 
 import org.springframework.validation.annotation.Validated;
 

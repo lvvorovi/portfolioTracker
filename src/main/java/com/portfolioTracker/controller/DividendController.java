@@ -2,13 +2,14 @@ package com.portfolioTracker.controller;
 
 import com.portfolioTracker.core.ValidList;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoCreateRequest;
-import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
 import com.portfolioTracker.domain.dividend.dto.DividendDtoResponse;
+import com.portfolioTracker.domain.dividend.dto.DividendDtoUpdateRequest;
 import com.portfolioTracker.domain.dividend.service.DividendService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,16 +29,23 @@ public class DividendController {
     private final DividendService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<DividendDtoResponse> findById(@NumberFormat @PathVariable Long id) {
+    public ResponseEntity<DividendDtoResponse> findById(@PathVariable Long id) {
         DividendDtoResponse responseDto = service.findById(id);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<DividendDtoResponse>> findALl() {
-        List<DividendDtoResponse> responseDtoList = service.findAll().parallelStream()
-                .peek(this::addSelfRefToJson)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<DividendDtoResponse>> findALl(@Nullable @RequestParam Long portfolioId) {
+        List<DividendDtoResponse> responseDtoList;
+        if (portfolioId == null) {
+            responseDtoList = service.findAll().parallelStream()
+                    .peek(this::addSelfRefToJson)
+                    .toList();
+        } else {
+            responseDtoList = service.findAllByPortfolioId(portfolioId).parallelStream()
+                    .peek(this::addSelfRefToJson)
+                    .toList();
+        }
         return ResponseEntity.ok(responseDtoList);
     }
 
@@ -49,9 +57,10 @@ public class DividendController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<DividendDtoResponse>> saveAll(
-            @RequestBody @Valid ValidList<DividendDtoCreateRequest> requestDtoList) {
-        List<DividendDtoResponse> responseDtoList = service.saveAll(requestDtoList).parallelStream()
+    public ResponseEntity<List<DividendDtoResponse>> saveAll(@RequestBody @Valid
+                                                             ValidList<DividendDtoCreateRequest> requestDtoList) {
+        List<DividendDtoResponse> responseDtoList = service
+                .saveAll(requestDtoList).parallelStream()
                 .peek(this::addSelfRefToJson)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);

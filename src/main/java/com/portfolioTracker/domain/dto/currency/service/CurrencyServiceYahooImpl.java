@@ -1,5 +1,6 @@
-package com.portfolioTracker.domain.dto.currency;
+package com.portfolioTracker.domain.dto.currency.service;
 
+import com.portfolioTracker.domain.dto.currency.CurrencyRateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

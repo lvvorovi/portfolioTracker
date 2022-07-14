@@ -1,6 +1,6 @@
 package com.portfolioTracker.domain.transaction.validation.rule;
 
-import com.portfolioTracker.domain.dto.ticker.TickerService;
+import com.portfolioTracker.domain.dto.ticker.service.TickerService;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoCreateRequest;
 import com.portfolioTracker.domain.transaction.dto.TransactionDtoUpdateRequest;
 import com.portfolioTracker.domain.transaction.validation.exception.TransactionException;
