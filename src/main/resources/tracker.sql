@@ -100,7 +100,12 @@ INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'john@email.com'
 INSERT INTO transactions VALUES (id, ticker, trade_date, quantity, price, commission, event_type, portfolio_id, username)
 INSERT INTO transactions VALUES (null, 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', 4, 'bill@email.com')
 
+UPDATE dividends SET event_type = 'DIVIDEND';
+UPDATE transactions SET event_type = 'SELL' where event_type = 'Sell'
+UPDATE transactions SET event_type = 'BUY' where event_type = 'Buy'
 
 INSERT INTO dividends VALUES (null, 'BRK-B', '2020-01-01', '2020-01-01', 100, 'Dividend', 4, 'bill@email.com')
 
 UPDATE transactions SET event_type = 'Buy' WHERE event_type = 'BUY'
+
+DELETE FROM dividends;
