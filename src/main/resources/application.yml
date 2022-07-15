@@ -1,0 +1,33 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090
+          jwk-set-uri: http://localhost:9090/oauth2/jwks
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/tracker
+    username: root
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  data:
+    rest:
+      default-media-type: application/json
+
+server:
+  port: 8080
+
+logging:
+  file:
+    name: logger.log
+    max-size: 10MB
+    clean-history-on-start: false
+  level:
+    root: info
+    com:
+      tracker: info
