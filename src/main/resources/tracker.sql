@@ -1,45 +1,46 @@
 DROP TABLE IF EXISTS currency_rates, dividends, transactions, flyway_schema_history, trade_transactions, dividend_events, portfolios;
 
 create TABLE portfolios (
-    id                  BIGINT          NOT NULL    AUTO_INCREMENT,
+    id                  VARCHAR(60)     NOT NULL,
     name                VARCHAR(50)     NOT NULL,
     strategy            VARCHAR(150)    NOT NULL,
     currency            VARCHAR(3)      NOT NULL,
     username            VARCHAR(50)     NOT NULL,
 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CONSTRAINT uc_username_name UNIQUE (username, name)
 );
 
 SELECT id, name, strategy, currency, username FROM portfolios WHERE id = '1'
 SELECT id, name, strategy, currency, username FROM portfolios WHERE id= 1;
 
 create TABLE transactions (
-    id                  BIGINT          NOT NULL    AUTO_INCREMENT,
+    id                  VARCHAR(60)     NOT NULL,
     ticker              VARCHAR(50)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
     price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
-    portfolio_id        BIGINT          NOT NULL,
+    portfolio_id        VARCHAR(60)     NOT NULL,
     username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id)
 );
 create TABLE dividends (
-    id                  BIGINT          NOT NULL    AUTO_INCREMENT,
+    id                  VARCHAR(60)     NOT NULL,
     ticker              VARCHAR(50)     NOT NULL,
     ex_dividend_date    DATE            NOT NULL,
     payment_date        DATE            NOT NULL,
     amount              DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
-    portfolio_id        BIGINT          NOT NULL,
+    portfolio_id        VARCHAR(60)     NOT NULL,
     username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
-    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date, amount, portfolio_id)
+    CONSTRAINT uc_dividend_event UNIQUE (ticker, ex_dividend_date, portfolio_id)
 );
 
 /*
@@ -96,16 +97,21 @@ SELECT * FROM dividends;
 SELECT * FROM transactions;
 SELECT * FROM portfolios;
 
-INSERT INTO portfolios VALUES (null, 'name', 'strategy', 'EUR', 'john@email.com')
-INSERT INTO transactions VALUES (id, ticker, trade_date, quantity, price, commission, event_type, portfolio_id, username)
-INSERT INTO transactions VALUES (null, 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', 4, 'bill@email.com')
+INSERT INTO portfolios VALUES ('123456789012345678901234567890123456789012345678901234567890', 'name', 'strategy', 'EUR', 'john@email.com')
+INSERT INTO portfolios VALUES ('123456789012345678901234567890123456789012345678901234567891', 'name', 'strategy', 'EUR', 'bill@email.com')
+INSERT INTO transactions VALUES ('123456789012345678901234567890123456789012345678901234567890', 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', '123456789012345678901234567890123456789012345678901234567890', 'john@email.com')
+INSERT INTO transactions VALUES ('123456789012345678901234567890123456789012345678901234567891', 'BRK-B', '2021-05-27', 500, 200, 2, 'BUY', '123456789012345678901234567890123456789012345678901234567891', 'bill@email.com')
+INSERT INTO dividends VALUES ('123456789012345678901234567890123456789012345678901234567890', 'BRK-B', '2020-01-01', '2020-01-01', 100, 'DIVIDEND', '123456789012345678901234567890123456789012345678901234567890', 'john@email.com')
+INSERT INTO dividends VALUES ('123456789012345678901234567890123456789012345678901234567891', 'BRK-B', '2020-01-01', '2020-01-01', 100, 'DIVIDEND', '123456789012345678901234567890123456789012345678901234567891', 'bill@email.com')
 
 UPDATE dividends SET event_type = 'DIVIDEND';
 UPDATE transactions SET event_type = 'SELL' where event_type = 'Sell'
 UPDATE transactions SET event_type = 'BUY' where event_type = 'Buy'
 
-INSERT INTO dividends VALUES (null, 'BRK-B', '2020-01-01', '2020-01-01', 100, 'Dividend', 4, 'bill@email.com')
-
-UPDATE transactions SET event_type = 'Buy' WHERE event_type = 'BUY'
-
 DELETE FROM dividends;
+DELETE FROM transactions;
+DELETE FROM portfolios;
+
+DROP TABLE dividends;
+DROP TABLE transactions;
+DROP TABLE portfolios;

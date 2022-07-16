@@ -1,5 +1,8 @@
 package portfolioTracker.dividend.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.dto.eventType.EventType;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -11,11 +14,14 @@ import java.time.LocalDate;
 
 @Validated
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DividendDtoUpdateRequest {
 
-    @NotNull
-    @NumberFormat
-    private Long id;
+    @NotBlank
+    @Size(max = 60, message = "max 60 characters")
+    private String id;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")
     private String ticker;
@@ -31,10 +37,9 @@ public class DividendDtoUpdateRequest {
     private BigDecimal amount;
     @NotNull
     private EventType type;
-    @NotNull
-    @NumberFormat
-    @Positive
-    private Long portfolioId;
+    @NotBlank
+    @Size(max = 60, message = "max 60 characters")
+    private String portfolioId;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")
     private String username;

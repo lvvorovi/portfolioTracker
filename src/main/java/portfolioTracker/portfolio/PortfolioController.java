@@ -29,7 +29,7 @@ public class PortfolioController {
     private final PortfolioService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<PortfolioDtoResponse> findById(@PathVariable Long id,
+    public ResponseEntity<PortfolioDtoResponse> findById(@PathVariable String id,
                                                          @Nullable @RequestParam Boolean includeEvents) {
         PortfolioDtoResponse response;
         if (includeEvents == null || !includeEvents) {
@@ -47,12 +47,10 @@ public class PortfolioController {
         List<PortfolioDtoResponse> portfolioResponseList;
         if (includeEvents == null || !includeEvents) {
             portfolioResponseList = service.findAllSkipEvents();
-            portfolioResponseList.parallelStream()
-                    .forEach(this::addSelfRelLink);
+            portfolioResponseList.forEach(this::addSelfRelLink);
         } else {
-            portfolioResponseList = service.findAllWithEvents().parallelStream()
-                    .peek(this::addSelfRelLinkInclEvents)
-                    .toList();
+            portfolioResponseList = service.findAllWithEvents();
+            portfolioResponseList.forEach(this::addSelfRelLinkInclEvents);
         }
         return ResponseEntity.ok(portfolioResponseList);
     }
@@ -72,7 +70,7 @@ public class PortfolioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable String id) {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -85,9 +83,7 @@ public class PortfolioController {
     }
 
     private void addSelfRelLinkInclEvents(PortfolioDtoResponse responseDto) {
-        responseDto.add(linkTo(methodOn(PortfolioController.class)
-                .findById(responseDto.getId(), null))
-                .withSelfRel());
+        addSelfRelLink(responseDto);
 
         responseDto.getDividendList().forEach(dto ->
                 dto.add(linkTo(methodOn(DividendController.class)
@@ -96,7 +92,6 @@ public class PortfolioController {
         responseDto.getTransactionList().forEach(dto ->
                 dto.add(WebMvcLinkBuilder.linkTo(methodOn(TransactionController.class)
                         .findById(dto.getId())).withSelfRel()));
-
     }
 
 }

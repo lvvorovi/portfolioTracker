@@ -19,11 +19,11 @@ public interface PortfolioRepository {
 
     List<PortfolioEntity> findAll();
 
-    Optional<PortfolioEntity> findById(Long id);
+    Optional<PortfolioEntity> findById(String id);
 
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    Optional<PortfolioEntity> findByIdSkipEvents(Long id);
+    Optional<PortfolioEntity> findByIdSkipEvents(String id);
 
     List<PortfolioEntity> findAllSKipEvents();
 }

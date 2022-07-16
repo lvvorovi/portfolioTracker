@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface JpaTransactionRepositoryImpl extends JpaRepository<TransactionEntity, Long>, TransactionRepository {
+public interface JpaTransactionRepositoryImpl extends JpaRepository<TransactionEntity, String>, TransactionRepository {
 
     @Override
     @Query(value = "SELECT DISTINCT ticker FROM transactions", nativeQuery = true)

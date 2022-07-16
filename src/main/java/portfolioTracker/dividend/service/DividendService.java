@@ -4,11 +4,9 @@ import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreFilter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface DividendService {
@@ -23,14 +21,14 @@ public interface DividendService {
             "@portfolioServiceImpl.isOwner(filterObject.portfolioId)")
     List<DividendDtoResponse> saveAll(List<DividendDtoCreateRequest> requestDtoList);
 
-    @PostFilter("filterObject.username == authentication.name")
-    ArrayList<DividendDtoResponse> findAll();
+    @PreAuthorize("#username == authentication.name")
+    List<DividendDtoResponse> findAllByUsername(String username);
 
     @PostAuthorize("returnObject.username == authentication.name")
-    DividendDtoResponse findById(Long id);
+    DividendDtoResponse findById(String id);
 
     @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
-    List<DividendDtoResponse> findAllByPortfolioId(Long id);
+    List<DividendDtoResponse> findAllByPortfolioId(String id);
 
     @PreAuthorize("#requestDto.username == authentication.name" +
             " && " +
@@ -38,7 +36,7 @@ public interface DividendService {
     DividendDtoResponse update(DividendDtoUpdateRequest requestDto);
 
     @PreAuthorize("@dividendServiceImpl.isOwner(#id)")
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    boolean isOwner(Long id);
+    boolean isOwner(String id);
 }

@@ -24,15 +24,15 @@ public interface TransactionService {
     List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList);
 
     @PostAuthorize("returnObject.username == authentication.name")
-    TransactionDtoResponse findById(Long id);
+    TransactionDtoResponse findById(String id);
 
     @PostFilter("filterObject.username == authentication.name")
     ArrayList<TransactionDtoResponse> findAll();
 
     @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
-    List<TransactionDtoResponse> findAllByPortfolioId(Long id);
+    List<TransactionDtoResponse> findAllByPortfolioId(String id);
 
-    Boolean existsById(Long id);
+    Boolean existsById(String id);
 
    List<String> findAllUniqueTickers();
 
@@ -44,7 +44,7 @@ public interface TransactionService {
     TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto);
 
     @PreAuthorize("@transactionServiceImpl.isOwner(#id)")
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    boolean isOwner(Long id);
+    boolean isOwner(String id);
 }

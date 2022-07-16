@@ -48,7 +48,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDtoResponse findById(Long id) {
+    public TransactionDtoResponse findById(String id) {
         TransactionEntity entity = repository.findById(id)
                 .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id));
         return mapper.toDto(entity);
@@ -62,14 +62,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDtoResponse> findAllByPortfolioId(Long id) {
+    public List<TransactionDtoResponse> findAllByPortfolioId(String id) {
         return repository.findAllByPortfolioId(id).parallelStream()
                 .map(mapper::toDto)
                 .toList();
     }
 
     @Override
-    public Boolean existsById(Long id) {
+    public Boolean existsById(String id) {
         return repository.existsById(id);
     }
 
@@ -96,12 +96,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 
     @Override
-    public boolean isOwner(Long id) {
+    public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
                 .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id))

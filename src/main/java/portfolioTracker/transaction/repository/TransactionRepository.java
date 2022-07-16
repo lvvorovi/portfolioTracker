@@ -11,13 +11,13 @@ public interface TransactionRepository {
 
     TransactionEntity save(TransactionEntity entity);
 
-    Optional<TransactionEntity> findById(Long id);
+    Optional<TransactionEntity> findById(String id);
 
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    boolean existsById(Long id);
+    boolean existsById(String id);
 
     List<TransactionEntity> findAll();
 
-    List<TransactionEntity> findAllByPortfolioId(Long id);
+    List<TransactionEntity> findAllByPortfolioId(String id);
 }

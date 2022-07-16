@@ -1,8 +1,7 @@
 package portfolioTracker.transaction.dto;
 
+import lombok.*;
 import portfolioTracker.dto.eventType.EventType;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
@@ -14,12 +13,13 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Validated
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionDtoResponse extends RepresentationModel<TransactionDtoResponse> {
 
-    @NotNull
-    @NumberFormat
-    @Positive
-    private Long id;
+    @NotBlank
+    private String id;
     @NotBlank
     private String ticker;
     @NotNull
@@ -39,10 +39,8 @@ public class TransactionDtoResponse extends RepresentationModel<TransactionDtoRe
     private BigDecimal commission;
     @NotNull
     private EventType type;
-    @NotNull
-    @NumberFormat
-    @Positive
-    private Long portfolioId;
+    @NotBlank
+    private String portfolioId;
     @NotBlank
     private String username;
 }

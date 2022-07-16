@@ -3,12 +3,16 @@ package portfolioTracker.dividend;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,14 +22,12 @@ import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.service.DividendService;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.util.JsonUtil;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,11 +38,16 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static portfolioTracker.dto.eventType.EventType.DIVIDEND;
+import static portfolioTracker.dividend.DividendTestUtil.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest({DividendController.class, JsonUtil.class, JavaTimeModule.class})
+@ExtendWith(OutputCaptureExtension.class)
+@ActiveProfiles("logging-test")
 class DividendControllerTest {
+
+    private final String id = "id";
+    private final String username = "user";
 
     @Autowired
     private MockMvc mvc;
@@ -52,7 +59,7 @@ class DividendControllerTest {
     @Test
     void findById_whenNotAuthenticated_thenStatus401() throws Exception {
         mvc.perform(get(linkTo(methodOn(DividendController.class)
-                        .findById(1L)).toUri())
+                        .findById(id)).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(401));
@@ -62,7 +69,7 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void findById_whenId_thenReturnJson_andStatus200() throws Exception {
+    void findById_whenId_thenReturnJson_andStatus200(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoResponse response = newDividendResponseDto(entity);
         when(service.findById(entity.getId())).thenReturn(response);
@@ -80,48 +87,33 @@ class DividendControllerTest {
         String responseBody = result.getResponse().getContentAsString();
         assertEquals(response, jsonUtil.jsonToDividendDtoResponseIgnoreLinks(responseBody));
         verify(service, times(1)).findById(entity.getId());
+        assertOutputForLogging(output);
+        verifyNoMoreInteractions(service);
     }
-
-/*    @WithMockUser
-    @Test
-    void findById_whenIllegalId_thenStatus400() throws Exception {
-        MvcResult result = mvc.perform(get("http://localhost:8080/api/v1/dividends/abc")
-                        .with(csrf())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
-                .andReturn();
-
-        String resultBody = result.getResponse().getContentAsString();
-        assertTrue(resultBody.contains("errorMessage"));
-        verifyNoInteractions(service);
-    }*/ //TODO refactor IDs to UUID
 
     @Test
     void findAll_whenNotAuthenticated_thenStatus401() throws Exception {
-        MvcResult result = mvc
-                .perform(get(linkTo(methodOn(DividendController.class)
-                        .findAll(null)).toUri())
+        MvcResult result = mvc.perform(get(linkTo(DividendController.class).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(401))
                 .andReturn();
 
         String body = result.getResponse().getContentAsString();
-        assertEquals("", body);
+        assertEquals(Strings.EMPTY, body);
         verifyNoInteractions(service);
     }
 
-    @WithMockUser
+    @WithMockUser(username = username)
     @Test
-    void findAll_whenAuthenticated_thenReturnJsonArray_andStatus200() throws Exception {
+    void findAll_whenAuthenticated_thenReturnJsonArray_andStatus200(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoResponse response = newDividendResponseDto(entity);
         ArrayList<DividendDtoResponse> dividendList = newDividendDtoResponseList(response);
-        when(service.findAll()).thenReturn(dividendList);
+        when(service.findAllByUsername(username)).thenReturn(dividendList);
 
         MvcResult result = mvc
-                .perform(get(linkTo(methodOn(DividendController.class)
-                        .findAll(null)).toUri())
+                .perform(get(linkTo(DividendController.class).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -142,22 +134,22 @@ class DividendControllerTest {
 
         String body = result.getResponse().getContentAsString();
         assertEquals(dividendList, jsonUtil.jsonToDividendDtoResponseList(body));
-        verify(service, times(1)).findAll();
+        verify(service, times(1)).findAllByUsername(username);
+        assertOutputForLogging(output);
     }
 
     @WithMockUser
     @Test
-    void findAll_whenAuthenticated_andPortfolioIdParam_thenReturnJsonArray_andStatus200() throws Exception {
+    void findAll_whenAuthenticated_andPortfolioIdParam_thenReturnJsonArray_andStatus200(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoResponse response = newDividendResponseDto(entity);
         ArrayList<DividendDtoResponse> dividendList = newDividendDtoResponseList(response);
         when(service.findAllByPortfolioId(entity.getPortfolio().getId())).thenReturn(dividendList);
 
         MvcResult result = mvc
-                .perform(get(linkTo(methodOn(DividendController.class)
-                        .findAll(null)).toUri())
+                .perform(get(linkTo(DividendController.class).toUri())
                         .with(csrf())
-                        .param("portfolioId", entity.getPortfolio().getId().toString())
+                        .param("portfolioId", entity.getPortfolio().getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
 
@@ -178,6 +170,7 @@ class DividendControllerTest {
         String body = result.getResponse().getContentAsString();
         assertEquals(dividendList, jsonUtil.jsonToDividendDtoResponseList(body));
         verify(service, times(1)).findAllByPortfolioId(entity.getPortfolio().getId());
+        assertOutputForLogging(output);
     }
 
     @Test
@@ -185,8 +178,7 @@ class DividendControllerTest {
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest request = newDividendDtoCreateRequest(entity);
 
-        MvcResult result = mvc.perform(post(linkTo(methodOn(DividendController.class)
-                        .save(request)).toUri())
+        MvcResult result = mvc.perform(post(linkTo(DividendController.class).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUtil.objectToJson(request)))
@@ -200,14 +192,27 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void save_whenDto_thenReturnJson_andStatus201() throws Exception {
+    void save_whenIllegalDto_thenValidates_andReturns400(CapturedOutput output) throws Exception {
+        DividendDtoCreateRequest illegalRequest = new DividendDtoCreateRequest();
+        mvc.perform(post(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .content(jsonUtil.objectToJson(illegalRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        verifyNoInteractions(service);
+        assertOutputForLogging(output);
+    }
+
+    @WithMockUser
+    @Test
+    void save_whenDto_thenReturnJson_andStatus201(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest request = newDividendDtoCreateRequest(entity);
         DividendDtoResponse response = newDividendResponseDto(entity);
         when(service.save(request)).thenReturn(response);
 
-        MvcResult result = mvc.perform(post(linkTo(methodOn(DividendController.class)
-                        .save(request)).toUri())
+        MvcResult result = mvc.perform(post(linkTo(DividendController.class).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUtil.objectToJson(request)))
@@ -219,6 +224,7 @@ class DividendControllerTest {
         String resultBody = result.getResponse().getContentAsString();
         assertEquals(response, jsonUtil.jsonToDividendDtoResponseIgnoreLinks(resultBody));
         verify(service, times(1)).save(request);
+        assertOutputForLogging(output);
     }
 
     @Test
@@ -237,7 +243,7 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void saveAll_whenDto_thenReturnJson_andStatus201() throws Exception {
+    void saveAll_whenDto_thenReturnJson_andStatus201(CapturedOutput output) throws Exception {
         DividendDtoCreateRequest request = newDividendDtoCreateRequest(newDividendEntity());
         DividendDtoResponse response = newDividendResponseDto(newDividendEntity());
         ValidList<DividendDtoCreateRequest> requestList = newDividendDtoCreateList(request);
@@ -245,7 +251,8 @@ class DividendControllerTest {
         when(service.saveAll(requestList)).thenReturn(responseList);
 
         MvcResult result = mvc.perform(post(linkTo(methodOn(DividendController.class)
-                        .saveAll(requestList)).toUri())
+                        .saveAll(any()))
+                        .toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUtil.objectToJson(requestList)))
@@ -267,12 +274,14 @@ class DividendControllerTest {
         String body = result.getResponse().getContentAsString();
         assertEquals(responseList, jsonUtil.jsonToDividendDtoResponseList(body));
         verify(service, times(1)).saveAll(requestList);
+        verifyNoMoreInteractions(service);
+        assertOutputForLogging(output);
     }
 
     @Test
     void deleteById_whenNotAuthenticated_thenStatus401() throws Exception {
         MvcResult result = mvc.perform(delete(linkTo(methodOn(DividendController.class)
-                        .deleteById(1L)).toUri())
+                        .deleteById(id)).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(401))
@@ -285,8 +294,7 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void deleteById_whenDto_thenDelegateToService_andStatus204() throws Exception {
-        Long id = 1L;
+    void deleteById_whenId_thenDelegateToService_andStatus204(CapturedOutput output) throws Exception {
         doNothing().when(service).deleteById(id);
         MvcResult result = mvc.perform(delete(linkTo(methodOn(DividendController.class)
                         .deleteById(id)).toUri())
@@ -297,13 +305,14 @@ class DividendControllerTest {
         String resultBody = result.getResponse().getContentAsString();
         assertEquals(Strings.EMPTY, resultBody);
         verify(service, times(1)).deleteById(id);
+        verifyNoMoreInteractions(service);
+        assertOutputForLogging(output);
     }
 
     @Test
     void update_whenNotAuthenticated_thenStatus401() throws Exception {
         DividendDtoUpdateRequest request = newDividendDtoUpdateRequest(newDividendEntity());
-        MvcResult result = mvc.perform(put(linkTo(methodOn(DividendController.class)
-                        .update(request)).toUri())
+        MvcResult result = mvc.perform(put(linkTo(DividendController.class).toUri())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUtil.objectToJson(request)))
@@ -317,17 +326,16 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void update_whenDto_thenDelegateToService_andStatus200() throws Exception {
+    void update_whenDto_thenDelegateToService_andStatus200(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoUpdateRequest request = newDividendDtoUpdateRequest(entity);
         DividendDtoResponse response = newDividendResponseDto(entity);
         when(service.update(request)).thenReturn(response);
 
-        MvcResult result = mvc.perform(put(linkTo(methodOn(DividendController.class)
-                .update(request)).toUri())
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonUtil.objectToJson(request)))
+        MvcResult result = mvc.perform(put(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
                 .andExpect(status().is(200))
 
                 .andExpect(jsonPath("$._links.self.href", is("http://localhost" +
@@ -338,85 +346,116 @@ class DividendControllerTest {
         String resultBody = result.getResponse().getContentAsString();
         assertEquals(response, jsonUtil.jsonToDividendDtoResponseIgnoreLinks(resultBody));
         verify(service, times(1)).update(request);
+        verifyNoMoreInteractions(service);
+        assertOutputForLogging(output);
     }
 
-    private DividendEntity newDividendEntity() {
-        DividendEntity entity = new DividendEntity();
-        entity.setId(1L);
-        entity.setUsername("john@email.com");
-        entity.setPortfolio(newPortfolioEntity());
-        entity.setAmount(new BigDecimal(100));
-        entity.setDate(LocalDate.now());
-        entity.setTicker("BRK-B");
-        entity.setExDate(LocalDate.now().minusDays(2));
-        entity.setType(DIVIDEND);
-        return entity;
+    @WithMockUser
+    @Test
+    void save_whenAllFieldsNull_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoCreateRequest request = newAllFieldsNullCreateRequest();
+
+        MvcResult result = mvc.perform(post(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        saveRequestAllFieldsNullErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private DividendDtoUpdateRequest newDividendDtoUpdateRequest(DividendEntity entity) {
-        DividendDtoUpdateRequest dto = new DividendDtoUpdateRequest();
-        dto.setAmount(entity.getAmount());
-        dto.setDate(entity.getDate());
-        dto.setId(entity.getId());
-        dto.setTicker(entity.getTicker());
-        dto.setType(entity.getType());
-        dto.setPortfolioId(entity.getPortfolio().getId());
-        dto.setUsername(entity.getUsername());
-        dto.setExDate(entity.getExDate());
-        return dto;
+    @WithMockUser
+    @Test
+    void save_whenBlankFields_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoCreateRequest request = newTickerBlankCreateRequest();
+
+        MvcResult result = mvc.perform(post(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        saveTickerBlankRequestErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private DividendDtoCreateRequest newDividendDtoCreateRequest(DividendEntity entity) {
-        DividendDtoCreateRequest dto = new DividendDtoCreateRequest();
-        dto.setAmount(entity.getAmount());
-        dto.setDate(entity.getDate());
-        dto.setUsername(entity.getUsername());
-        dto.setExDate(entity.getExDate());
-        dto.setTicker(entity.getTicker());
-        dto.setPortfolioId(entity.getPortfolio().getId());
-        dto.setType(entity.getType());
-        return dto;
+    @WithMockUser
+    @Test
+    void save_whenTooLongFields_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoCreateRequest request = newTickerTooLongCreateRequest();
+
+        MvcResult result = mvc.perform(post(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        saveTickerTooLongRequestErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private DividendDtoResponse newDividendResponseDto(DividendEntity entity) {
-        DividendDtoResponse dto = new DividendDtoResponse();
-        dto.setId(entity.getId());
-        dto.setAmount(entity.getAmount());
-        dto.setUsername(entity.getUsername());
-        dto.setDate(entity.getDate());
-        dto.setTicker(entity.getTicker());
-        dto.setExDate(entity.getExDate());
-        dto.setType(entity.getType());
-        dto.setPortfolioId(entity.getPortfolio().getId());
-        return dto;
+    @WithMockUser
+    @Test
+    void update_whenAllFieldsNull_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoUpdateRequest request = newAllFieldsNullUpdateRequest();
+
+        MvcResult result = mvc.perform(put(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        allFieldsNullUpdateRequestErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private ArrayList<DividendDtoResponse> newDividendDtoResponseList(DividendDtoResponse response) {
-        ArrayList<DividendDtoResponse> dividendList = new ArrayList<>();
-        dividendList.add(response);
-        dividendList.add(response);
-        dividendList.add(response);
-        return dividendList;
+    @WithMockUser
+    @Test
+    void update_whenBlankFields_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoUpdateRequest request = newFieldsBlankUpdateRequest();
+
+        MvcResult result = mvc.perform(put(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        fieldsBlankUpdateRequestErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private ValidList<DividendDtoCreateRequest> newDividendDtoCreateList(DividendDtoCreateRequest request) {
-        ValidList<DividendDtoCreateRequest> dividendList = new ValidList<>();
-        dividendList.add(request);
-        dividendList.add(request);
-        dividendList.add(request);
-        return dividendList;
+    @WithMockUser
+    @Test
+    void update_whenTooLongFields_thenErrorMessage_andStatus400() throws Exception {
+        DividendDtoUpdateRequest request = newTooLongFieldsUpdateRequest();
+
+        MvcResult result = mvc.perform(put(linkTo(DividendController.class).toUri())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonUtil.objectToJson(request)))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        String resultBody = result.getResponse().getContentAsString();
+        tooLongFieldsUpdateRequestErrorMessageList().forEach(message -> assertTrue(resultBody.contains(message)));
+        verifyNoInteractions(service);
     }
 
-    private PortfolioEntity newPortfolioEntity() {
-        PortfolioEntity entity = new PortfolioEntity();
-        entity.setId(1L);
-        entity.setDividendEntityList(null);
-        entity.setTransactionEntityList(null);
-        entity.setUsername("john@email.com");
-        entity.setCurrency("EUR");
-        entity.setName("portfolioName");
-        entity.setStrategy("portfolioStrategy");
-        return entity;
+    private void assertOutputForLogging(CapturedOutput output) {
+        assertThat(output.toString()).contains("INFO");
+        assertThat(output.toString()).contains("MyLoggerFilter");
+        assertThat(output.toString()).contains("Request id");
     }
 
 

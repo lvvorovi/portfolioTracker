@@ -1,5 +1,8 @@
 package portfolioTracker.transaction.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.dto.eventType.EventType;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -11,10 +14,13 @@ import java.time.LocalDate;
 
 @Data
 @Validated
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionDtoUpdateRequest {
 
-    @NotNull
-    private Long id;
+    @NotBlank
+    private String id;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")
     private String ticker;
@@ -35,9 +41,8 @@ public class TransactionDtoUpdateRequest {
     private BigDecimal commission;
     @NotNull
     private EventType type;
-    @NotNull
-    @NumberFormat
-    private Long portfolioId;
+    @NotBlank
+    private String portfolioId;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")
     private String username;

@@ -1,5 +1,8 @@
 package portfolioTracker.portfolio.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.core.validation.annotation.Currency;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +12,9 @@ import javax.validation.constraints.Size;
 
 @Data
 @Validated
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioDtoCreateRequest {
 
     @NotBlank

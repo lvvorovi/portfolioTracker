@@ -1,24 +1,23 @@
 package portfolioTracker.dividend.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import portfolioTracker.dividend.domain.DividendEntity;
+import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.mapper.DividendMapper;
 import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.dividend.validation.DividendValidationService;
-import portfolioTracker.dividend.validation.exception.DividendNotFoundException;
-import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundException;
-import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
+import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
+import portfolioTracker.dividend.validation.exception.PortfolioNotFoundDividendException;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.repository.PortfolioRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -33,9 +32,11 @@ public class DividendServiceImpl implements DividendService {
     public DividendDtoResponse save(DividendDtoCreateRequest requestDto) {
         validationService.validate(requestDto);
         DividendEntity requestEntity = mapper.createToEntity(requestDto);
-        requestEntity.setPortfolio(portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundException(
-                        "Portfolio with requested id not found. id: " + requestDto.getPortfolioId())));
+        PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
+                .orElseThrow(() -> new PortfolioNotFoundDividendException(
+                        "Portfolio not found for: " + requestDto));
+        requestEntity.setPortfolio(portfolioEntity);
+        requestEntity.setId(UUID.randomUUID().toString());
         DividendEntity savedEntity = repository.save(requestEntity);
         return mapper.toDto(savedEntity);
     }
@@ -49,20 +50,22 @@ public class DividendServiceImpl implements DividendService {
     }
 
     @Override
-    public ArrayList<DividendDtoResponse> findAll() {
-        return repository.findAll().parallelStream()
+    public DividendDtoResponse findById(String id) {
+        return repository.findById(id)
                 .map(mapper::toDto)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .orElseThrow(() -> new
+                        DividendNotFoundDividendException("Dividend not found for id:" + id));
     }
 
     @Override
-    public DividendDtoResponse findById(Long id) {
-        return repository.findById(id).map(mapper::toDto).orElseThrow(() -> new
-                DividendNotFoundException("DividendEvent with id " + id + " not found"));
+    public List<DividendDtoResponse> findAllByUsername(String username) {
+        return repository.findAllByUsername(username).parallelStream()
+                .map(mapper::toDto)
+                .toList();
     }
 
     @Override
-    public List<DividendDtoResponse> findAllByPortfolioId(Long id) {
+    public List<DividendDtoResponse> findAllByPortfolioId(String id) {
         return repository.findAllByPortfolioId(id).parallelStream()
                 .map(mapper::toDto)
                 .toList();
@@ -73,24 +76,24 @@ public class DividendServiceImpl implements DividendService {
         validationService.validate(requestDto);
         DividendEntity requestEntity = mapper.updateToEntity(requestDto);
         PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundException("Portfolio not found with id: "
-                        + requestDto.getPortfolioId()));
+                .orElseThrow(() -> new PortfolioNotFoundDividendException("Portfolio not found for: " + requestDto));
         requestEntity.setPortfolio(portfolioEntity);
         DividendEntity savedEntity = repository.save(requestEntity);
         return mapper.toDto(savedEntity);
     }
 
     @Override
-    public void deleteById(Long id) {
-        // No need to verify for existence. Will be verified by this.IsOwner()
+    public void deleteById(String id) {
+        // No need to verify for existence. Will be verified by this.IsOwner(),
+        // called by Spring Security through @PreAuthorize().
         repository.deleteById(id);
     }
 
     @Override
-    public boolean isOwner(Long id) {
+    public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
-                .orElseThrow(() -> new DividendNotFoundException("DividendEntity with id " + id + " not found"))
+                .orElseThrow(() -> new DividendNotFoundDividendException("Dividend not found for id:" + id))
                 .getUsername();
         return principalUsername.equalsIgnoreCase(resourceUsername);
     }

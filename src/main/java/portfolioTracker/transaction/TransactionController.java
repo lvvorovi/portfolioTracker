@@ -28,14 +28,14 @@ public class TransactionController {
     private final TransactionService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionDtoResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<TransactionDtoResponse> findById(@PathVariable String id) {
         TransactionDtoResponse responseDto = service.findById(id);
         addSelfRefToJson(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionDtoResponse>> findAll(@Nullable @RequestParam Long portfolioId) {
+    public ResponseEntity<List<TransactionDtoResponse>> findAll(@Nullable @RequestParam String portfolioId) {
         List<TransactionDtoResponse> responseDtoList;
         if (portfolioId == null) {
             responseDtoList = service.findAll();
@@ -55,8 +55,9 @@ public class TransactionController {
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<TransactionDtoResponse>> saveAll
-            (@Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
+    public ResponseEntity<List<TransactionDtoResponse>> saveAll(
+            @Valid @RequestBody ValidList<TransactionDtoCreateRequest> requestDtoList) {
+
         List<TransactionDtoResponse> responseDtoList = service.saveAll(requestDtoList);
         responseDtoList.forEach(this::addSelfRefToJson);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
@@ -70,7 +71,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@NumberFormat @PathVariable String id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

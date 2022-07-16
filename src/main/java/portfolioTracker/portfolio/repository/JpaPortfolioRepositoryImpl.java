@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntity, Long>, PortfolioRepository {
+public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntity, String>, PortfolioRepository {
 
     @Override
     Boolean existsByName(String name);
@@ -25,7 +25,7 @@ public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntit
     @Override
     @Query(value = "SELECT id, name, strategy, currency, username FROM portfolios WHERE id= :id",
             nativeQuery = true)
-    Optional<PortfolioEntity> findByIdSkipEvents(@Param("id") Long id);
+    Optional<PortfolioEntity> findByIdSkipEvents(@Param("id") String id);
 
     @Override
     @Query(value = "SELECT id, name, strategy, currency, username FROM portfolios",
