@@ -8,23 +8,21 @@ import java.util.Optional;
 
 public interface DividendRepository {
 
-    Optional<DividendEntity> findByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, Long portfolioId);
+    Optional<DividendEntity> findByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, String portfolioId);
 
     List<DividendEntity> findAllByTicker(String ticker);
 
-    boolean existsByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, Long portfolioId);
+    boolean existsByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, String portfolioId);
 
     DividendEntity save(DividendEntity toEntity);
 
-    List<DividendEntity> findAll();
+    List<DividendEntity> findAllByUsername(String username);
 
-    Optional<DividendEntity> findById(Long id);
+    Optional<DividendEntity> findById(String id);
 
-    List<DividendEntity> findAllByPortfolioId(Long id);
+    List<DividendEntity> findAllByPortfolioId(String id);
 
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    void deleteAll();
-
-    boolean existsById(Long id);
+    boolean existsById(String id);
 }

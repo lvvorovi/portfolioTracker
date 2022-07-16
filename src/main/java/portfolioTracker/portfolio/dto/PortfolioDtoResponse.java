@@ -1,11 +1,10 @@
 package portfolioTracker.portfolio.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.core.validation.annotation.Currency;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,10 +17,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Validated
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioDtoResponse extends RepresentationModel<PortfolioDtoResponse> {
 
-    @NotNull
-    private Long id;
+    @NotBlank
+    private String id;
     @NotBlank
     private String name;
     @NotBlank

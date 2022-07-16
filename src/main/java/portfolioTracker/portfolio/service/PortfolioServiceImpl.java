@@ -31,7 +31,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final DividendRepository dividendRepository;
 
     @Override
-    public PortfolioDtoResponse findByIdSkipEvents(Long id) {
+    public PortfolioDtoResponse findByIdSkipEvents(String id) {
         PortfolioEntity entity = repository.findByIdSkipEvents(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
@@ -39,7 +39,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public PortfolioDtoResponse findByIdWithEvents(Long id) {
+    public PortfolioDtoResponse findByIdWithEvents(String id) {
         PortfolioEntity entity = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
                         + id + " was not found"));
@@ -81,13 +81,13 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         // No need to check for existence. Done by Spring Security through this.isOwner()
         repository.deleteById(id);
     }
 
     @Override
-    public boolean isOwner(Long id) {
+    public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException(

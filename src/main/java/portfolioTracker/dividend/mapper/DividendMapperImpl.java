@@ -7,7 +7,7 @@ import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomDividendMapper implements DividendMapper {
+public class DividendMapperImpl implements DividendMapper {
 
     @Override
     public DividendEntity updateToEntity(DividendDtoUpdateRequest dto) {

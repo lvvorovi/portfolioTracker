@@ -1,5 +1,8 @@
 package portfolioTracker.portfolio.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.core.validation.annotation.Currency;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.transaction.domain.TransactionEntity;
@@ -14,11 +17,13 @@ import java.util.List;
 @Validated
 @Entity
 @Table(name = "portfolios")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @NotBlank
     @Column(name = "name")
     private String name;

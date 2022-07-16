@@ -5,6 +5,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import portfolioTracker.core.ValidList;
@@ -28,19 +29,18 @@ public class DividendController {
     private final DividendService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<DividendDtoResponse> findById(@NumberFormat @PathVariable Long id) {
+    public ResponseEntity<DividendDtoResponse> findById(@PathVariable String id) {
         DividendDtoResponse responseDto = service.findById(id);
         addSelfRefToJson(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<DividendDtoResponse>> findAll(@Nullable
-                                                             @NumberFormat
-                                                             @RequestParam Long portfolioId) {
+    public ResponseEntity<List<DividendDtoResponse>> findAll(@Nullable @RequestParam String portfolioId,
+                                                             Authentication authentication) {
         List<DividendDtoResponse> responseDtoList;
         if (portfolioId == null) {
-            responseDtoList = service.findAll();
+            responseDtoList = service.findAllByUsername(authentication.getName());
             responseDtoList.forEach(this::addSelfRefToJson);
         } else {
             responseDtoList = service.findAllByPortfolioId(portfolioId);
@@ -65,7 +65,7 @@ public class DividendController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@NumberFormat @PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable String id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

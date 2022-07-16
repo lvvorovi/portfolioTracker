@@ -1,5 +1,8 @@
 package portfolioTracker.dividend.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.dto.eventType.EventType;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import lombok.Data;
@@ -19,12 +22,14 @@ import java.time.LocalDate;
 @Validated
 @Entity
 @Table(name = "dividends")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DividendEntity implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private String id;
     @NotBlank
     @Column(name = "ticker")
     private String ticker;

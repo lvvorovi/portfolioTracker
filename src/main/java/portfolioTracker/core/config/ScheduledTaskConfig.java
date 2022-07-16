@@ -1,15 +1,15 @@
 package portfolioTracker.core.config;
 
-import portfolioTracker.portfolio.service.PortfolioService;
-import portfolioTracker.dto.currency.service.CurrencyService;
-import portfolioTracker.dto.ticker.service.TickerService;
-import portfolioTracker.transaction.service.TransactionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import portfolioTracker.dto.currency.service.CurrencyService;
+import portfolioTracker.dto.ticker.service.TickerService;
+import portfolioTracker.portfolio.service.PortfolioService;
+import portfolioTracker.transaction.service.TransactionService;
 
 import java.time.LocalDate;
 import java.util.List;

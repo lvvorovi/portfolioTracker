@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface JpaDividendRepositoryImpl extends JpaRepository<DividendEntity, Long>, DividendRepository {
+public interface JpaDividendRepositoryImpl extends JpaRepository<DividendEntity, String>, DividendRepository {
 
     @Override
-    Optional<DividendEntity> findByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, Long portfolioId);
+    Optional<DividendEntity> findByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, String portfolioId);
 
     @Override
     List<DividendEntity> findAllByTicker(String ticker);
 
     @Override
-    boolean existsByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, Long portfolioId);
+    boolean existsByTickerAndExDateAndPortfolioId(String ticker, LocalDate exDate, String portfolioId);
 
 }

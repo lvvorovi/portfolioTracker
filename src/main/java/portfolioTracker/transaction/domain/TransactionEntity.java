@@ -1,5 +1,8 @@
 package portfolioTracker.transaction.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.dto.eventType.EventType;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import lombok.Data;
@@ -15,11 +18,13 @@ import java.time.LocalDate;
 @Validated
 @Entity
 @Table(name = "transactions")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @NotBlank
     @Column(name = "ticker")
     private String ticker;

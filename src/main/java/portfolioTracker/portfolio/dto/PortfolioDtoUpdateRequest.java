@@ -1,5 +1,8 @@
 package portfolioTracker.portfolio.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import portfolioTracker.core.validation.annotation.Currency;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -11,11 +14,13 @@ import javax.validation.constraints.Size;
 
 @Data
 @Validated
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PortfolioDtoUpdateRequest {
 
-    @NotNull
-    @NumberFormat
-    private Long id;
+    @NotBlank
+    private String id;
     @NotBlank
     @Size(min = 3, max = 50, message = "length 3 to 50 characters")
     private String name;

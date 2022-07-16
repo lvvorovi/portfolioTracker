@@ -13,10 +13,10 @@ import java.util.List;
 public interface PortfolioService {
 
     @PostAuthorize("returnObject.username == authentication.name")
-    PortfolioDtoResponse findByIdSkipEvents(Long id);
+    PortfolioDtoResponse findByIdSkipEvents(String id);
 
     @PostAuthorize("returnObject.username == authentication.name")
-    PortfolioDtoResponse findByIdWithEvents(Long id);
+    PortfolioDtoResponse findByIdWithEvents(String id);
 
     @PostFilter("filterObject.username == authentication.name")
     ArrayList<PortfolioDtoResponse> findAllWithEvents();
@@ -31,9 +31,9 @@ public interface PortfolioService {
     PortfolioDtoResponse update(PortfolioDtoUpdateRequest requestDto);
 
     @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
-    void deleteById(Long id);
+    void deleteById(String id);
 
-    boolean isOwner(Long id);
+    boolean isOwner(String id);
 
     List<String> findAllPortfolioCurrencies();
 }
