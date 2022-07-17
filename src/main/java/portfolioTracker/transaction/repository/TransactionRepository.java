@@ -17,7 +17,7 @@ public interface TransactionRepository {
 
     boolean existsById(String id);
 
-    List<TransactionEntity> findAll();
+    List<TransactionEntity> findAllByUsername(String username);
 
     List<TransactionEntity> findAllByPortfolioId(String id);
 }

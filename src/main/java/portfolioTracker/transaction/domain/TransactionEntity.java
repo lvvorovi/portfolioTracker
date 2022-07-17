@@ -2,12 +2,12 @@ package portfolioTracker.transaction.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import portfolioTracker.dto.eventType.EventType;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.dto.eventType.EventType;
+import portfolioTracker.portfolio.domain.PortfolioEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;

@@ -1,11 +1,11 @@
 package portfolioTracker.dividend.validation.rule;
 
-import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.validation.exception.TickerNotSupportedDividendException;
-import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
-import portfolioTracker.dto.ticker.service.TickerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
+import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
+import portfolioTracker.dividend.validation.exception.TickerNotSupportedDividendException;
+import portfolioTracker.dto.ticker.service.TickerService;
 
 import javax.annotation.Priority;
 

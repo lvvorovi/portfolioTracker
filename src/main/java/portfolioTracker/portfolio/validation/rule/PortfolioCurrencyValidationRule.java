@@ -1,11 +1,11 @@
 package portfolioTracker.portfolio.validation.rule;
 
-import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
-import portfolioTracker.dto.currency.service.CurrencyService;
-import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
-import portfolioTracker.portfolio.validation.exception.PortfolioCurrencyException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import portfolioTracker.dto.currency.service.CurrencyService;
+import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
+import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
+import portfolioTracker.portfolio.validation.exception.PortfolioCurrencyException;
 
 import javax.annotation.Priority;
 

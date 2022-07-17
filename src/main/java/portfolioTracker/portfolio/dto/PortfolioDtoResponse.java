@@ -2,14 +2,13 @@ package portfolioTracker.portfolio.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import portfolioTracker.dividend.dto.DividendDtoResponse;
-import portfolioTracker.core.validation.annotation.Currency;
-import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.validation.annotation.Currency;
+import portfolioTracker.dividend.dto.DividendDtoResponse;
+import portfolioTracker.transaction.dto.TransactionDtoResponse;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;

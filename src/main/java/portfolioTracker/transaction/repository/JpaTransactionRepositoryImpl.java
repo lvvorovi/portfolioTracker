@@ -1,8 +1,8 @@
 package portfolioTracker.transaction.repository;
 
-import portfolioTracker.transaction.domain.TransactionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import portfolioTracker.transaction.domain.TransactionEntity;
 
 import java.util.List;
 

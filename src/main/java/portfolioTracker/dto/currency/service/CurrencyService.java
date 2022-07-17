@@ -1,8 +1,8 @@
 package portfolioTracker.dto.currency.service;
 
-import portfolioTracker.dto.currency.CurrencyRateDto;
-import portfolioTracker.core.validation.annotation.Currency;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.validation.annotation.Currency;
+import portfolioTracker.dto.currency.CurrencyRateDto;
 
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;

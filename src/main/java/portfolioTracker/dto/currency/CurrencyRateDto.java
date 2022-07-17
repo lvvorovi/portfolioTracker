@@ -1,9 +1,9 @@
 package portfolioTracker.dto.currency;
 
-import portfolioTracker.core.validation.annotation.Currency;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.validation.annotation.Currency;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;

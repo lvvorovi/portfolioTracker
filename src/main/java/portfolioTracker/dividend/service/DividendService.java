@@ -1,11 +1,11 @@
 package portfolioTracker.dividend.service;
 
-import portfolioTracker.dividend.dto.DividendDtoResponse;
-import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreFilter;
+import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
+import portfolioTracker.dividend.dto.DividendDtoResponse;
+import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
 import java.util.List;
 

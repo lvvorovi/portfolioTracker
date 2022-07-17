@@ -1,15 +1,9 @@
 package portfolioTracker.dividend.dto;
 
 import lombok.*;
-import portfolioTracker.dto.eventType.EventType;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.validation.annotation.Validated;
+import portfolioTracker.dto.eventType.EventType;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

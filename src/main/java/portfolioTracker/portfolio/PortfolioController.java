@@ -1,11 +1,5 @@
 package portfolioTracker.portfolio;
 
-import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
-import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
-import portfolioTracker.portfolio.service.PortfolioService;
-import portfolioTracker.transaction.TransactionController;
-import portfolioTracker.dividend.DividendController;
-import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -13,6 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import portfolioTracker.dividend.DividendController;
+import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
+import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
+import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
+import portfolioTracker.portfolio.service.PortfolioService;
+import portfolioTracker.transaction.TransactionController;
 
 import javax.validation.Valid;
 import java.util.List;

@@ -1,7 +1,7 @@
 package portfolioTracker.portfolio.validation.exception;
 
-import portfolioTracker.core.validation.ValidationException;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.validation.ValidationException;
 
 import javax.validation.constraints.NotEmpty;
 
