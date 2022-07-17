@@ -1,10 +1,10 @@
 package portfolioTracker.transaction.validation;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 import portfolioTracker.transaction.validation.rule.TransactionValidationRule;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

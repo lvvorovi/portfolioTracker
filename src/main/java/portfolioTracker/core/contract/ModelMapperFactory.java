@@ -1,9 +1,9 @@
 package portfolioTracker.core.contract;
 
+import org.springframework.validation.annotation.Validated;
 import portfolioTracker.dividend.mapper.DividendMapperFactory;
 import portfolioTracker.portfolio.mapper.PortfolioMapperFactory;
 import portfolioTracker.transaction.mapper.TransactionMapperFactory;
-import org.springframework.validation.annotation.Validated;
 
 @Validated
 public interface ModelMapperFactory {

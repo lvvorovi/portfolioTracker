@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static portfolioTracker.dividend.DividendTestUtil.*;
-import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntity;
+import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
@@ -53,77 +54,93 @@ class DividendServiceImplTest {
     void save_whenDto_thenDelegateToRepo_andReturnDto() {
         DividendEntity mockedEntity = mock(DividendEntity.class);
         DividendEntity entity = newDividendEntity();
-        DividendDtoCreateRequest request = newDividendDtoCreateRequest(entity);
+        DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
         DividendDtoResponse expected = newDividendResponseDto(entity);
-        PortfolioEntity portfolioEntity = newPortfolioEntity();
-        doNothing().when(validationService).validate(request);
-        when(mapper.createToEntity(request)).thenReturn(mockedEntity);
-        when(portfolioRepository.findById(request.getPortfolioId())).thenReturn(Optional.of(portfolioEntity));
+        PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
+        doNothing().when(validationService).validate(requestDto);
+        when(mapper.createToEntity(requestDto)).thenReturn(mockedEntity);
+        when(portfolioRepository.findById(requestDto.getPortfolioId())).thenReturn(Optional.of(portfolioEntity));
         when(repository.save(mockedEntity)).thenReturn(entity);
         when(mapper.toDto(entity)).thenReturn(expected);
 
-        DividendDtoResponse result = victim.save(request);
+        DividendDtoResponse result = victim.save(requestDto);
 
         assertEquals(expected, result);
-        verify(validationService, times(1)).validate(request);
-        verify(mapper, times(1)).createToEntity(request);
-        verify(portfolioRepository, times(1)).findById(request.getPortfolioId());
+        verify(validationService, times(1)).validate(requestDto);
+        verify(mapper, times(1)).createToEntity(requestDto);
+        verify(portfolioRepository, times(1)).findById(requestDto.getPortfolioId());
         verify(mockedEntity, times(1)).setPortfolio(portfolioEntity);
         verify(mockedEntity, times(1)).setId(any());
         verify(repository, times(1)).save(mockedEntity);
         verify(mapper, times(1)).toDto(entity);
         verifyNoMoreInteractions(validationService, mapper, repository, portfolioRepository, mockedEntity);
-        assertThatNoException().isThrownBy(() -> victim.save(request));
+        assertThatNoException().isThrownBy(() -> victim.save(requestDto));
     }
 
     @Test
     void save_whenPortfolioIdDoesNotExist_thenThrowException() {
         DividendEntity mockedEntity = mock(DividendEntity.class);
-        DividendDtoCreateRequest request = newDividendDtoCreateRequest(newDividendEntity());
-        doNothing().when(validationService).validate(request);
-        when(mapper.createToEntity(request)).thenReturn(mockedEntity);
-        when(portfolioRepository.findById(request.getPortfolioId())).thenReturn(Optional.empty());
+        DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(newDividendEntity());
+        doNothing().when(validationService).validate(requestDto);
+        when(mapper.createToEntity(requestDto)).thenReturn(mockedEntity);
+        when(portfolioRepository.findById(requestDto.getPortfolioId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> victim.save(request))
+        assertThatThrownBy(() -> victim.save(requestDto))
                 .isInstanceOf(PortfolioNotFoundDividendException.class)
-                .hasMessage("Portfolio not found for: " + request);
+                .hasMessage("Portfolio not found for: " + requestDto);
 
-        verify(validationService, times(1)).validate(request);
-        verify(mapper, times(1)).createToEntity(request);
-        verify(portfolioRepository, times(1)).findById(request.getPortfolioId());
+        verify(validationService, times(1)).validate(requestDto);
+        verify(mapper, times(1)).createToEntity(requestDto);
+        verify(portfolioRepository, times(1)).findById(requestDto.getPortfolioId());
         verifyNoMoreInteractions(mapper, portfolioRepository, validationService);
         verifyNoInteractions(repository, mockedEntity);
     }
 
     @Test
     void saveAll_whenDtoList_thenDelegateToRepo_andReturnDtoList() {
-        DividendEntity mockedEntity = mock(DividendEntity.class);
-        DividendEntity entity = newDividendEntity();
-        DividendDtoCreateRequest request = newDividendDtoCreateRequest(entity);
-        List<DividendDtoCreateRequest> requestList = newDividendDtoCreateList(request);
-        DividendDtoResponse response = newDividendResponseDto(entity);
-        List<DividendDtoResponse> expected = newDividendDtoResponseList(response);
-        PortfolioEntity portfolioEntity = newPortfolioEntity();
-        doNothing().when(validationService).validate(request);
-        when(mapper.createToEntity(request)).thenReturn(mockedEntity);
-        when(portfolioRepository.findById(request.getPortfolioId())).thenReturn(Optional.of(portfolioEntity));
-        when(repository.save(mockedEntity)).thenReturn(entity);
-        when(mapper.toDto(entity)).thenReturn(response);
+        PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
+        List<DividendEntity> mockedEntityList = newDividendEntityMockList();
+        List<DividendEntity> entityList = newDividendEntityList();
+        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
 
-        List<DividendDtoResponse> resultList = victim.saveAll(requestList);
+        requestDtoList.forEach(dto -> doNothing().when(validationService).validate(dto));
+        requestDtoList.forEach(dto ->
+                when(portfolioRepository.findById(dto.getPortfolioId()))
+                        .thenReturn(Optional.of(portfolioEntity)));
 
-        assertEquals(expected, resultList);
-        resultList.forEach(result -> {
-            verify(validationService, times(requestList.size())).validate(request);
-            verify(mapper, times(requestList.size())).createToEntity(request);
-            verify(portfolioRepository, times(requestList.size())).findById(request.getPortfolioId());
-            verify(mockedEntity, times(requestList.size())).setPortfolio(portfolioEntity);
-            verify(mockedEntity, times(requestList.size())).setId(any());
-            verify(repository, times(requestList.size())).save(mockedEntity);
-            verify(mapper, times(requestList.size())).toDto(entity);
-        });
-        verifyNoMoreInteractions(validationService, mapper, repository, portfolioRepository, mockedEntity);
-        assertThatNoException().isThrownBy(() -> victim.save(request));
+        for (int i = 0; i < requestDtoList.size(); i++) {
+            when(mapper.createToEntity(requestDtoList.get(i)))
+                    .thenReturn(mockedEntityList.get(i));
+        }
+
+        for (int i = 0; i < entityList.size(); i++) {
+            when(repository.save(mockedEntityList.get(i)))
+                    .thenReturn(entityList.get(i));
+        }
+
+        for (int i = 0; i <responseDtoList.size(); i++) {
+            when(mapper.toDto(entityList.get(i)))
+                    .thenReturn(responseDtoList.get(i));
+        }
+
+        List<DividendDtoResponse> resultDtoList = victim.saveAll(requestDtoList);
+
+        assertEquals(responseDtoList, resultDtoList);
+
+        requestDtoList.forEach(dto -> {
+                    verify(validationService, times(1)).validate(dto);
+                    verify(mapper, times(1)).createToEntity(dto);
+                    verify(portfolioRepository, times(1)).findById(dto.getPortfolioId());
+                });
+
+        mockedEntityList.forEach(mock -> verify(mock, times(1)).setPortfolio(portfolioEntity));
+        mockedEntityList.forEach(mock -> verify(mock, times(1)).setId(any()));
+        mockedEntityList.forEach(mock -> verify(repository, times(1)).save(mock));
+        entityList.forEach(entity -> verify(mapper, times(1)).toDto(entity));
+
+        verifyNoMoreInteractions(validationService, mapper, repository, portfolioRepository);
+        mockedEntityList.forEach(Mockito::verifyNoMoreInteractions);
     }
 
     @Test
@@ -158,18 +175,22 @@ class DividendServiceImplTest {
 
     @Test
     void findAllByUsername_whenExist_thenReturnList() {
-        DividendEntity entity = newDividendEntity();
-        List<DividendEntity> entityList = newDividendEntityList(entity);
-        DividendDtoResponse response = newDividendResponseDto(entity);
-        List<DividendDtoResponse> expected = newDividendDtoResponseList(response);
+//        DividendEntity entity = newDividendEntity();
+        List<DividendEntity> entityList = newDividendEntityList();
+//        DividendDtoResponse responseDto = newDividendResponseDto(entity);
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
         when(repository.findAllByUsername(username)).thenReturn(entityList);
-        entityList.forEach(index -> when(mapper.toDto(index)).thenReturn(response));
+//        entityList.forEach(dto -> when(mapper.toDto(dto)).thenReturn(responseDto));
+        for (int i = 0; i <entityList.size(); i++) {
+            when(mapper.toDto(entityList.get(i)))
+                    .thenReturn(responseDtoList.get(i));
+        }
 
-        List<DividendDtoResponse> result = victim.findAllByUsername(username);
+        List<DividendDtoResponse> resultDtoList = victim.findAllByUsername(username);
 
-        assertEquals(expected, result);
+        assertEquals(responseDtoList, resultDtoList);
         verify(repository, times(1)).findAllByUsername(username);
-        entityList.forEach(index -> verify(mapper, times(entityList.size())).toDto(index));
+        entityList.forEach(entity -> verify(mapper, times(1)).toDto(entity));
         verifyNoMoreInteractions(repository, mapper);
         verifyNoInteractions(portfolioRepository, validationService);
         assertThatNoException().isThrownBy(() -> victim.findAllByPortfolioId(username));
@@ -190,18 +211,19 @@ class DividendServiceImplTest {
 
     @Test
     void findAllByPortfolioId_whenExist_thenReturnListOf() {
-        DividendEntity entity = newDividendEntity();
-        List<DividendEntity> entityList = newDividendEntityList(entity);
-        DividendDtoResponse response = newDividendResponseDto(entity);
-        List<DividendDtoResponse> expected = newDividendDtoResponseList(response);
+        List<DividendEntity> entityList = newDividendEntityList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
         when(repository.findAllByPortfolioId(portfolioId)).thenReturn(entityList);
-        entityList.forEach(index -> when(mapper.toDto(index)).thenReturn(response));
+        for (int i = 0; i < entityList.size(); i++) {
+            when(mapper.toDto(entityList.get(i)))
+                    .thenReturn(responseDtoList.get(i));
+        }
 
-        List<DividendDtoResponse> result = victim.findAllByPortfolioId(portfolioId);
+        List<DividendDtoResponse> resultDtoList = victim.findAllByPortfolioId(portfolioId);
 
-        assertEquals(expected, result);
+        assertEquals(responseDtoList, resultDtoList);
         verify(repository, times(1)).findAllByPortfolioId(portfolioId);
-        entityList.forEach(index -> verify(mapper, times(entityList.size())).toDto(index));
+        entityList.forEach(dto -> verify(mapper, times(1)).toDto(dto));
         verifyNoMoreInteractions(repository, mapper);
         verifyNoInteractions(validationService, portfolioRepository);
         assertThatNoException().isThrownBy(() -> victim.findAllByPortfolioId(portfolioId));
@@ -224,43 +246,43 @@ class DividendServiceImplTest {
     void update_whenDto_thenDelegatesToRepo_andReturnsDto() {
         DividendEntity mockedEntity = mock(DividendEntity.class);
         DividendEntity entity = newDividendEntity();
-        DividendDtoUpdateRequest request = newDividendDtoUpdateRequest(entity);
+        DividendDtoUpdateRequest requestDto = newDividendDtoUpdateRequest(entity);
         DividendDtoResponse expected = newDividendResponseDto(entity);
-        PortfolioEntity portfolioEntity = newPortfolioEntity();
-        doNothing().when(validationService).validate(request);
-        when(mapper.updateToEntity(request)).thenReturn(mockedEntity);
-        when(portfolioRepository.findById(request.getPortfolioId())).thenReturn(Optional.of(portfolioEntity));
+        PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
+        doNothing().when(validationService).validate(requestDto);
+        when(mapper.updateToEntity(requestDto)).thenReturn(mockedEntity);
+        when(portfolioRepository.findById(requestDto.getPortfolioId())).thenReturn(Optional.of(portfolioEntity));
         when(repository.save(mockedEntity)).thenReturn(entity);
         when(mapper.toDto(entity)).thenReturn(expected);
 
-        DividendDtoResponse result = victim.update(request);
+        DividendDtoResponse result = victim.update(requestDto);
 
         assertEquals(expected, result);
-        verify(validationService, times(1)).validate(request);
-        verify(mapper, times(1)).updateToEntity(request);
-        verify(portfolioRepository, times(1)).findById(request.getPortfolioId());
+        verify(validationService, times(1)).validate(requestDto);
+        verify(mapper, times(1)).updateToEntity(requestDto);
+        verify(portfolioRepository, times(1)).findById(requestDto.getPortfolioId());
         verify(mockedEntity, times(1)).setPortfolio(portfolioEntity);
         verify(repository, times(1)).save(mockedEntity);
         verify(mapper, times(1)).toDto(entity);
         verifyNoMoreInteractions(validationService, mapper, repository, portfolioRepository, mockedEntity);
-        assertThatNoException().isThrownBy(() -> victim.update(request));
+        assertThatNoException().isThrownBy(() -> victim.update(requestDto));
     }
 
     @Test
     void update_whenPortfolioNotFound_thenThrowException() {
         DividendEntity entity = newDividendEntity();
-        DividendDtoUpdateRequest request = newDividendDtoUpdateRequest(entity);
-        doNothing().when(validationService).validate(request);
-        when(mapper.updateToEntity(request)).thenReturn(entity);
-        when(portfolioRepository.findById(request.getPortfolioId())).thenReturn(Optional.empty());
+        DividendDtoUpdateRequest requestDto = newDividendDtoUpdateRequest(entity);
+        doNothing().when(validationService).validate(requestDto);
+        when(mapper.updateToEntity(requestDto)).thenReturn(entity);
+        when(portfolioRepository.findById(requestDto.getPortfolioId())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> victim.update(request))
+        assertThatThrownBy(() -> victim.update(requestDto))
                 .isInstanceOf(PortfolioNotFoundDividendException.class)
-                .hasMessage("Portfolio not found for: " + request);
+                .hasMessage("Portfolio not found for: " + requestDto);
 
-        verify(validationService, times(1)).validate(request);
-        verify(mapper, times(1)).updateToEntity(request);
-        verify(portfolioRepository, times(1)).findById(request.getPortfolioId());
+        verify(validationService, times(1)).validate(requestDto);
+        verify(mapper, times(1)).updateToEntity(requestDto);
+        verify(portfolioRepository, times(1)).findById(requestDto.getPortfolioId());
         verifyNoMoreInteractions(validationService, mapper, portfolioRepository);
         verifyNoInteractions(repository);
     }

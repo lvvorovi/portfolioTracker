@@ -1,9 +1,9 @@
 package portfolioTracker.dto.currency.service;
 
-import portfolioTracker.dto.currency.CurrencyRateDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import portfolioTracker.dto.currency.CurrencyRateDto;
 
 import java.time.LocalDate;
 

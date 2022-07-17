@@ -2,14 +2,12 @@ package portfolioTracker.portfolio.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import portfolioTracker.core.validation.annotation.Currency;
 import lombok.Data;
-import org.springframework.format.annotation.NumberFormat;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.validation.annotation.Currency;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data

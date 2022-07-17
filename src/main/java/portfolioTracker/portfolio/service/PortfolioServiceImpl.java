@@ -1,5 +1,8 @@
 package portfolioTracker.portfolio.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
@@ -12,9 +15,6 @@ import portfolioTracker.portfolio.validation.PortfolioValidationService;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.repository.TransactionRepository;
 import portfolioTracker.transaction.validation.exception.PortfolioNotFoundTransactionException;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +55,9 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public ArrayList<PortfolioDtoResponse> findAllSkipEvents() {
-       return repository.findAllSKipEvents().parallelStream()
-               .map(mapper::toDto)
-               .collect(Collectors.toCollection(ArrayList::new));
+        return repository.findAllSKipEvents().parallelStream()
+                .map(mapper::toDto)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

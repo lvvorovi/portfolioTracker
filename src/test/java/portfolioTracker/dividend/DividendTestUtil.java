@@ -1,20 +1,23 @@
 package portfolioTracker.dividend;
 
 import org.apache.logging.log4j.util.Strings;
-import portfolioTracker.core.ValidList;
+import org.assertj.core.api.AbstractStringAssert;
+import org.springframework.boot.test.system.CapturedOutput;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static portfolioTracker.dto.eventType.EventType.DIVIDEND;
-import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntity;
+import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 
 public class DividendTestUtil {
 
@@ -40,7 +43,7 @@ public class DividendTestUtil {
         DividendEntity entity = new DividendEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setUsername("john@email.com");
-        entity.setPortfolio(newPortfolioEntity());
+        entity.setPortfolio(newPortfolioEntitySkipEvents());
         entity.setAmount(new BigDecimal(100));
         entity.setDate(LocalDate.now());
         entity.setTicker("BRK-B");
@@ -87,34 +90,42 @@ public class DividendTestUtil {
         return dto;
     }
 
-    public static ArrayList<DividendDtoResponse> newDividendDtoResponseList(DividendDtoResponse response) {
-        ArrayList<DividendDtoResponse> dividendList = new ArrayList<>();
-        dividendList.add(response);
-        dividendList.add(response);
-        dividendList.add(response);
-        return dividendList;
+    public static List<DividendDtoResponse> newDividendDtoResponseList() {
+        return List.of(
+                newDividendResponseDto(newDividendEntity()),
+                newDividendResponseDto(newDividendEntity()),
+                newDividendResponseDto(newDividendEntity())
+        );
     }
 
-    public static ValidList<DividendDtoCreateRequest> newDividendDtoCreateList(DividendDtoCreateRequest request) {
-        ValidList<DividendDtoCreateRequest> dividendList = new ValidList<>();
-        dividendList.add(request);
-        dividendList.add(request);
-        dividendList.add(request);
-        return dividendList;
+    public static List<DividendDtoCreateRequest> newDividendDtoCreateList() {
+        return List.of(
+                newDividendDtoCreateRequest(newDividendEntity()),
+                newDividendDtoCreateRequest(newDividendEntity()),
+                newDividendDtoCreateRequest(newDividendEntity())
+        );
     }
 
-    public static ValidList<DividendEntity> newDividendEntityList(DividendEntity entity) {
-        ValidList<DividendEntity> dividendList = new ValidList<>();
-        dividendList.add(entity);
-        dividendList.add(entity);
-        dividendList.add(entity);
-        return dividendList;
+    public static List<DividendEntity> newDividendEntityList() {
+        return List.of(
+                newDividendEntity(),
+                newDividendEntity(),
+                newDividendEntity()
+        );
+    }
+
+    public static List<DividendEntity> newDividendEntityMockList () {
+        return List.of(
+                mock(DividendEntity.class),
+                mock(DividendEntity.class),
+                mock(DividendEntity.class)
+        );
     }
 
     //DividendDtoCreateRequest validation input
 
     public static List<String> saveRequestAllFieldsNullErrorMessageList() {
-        return List.of(errorMessage,
+        return List.of(/*errorMessage,*/
                 portfolioIdNotBlankErrorMessage,
                 exDateNullErrorMessage,
                 amountNullErrorMessage,
@@ -258,6 +269,11 @@ public class DividendTestUtil {
                 .username("ThisStringLengthIsMoreThenFiftyCharacters_ThisStringLengthIsMoreThenFiftyCharacters")
                 .id("ThisStringLengthIsMoreThenSixtyCharacters_ThisStringLengthIsMoreThenSixtyCharacters")
                 .build();
+    }
+
+    public static AbstractStringAssert<?> assertOutputContainsExpected(CapturedOutput output, String method, URI uri) {
+        return assertThat(output.toString())
+                .contains("Request id", "requested url", "with method " + method.toUpperCase(), uri.toString());
     }
 
 

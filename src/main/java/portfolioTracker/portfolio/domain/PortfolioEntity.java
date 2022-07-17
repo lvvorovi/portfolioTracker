@@ -2,12 +2,12 @@ package portfolioTracker.portfolio.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import portfolioTracker.core.validation.annotation.Currency;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.transaction.domain.TransactionEntity;
-import lombok.Data;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

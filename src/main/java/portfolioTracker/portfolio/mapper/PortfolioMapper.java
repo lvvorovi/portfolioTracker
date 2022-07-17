@@ -1,11 +1,11 @@
 package portfolioTracker.portfolio.mapper;
 
-import portfolioTracker.core.contract.DomainMapper;
-import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
-import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
-import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.core.contract.DomainMapper;
+import portfolioTracker.portfolio.domain.PortfolioEntity;
+import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
+import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
+import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 
 import javax.validation.Valid;
 

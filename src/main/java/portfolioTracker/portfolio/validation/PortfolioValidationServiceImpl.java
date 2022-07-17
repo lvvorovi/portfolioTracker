@@ -1,10 +1,10 @@
 package portfolioTracker.portfolio.validation;
 
-import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
-import portfolioTracker.portfolio.validation.rule.PortfolioValidationRule;
-import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
+import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
+import portfolioTracker.portfolio.validation.rule.PortfolioValidationRule;
 
 import java.util.List;
 

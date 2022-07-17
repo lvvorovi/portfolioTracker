@@ -1,13 +1,13 @@
 package portfolioTracker.dividend;
 
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import portfolioTracker.core.LinkUtil;
 import portfolioTracker.core.ValidList;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
@@ -27,11 +27,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class DividendController {
 
     private final DividendService service;
+    private final LinkUtil linkUtil;
 
     @GetMapping("/{id}")
     public ResponseEntity<DividendDtoResponse> findById(@PathVariable String id) {
         DividendDtoResponse responseDto = service.findById(id);
-        addSelfRefToJson(responseDto);
+        linkUtil.addLinks(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
@@ -41,10 +42,10 @@ public class DividendController {
         List<DividendDtoResponse> responseDtoList;
         if (portfolioId == null) {
             responseDtoList = service.findAllByUsername(authentication.getName());
-            responseDtoList.forEach(this::addSelfRefToJson);
+            responseDtoList.forEach(linkUtil::addLinks);
         } else {
             responseDtoList = service.findAllByPortfolioId(portfolioId);
-            responseDtoList.forEach(this::addSelfRefToJson);
+            responseDtoList.forEach(linkUtil::addLinks);
         }
         return ResponseEntity.ok(responseDtoList);
     }
@@ -52,7 +53,7 @@ public class DividendController {
     @PostMapping
     public ResponseEntity<DividendDtoResponse> save(@Valid @RequestBody DividendDtoCreateRequest requestDto) {
         DividendDtoResponse responseDto = service.save(requestDto);
-        addSelfRefToJson(responseDto);
+        linkUtil.addLinks(responseDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
@@ -60,27 +61,21 @@ public class DividendController {
     public ResponseEntity<List<DividendDtoResponse>> saveAll(
             @RequestBody @Valid ValidList<DividendDtoCreateRequest> requestDtoList) {
         List<DividendDtoResponse> responseDtoList = service.saveAll(requestDtoList);
-        responseDtoList.forEach(this::addSelfRefToJson);
+        responseDtoList.forEach(linkUtil::addLinks);
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
+    }
+
+    @PutMapping()
+    public ResponseEntity<DividendDtoResponse> update(@Valid @RequestBody DividendDtoUpdateRequest requestDto) {
+        DividendDtoResponse responseDto = service.update(requestDto);
+        linkUtil.addLinks(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         service.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PutMapping()
-    public ResponseEntity<DividendDtoResponse> update(@Valid @RequestBody DividendDtoUpdateRequest requestDto) {
-        DividendDtoResponse responseDto = service.update(requestDto);
-        addSelfRefToJson(responseDto);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    private void addSelfRefToJson(DividendDtoResponse responseDto) {
-        responseDto.add(linkTo(methodOn(DividendController.class)
-                .findById(responseDto.getId()))
-                .withRel("self"));
     }
 
 }

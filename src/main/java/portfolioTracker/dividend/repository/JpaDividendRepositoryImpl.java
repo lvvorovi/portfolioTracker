@@ -1,8 +1,8 @@
 package portfolioTracker.dividend.repository;
 
-import portfolioTracker.dividend.domain.DividendEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import portfolioTracker.dividend.domain.DividendEntity;
 
 import java.time.LocalDate;
 import java.util.List;

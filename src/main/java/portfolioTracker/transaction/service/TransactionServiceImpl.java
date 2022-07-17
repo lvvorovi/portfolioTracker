@@ -1,8 +1,11 @@
 package portfolioTracker.transaction.service;
 
-import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.repository.PortfolioRepository;
+import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundException;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
@@ -11,13 +14,8 @@ import portfolioTracker.transaction.mapper.TransactionMapper;
 import portfolioTracker.transaction.repository.TransactionRepository;
 import portfolioTracker.transaction.validation.TransactionValidationService;
 import portfolioTracker.transaction.validation.exception.TransactionException;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -55,10 +53,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ArrayList<TransactionDtoResponse> findAll() {
-        return repository.findAll().parallelStream()
+    public List<TransactionDtoResponse> findAllByUsername(String username) {
+        return repository.findAllByUsername(username).parallelStream()
                 .map(mapper::toDto)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .toList();
     }
 
     @Override

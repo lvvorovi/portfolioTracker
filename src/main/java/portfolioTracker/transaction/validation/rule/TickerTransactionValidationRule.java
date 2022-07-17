@@ -1,11 +1,11 @@
 package portfolioTracker.transaction.validation.rule;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import portfolioTracker.dto.ticker.service.TickerService;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 import portfolioTracker.transaction.validation.exception.TransactionException;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Priority;
 

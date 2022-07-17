@@ -1,47 +1,48 @@
 package portfolioTracker.transaction.service;
 
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
+import org.springframework.validation.annotation.Validated;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PostFilter;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.access.prepost.PreFilter;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 public interface TransactionService {
 
     @PreAuthorize("#requestDto.username == authentication.name " +
             " && " +
             "@portfolioServiceImpl.isOwner(#requestDto.portfolioId)")
-    TransactionDtoResponse save(TransactionDtoCreateRequest requestDto);
+    @Valid TransactionDtoResponse save(TransactionDtoCreateRequest requestDto);
 
     @PreFilter("filterObject.username == authentication.name" +
             " && " +
             "@portfolioServiceImpl.isOwner(filterObject.portfolioId)")
-    List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList);
+    @Valid List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList);
 
     @PostAuthorize("returnObject.username == authentication.name")
-    TransactionDtoResponse findById(String id);
+    @Valid TransactionDtoResponse findById(String id);
 
-    @PostFilter("filterObject.username == authentication.name")
-    ArrayList<TransactionDtoResponse> findAll();
+    @PreAuthorize("#username == authentication.name")
+    @Valid List<TransactionDtoResponse> findAllByUsername(String username);
 
     @PreAuthorize("@portfolioServiceImpl.isOwner(#id)")
-    List<TransactionDtoResponse> findAllByPortfolioId(String id);
+    @Valid List<TransactionDtoResponse> findAllByPortfolioId(String id);
 
     Boolean existsById(String id);
 
-   List<String> findAllUniqueTickers();
+    List<String> findAllUniqueTickers();
 
     @PreAuthorize("#requestDto.username == authentication.name" +
             " && " +
             "@portfolioServiceImpl.isOwner(#requestDto.portfolioId)" +
             " && " +
             "@transactionServiceImpl.isOwner(#requestDto.id)")
-    TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto);
+    @Valid TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto);
 
     @PreAuthorize("@transactionServiceImpl.isOwner(#id)")
     void deleteById(String id);

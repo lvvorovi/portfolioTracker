@@ -2,11 +2,11 @@ package portfolioTracker.dividend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import portfolioTracker.dto.eventType.EventType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.dto.eventType.EventType;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;

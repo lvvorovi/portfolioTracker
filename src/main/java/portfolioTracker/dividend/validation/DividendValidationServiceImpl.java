@@ -1,10 +1,10 @@
 package portfolioTracker.dividend.validation;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.validation.rule.DividendValidationRule;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

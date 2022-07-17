@@ -4,34 +4,45 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import portfolioTracker.dividend.dto.DividendDtoResponse;
 import org.springframework.stereotype.Component;
+import portfolioTracker.dividend.dto.DividendDtoResponse;
+import portfolioTracker.transaction.dto.TransactionDtoResponse;
 
 import java.util.List;
 
 @Component
 public class JsonUtil {
-//    @Autowired
-//    private JavaTimeModule javaTimeModule;
 
-    public byte[] objectToJson(Object object) throws JsonProcessingException {
+    public static String objectToJson(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        return mapper.writeValueAsBytes(object);
+        return mapper.writeValueAsString(object);
     }
 
-    public List<DividendDtoResponse> jsonToDividendDtoResponseList(String string) throws JsonProcessingException {
+    public static List<DividendDtoResponse> jsonToDividendDtoResponseList(String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
-        DividendDtoResponse[] response = mapper.readValue(string, DividendDtoResponse[].class);
-        return List.of(response);
+        DividendDtoResponse[] responseArray = mapper.readValue(json, DividendDtoResponse[].class);
+        return List.of(responseArray);
     }
 
-    public DividendDtoResponse jsonToDividendDtoResponseIgnoreLinks(String string) throws JsonProcessingException {
+    public static DividendDtoResponse jsonToDividendDtoResponse(String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.registerModule(new JavaTimeModule());
-        return mapper.readValue(string, DividendDtoResponse.class);
+        return mapper.readValue(json, DividendDtoResponse.class);
+    }
+
+    public static TransactionDtoResponse jsonToTransactionDtoResponse(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper.readValue(json, TransactionDtoResponse.class);
+    }
+
+    public static List<TransactionDtoResponse> jsonToTransactionDtoResponseList(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        TransactionDtoResponse[] responseArray = mapper.readValue(json, TransactionDtoResponse[].class);
+        return List.of(responseArray);
     }
 
 }

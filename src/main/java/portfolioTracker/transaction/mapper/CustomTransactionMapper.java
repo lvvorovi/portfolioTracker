@@ -1,10 +1,10 @@
 package portfolioTracker.transaction.mapper;
 
+import org.springframework.stereotype.Component;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CustomTransactionMapper implements TransactionMapper {

@@ -1,8 +1,8 @@
 package portfolioTracker.core.validation.validator;
 
-import portfolioTracker.core.validation.annotation.JsonString;
 import org.json.JSONException;
 import org.json.JSONObject;
+import portfolioTracker.core.validation.annotation.JsonString;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

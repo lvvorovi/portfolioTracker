@@ -1,7 +1,7 @@
 package portfolioTracker.dto.ticker.service;
 
-import portfolioTracker.dto.ticker.SplitEventDto;
 import org.springframework.validation.annotation.Validated;
+import portfolioTracker.dto.ticker.SplitEventDto;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;

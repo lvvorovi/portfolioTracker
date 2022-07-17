@@ -1,12 +1,12 @@
 package portfolioTracker.dto.ticker.service;
 
-import portfolioTracker.dto.ticker.SplitEventDto;
-import portfolioTracker.dto.ticker.exception.TickerServiceNullResponseException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import portfolioTracker.dto.ticker.SplitEventDto;
+import portfolioTracker.dto.ticker.exception.TickerServiceNullResponseException;
 
 import java.math.BigDecimal;
 import java.util.List;

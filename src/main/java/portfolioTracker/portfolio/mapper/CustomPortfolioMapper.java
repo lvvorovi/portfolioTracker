@@ -1,10 +1,10 @@
 package portfolioTracker.portfolio.mapper;
 
+import org.springframework.stereotype.Component;
+import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
 import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CustomPortfolioMapper implements PortfolioMapper {
