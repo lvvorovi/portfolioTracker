@@ -1,8 +1,9 @@
 package portfolioTracker.dividend.mapper;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
@@ -10,12 +11,12 @@ import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static portfolioTracker.dividend.DividendTestUtil.*;
+import static portfolioTracker.util.DividendTestUtil.*;
 
-@SpringBootTest(classes = DividendMapperImpl.class)
+@ExtendWith(MockitoExtension.class)
 class DividendMapperImplTest {
 
-    @Autowired
+    @InjectMocks
     DividendMapperImpl victim;
 
     @Test

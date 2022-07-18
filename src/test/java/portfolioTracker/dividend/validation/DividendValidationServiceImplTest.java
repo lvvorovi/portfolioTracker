@@ -2,8 +2,9 @@ package portfolioTracker.dividend.validation;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.validation.rule.DividendValidationRule;
@@ -16,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class DividendValidationServiceImplTest {
 
     @Mock
@@ -24,8 +25,8 @@ class DividendValidationServiceImplTest {
     @Mock
     TickerDividendValidationRule tickerDividendValidationRule;
 
-    DividendValidationServiceImpl victim;
     List<DividendValidationRule> ruleList;
+    DividendValidationServiceImpl victim;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +37,7 @@ class DividendValidationServiceImplTest {
     }
 
     @Test
-    void validate_whenCreateRequest_thenDelegatesToAllRulles() {
+    void validate_whenCreateRequest_thenDelegatesToAllRules() {
         DividendDtoCreateRequest request = mock(DividendDtoCreateRequest.class);
         doNothing().when(doubleEntryDividendValidationRule).validate(request);
         doNothing().when(tickerDividendValidationRule).validate(request);
@@ -48,7 +49,7 @@ class DividendValidationServiceImplTest {
     }
 
     @Test
-    void validate_whenUpdateRequest_thenDelegateToAllRulles() {
+    void validate_whenUpdateRequest_thenDelegateToAllRules() {
         DividendDtoUpdateRequest request = mock(DividendDtoUpdateRequest.class);
 
         victim.validate(request);

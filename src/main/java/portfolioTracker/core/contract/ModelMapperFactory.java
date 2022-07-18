@@ -23,7 +23,7 @@ public interface ModelMapperFactory {
 
     DomainMapper getInstance();
 
-    public enum ModelType {
+    enum ModelType {
         DIVIDEND, PORTFOLIO, TRANSACTION
     }
 }

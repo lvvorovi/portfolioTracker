@@ -1,7 +1,9 @@
-package portfolioTracker.transaction;
+package portfolioTracker.util;
 
 import org.assertj.core.api.AbstractStringAssert;
 import org.springframework.boot.test.system.CapturedOutput;
+import portfolioTracker.core.ValidList;
+import portfolioTracker.transaction.TransactionController;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
@@ -14,10 +16,19 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static portfolioTracker.dto.eventType.EventType.BUY;
 import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntity;
 
-public class TransactionTestUtil {
+public class TransactionTestUtil extends TestUtil {
+
+    public static final URI findByIdUri = linkTo(methodOn(TransactionController.class).findById(id)).toUri();
+    public static final URI findAllUri = linkTo(TransactionController.class).toUri();
+    public static final URI saveUri = linkTo(TransactionController.class).toUri();
+    public static final URI updateUri = linkTo(TransactionController.class).toUri();
+    public static final URI deleteByIdUri = linkTo(methodOn(TransactionController.class).deleteById(id)).toUri();
+    public static final URI saveAllUri = linkTo(methodOn(TransactionController.class).saveAll(new ValidList<>())).toUri();
 
     public static TransactionEntity newTransactionEntity() {
         return TransactionEntity.builder()

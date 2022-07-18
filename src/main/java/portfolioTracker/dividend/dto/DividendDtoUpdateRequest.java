@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
 import portfolioTracker.dto.eventType.EventType;
 
@@ -20,7 +19,7 @@ import java.time.LocalDate;
 public class DividendDtoUpdateRequest {
 
     @NotBlank
-    @Size(max = 60, message = "max 60 characters")
+    @Size(max = 36, min = 36, message = "must be exactly 36 characters")
     private String id;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")
@@ -32,13 +31,12 @@ public class DividendDtoUpdateRequest {
     @PastOrPresent
     private LocalDate date;
     @NotNull
-    @NumberFormat
     @Positive
     private BigDecimal amount;
     @NotNull
     private EventType type;
     @NotBlank
-    @Size(max = 60, message = "max 60 characters")
+    @Size(max = 36, min = 36, message = "must be exactly 36 characters")
     private String portfolioId;
     @NotBlank
     @Size(max = 50, message = "max 50 characters")

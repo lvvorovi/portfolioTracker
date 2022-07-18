@@ -4,8 +4,7 @@ import portfolioTracker.portfolio.domain.PortfolioEntity;
 
 import java.util.UUID;
 
-import static portfolioTracker.dividend.DividendTestUtil.newDividendEntity;
-import static portfolioTracker.dividend.DividendTestUtil.newDividendEntityList;
+import static portfolioTracker.util.DividendTestUtil.newDividendEntityList;
 
 public class PortfolioTestUtil {
 

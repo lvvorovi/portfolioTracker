@@ -1,12 +1,15 @@
 package portfolioTracker.dividend.service;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
@@ -28,16 +31,12 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static portfolioTracker.dividend.DividendTestUtil.*;
 import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
+import static portfolioTracker.util.DividendTestUtil.*;
 
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@Import(SecurityContext.class)
 class DividendServiceImplTest {
-
-    private final String username = "user";
-    private final String id = "id";
-    private final String portfolioId = "portfolioId";
 
     @Mock
     DividendValidationService validationService;
@@ -119,7 +118,7 @@ class DividendServiceImplTest {
                     .thenReturn(entityList.get(i));
         }
 
-        for (int i = 0; i <responseDtoList.size(); i++) {
+        for (int i = 0; i < responseDtoList.size(); i++) {
             when(mapper.toDto(entityList.get(i)))
                     .thenReturn(responseDtoList.get(i));
         }
@@ -129,16 +128,15 @@ class DividendServiceImplTest {
         assertEquals(responseDtoList, resultDtoList);
 
         requestDtoList.forEach(dto -> {
-                    verify(validationService, times(1)).validate(dto);
-                    verify(mapper, times(1)).createToEntity(dto);
-                    verify(portfolioRepository, times(1)).findById(dto.getPortfolioId());
-                });
+            verify(validationService, times(1)).validate(dto);
+            verify(mapper, times(1)).createToEntity(dto);
+            verify(portfolioRepository, times(1)).findById(dto.getPortfolioId());
+        });
 
         mockedEntityList.forEach(mock -> verify(mock, times(1)).setPortfolio(portfolioEntity));
         mockedEntityList.forEach(mock -> verify(mock, times(1)).setId(any()));
         mockedEntityList.forEach(mock -> verify(repository, times(1)).save(mock));
         entityList.forEach(entity -> verify(mapper, times(1)).toDto(entity));
-
         verifyNoMoreInteractions(validationService, mapper, repository, portfolioRepository);
         mockedEntityList.forEach(Mockito::verifyNoMoreInteractions);
     }
@@ -175,13 +173,10 @@ class DividendServiceImplTest {
 
     @Test
     void findAllByUsername_whenExist_thenReturnList() {
-//        DividendEntity entity = newDividendEntity();
         List<DividendEntity> entityList = newDividendEntityList();
-//        DividendDtoResponse responseDto = newDividendResponseDto(entity);
         List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
         when(repository.findAllByUsername(username)).thenReturn(entityList);
-//        entityList.forEach(dto -> when(mapper.toDto(dto)).thenReturn(responseDto));
-        for (int i = 0; i <entityList.size(); i++) {
+        for (int i = 0; i < entityList.size(); i++) {
             when(mapper.toDto(entityList.get(i)))
                     .thenReturn(responseDtoList.get(i));
         }
@@ -305,14 +300,21 @@ class DividendServiceImplTest {
     void isOwner_whenAuthNameMatchesRepoUsername_thenReturnTrue() {
         DividendEntity mockedEntity = mock(DividendEntity.class);
         when(repository.findById(id)).thenReturn(Optional.of(mockedEntity));
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
         when(mockedEntity.getUsername()).thenReturn(username);
+        SecurityContextHolder.setContext(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn(username);
 
         boolean result = victim.isOwner(id);
 
         assertTrue(result);
         verify(repository, times(1)).findById(id);
         verify(mockedEntity, times(1)).getUsername();
-        verifyNoMoreInteractions(mockedEntity, repository);
+        verify(securityContext, times(1)).getAuthentication();
+        verify(authentication, times(1)).getName();
+        verifyNoMoreInteractions(mockedEntity, repository, securityContext, authentication);
         verifyNoInteractions(validationService, portfolioRepository, mapper);
         assertThatNoException().isThrownBy(() -> victim.isOwner(id));
     }
@@ -321,13 +323,20 @@ class DividendServiceImplTest {
     @Test
     void isOwner_whenNoResourceFound_thenThrowException() {
         when(repository.findById(id)).thenReturn(Optional.empty());
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.setContext(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getName()).thenReturn(username + "1");
 
         assertThatThrownBy(() -> victim.isOwner(id))
                 .isInstanceOf(DividendNotFoundDividendException.class)
                 .hasMessage("Dividend not found for id:" + id);
 
         verify(repository, times(1)).findById(id);
-        verifyNoMoreInteractions(repository);
+        verify(securityContext, times(1)).getAuthentication();
+        verify(authentication, times(1)).getName();
+        verifyNoMoreInteractions(repository, securityContext, authentication);
         verifyNoInteractions(validationService, portfolioRepository, mapper);
     }
 
