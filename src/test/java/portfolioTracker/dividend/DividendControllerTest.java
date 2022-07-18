@@ -1,7 +1,5 @@
 package portfolioTracker.dividend;
 
-import org.apache.logging.log4j.util.Strings;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +23,8 @@ import portfolioTracker.dividend.service.DividendService;
 import java.net.URI;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -53,7 +48,6 @@ class DividendControllerTest {
     private final URI saveAllUri = linkTo(methodOn(DividendController.class).saveAll(new ValidList<>())).toUri();
     private final URI deleteByIdUri = linkTo(methodOn(DividendController.class).deleteById(id)).toUri();
     private final URI updateUri = linkTo(DividendController.class).toUri();
-
 
     @Autowired
     private MockMvc mvc;
@@ -164,22 +158,6 @@ class DividendControllerTest {
 
     @WithMockUser
     @Test
-    void save_whenIllegalDto_thenValidates_andReturns400(CapturedOutput output) throws Exception {
-        DividendDtoCreateRequest illegalRequestDto = new DividendDtoCreateRequest();
-
-        mvc.perform(post(saveUri)
-                        .with(csrf())
-                        .content(objectToJson(illegalRequestDto))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorMessage").isNotEmpty());
-
-        verifyNoInteractions(service, linkUtil);
-        assertOutputContainsExpected(output,"post", saveUri);
-    }
-
-    @WithMockUser
-    @Test
     void save_whenDto_thenReturnJson_andStatus201(CapturedOutput output) throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
@@ -199,7 +177,23 @@ class DividendControllerTest {
         verify(service, times(1)).save(requestDto);
         verify(linkUtil, times(1)).addLinks(responseDto);
         verifyNoMoreInteractions(service, linkUtil);
-        assertOutputContainsExpected(output,"post", saveUri);
+        assertOutputContainsExpected(output, "post", saveUri);
+    }
+
+    @WithMockUser
+    @Test
+    void save_whenIllegalDto_thenValidates_andReturns400(CapturedOutput output) throws Exception {
+        DividendDtoCreateRequest illegalRequestDto = new DividendDtoCreateRequest();
+
+        mvc.perform(post(saveUri)
+                        .with(csrf())
+                        .content(objectToJson(illegalRequestDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorMessage").isNotEmpty());
+
+        verifyNoInteractions(service, linkUtil);
+        assertOutputContainsExpected(output, "post", saveUri);
     }
 
     @Test
@@ -236,8 +230,25 @@ class DividendControllerTest {
         responseDtoList.forEach(dto -> verify(linkUtil, times(1)).addLinks(dto));
         verifyNoMoreInteractions(service, linkUtil);
 
-        assertOutputContainsExpected(output,"post", saveAllUri);
+        assertOutputContainsExpected(output, "post", saveAllUri);
 
+    }
+
+    @WithMockUser
+    @Test
+    void saveAll_whenIllegalDto_thenValidates_andReturns400(CapturedOutput output) throws Exception {
+        List<DividendDtoCreateRequest> illegalRequestDtoList = List.of(
+                new DividendDtoCreateRequest(), new DividendDtoCreateRequest(), new DividendDtoCreateRequest());
+
+        mvc.perform(post(saveAllUri)
+                        .with(csrf())
+                        .content(objectToJson(illegalRequestDtoList))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorMessage").isNotEmpty());
+
+        verifyNoInteractions(service, linkUtil);
+        assertOutputContainsExpected(output, "post", saveAllUri);
     }
 
     @Test
@@ -247,7 +258,7 @@ class DividendControllerTest {
                 .andExpect(status().is(401))
                 .andExpect(content().string(emptyOrNullString()));
 
-       verifyNoInteractions(service, linkUtil);
+        verifyNoInteractions(service, linkUtil);
     }
 
     @WithMockUser
@@ -301,6 +312,22 @@ class DividendControllerTest {
         verify(linkUtil, times(1)).addLinks(responseDto);
         verifyNoMoreInteractions(service, linkUtil);
         assertOutputContainsExpected(output, "put", updateUri);
+    }
+
+    @WithMockUser
+    @Test
+    void update_whenIllegalDto_thenValidates_andReturns400(CapturedOutput output) throws Exception {
+        DividendDtoUpdateRequest illegalRequestDto = new DividendDtoUpdateRequest();
+
+        mvc.perform(post(updateUri)
+                        .with(csrf())
+                        .content(objectToJson(illegalRequestDto))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errorMessage").isNotEmpty());
+
+        verifyNoInteractions(service, linkUtil);
+        assertOutputContainsExpected(output, "post", updateUri);
     }
 
 /*
