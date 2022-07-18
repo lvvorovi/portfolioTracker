@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.validation.annotation.Validated;
 import portfolioTracker.dto.eventType.EventType;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,9 +25,11 @@ public class DividendEntity implements Serializable {
 
     @Id
     @Column(name = "id")
+    @Size(max = 36, min = 36, message = "must be exactly 36 characters")
     private String id;
     @NotBlank
     @Column(name = "ticker")
+    @Size(max = 50, message = "max 50 characters")
     private String ticker;
     @NotNull
     @PastOrPresent
@@ -42,7 +40,6 @@ public class DividendEntity implements Serializable {
     @Column(name = "payment_date")
     private LocalDate date;
     @NotNull
-    @NumberFormat
     @Positive
     @Column(name = "amount")
     private BigDecimal amount;
@@ -54,7 +51,6 @@ public class DividendEntity implements Serializable {
     private PortfolioEntity portfolio;
     @Column(name = "username")
     @NotBlank
+    @Size(max = 50, message = "max 50 characters")
     private String username;
-
-
 }

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS currency_rates, dividends, transactions, flyway_schema_history, trade_transactions, dividend_events, portfolios;
 
 create TABLE portfolios (
-    id                  VARCHAR(60)     NOT NULL,
+    id                  VARCHAR(36)     NOT NULL,
     name                VARCHAR(50)     NOT NULL,
     strategy            VARCHAR(150)    NOT NULL,
     currency            VARCHAR(3)      NOT NULL,
@@ -15,27 +15,27 @@ SELECT id, name, strategy, currency, username FROM portfolios WHERE id = '1'
 SELECT id, name, strategy, currency, username FROM portfolios WHERE id= 1;
 
 create TABLE transactions (
-    id                  VARCHAR(60)     NOT NULL,
+    id                  VARCHAR(36)     NOT NULL,
     ticker              VARCHAR(50)     NOT NULL,
     trade_date          DATE            NOT NULL,
     quantity            DECIMAL(10,0)   NOT NULL,
     price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
-    portfolio_id        VARCHAR(60)     NOT NULL,
+    portfolio_id        VARCHAR(36)     NOT NULL,
     username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (portfolio_id) REFERENCES portfolios (id)
 );
 create TABLE dividends (
-    id                  VARCHAR(60)     NOT NULL,
+    id                  VARCHAR(36)     NOT NULL,
     ticker              VARCHAR(50)     NOT NULL,
     ex_dividend_date    DATE            NOT NULL,
     payment_date        DATE            NOT NULL,
     amount              DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,
-    portfolio_id        VARCHAR(60)     NOT NULL,
+    portfolio_id        VARCHAR(36)     NOT NULL,
     username            VARCHAR(50)     NOT NULL,
 
     PRIMARY KEY (id),
