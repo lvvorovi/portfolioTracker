@@ -10,7 +10,7 @@ import portfolioTracker.transaction.validation.exception.TransactionNotFoundTran
 
 import java.util.Optional;
 
-import static portfolioTracker.core.ExceptionErrors.*;
+import static portfolioTracker.core.ExceptionErrors.TRANSACTION_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Component
 @AllArgsConstructor

@@ -225,7 +225,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "portfolioId");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(portfolioLengthTestErrorMessage);
+        assertThat(errorMessages).contains(portfolioIdLengthTestErrorMessage);
     }
 
     @Test
@@ -236,7 +236,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "portfolioId");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(portfolioLengthTestErrorMessage);
+        assertThat(errorMessages).contains(portfolioIdLengthTestErrorMessage);
     }
 
     @Test
@@ -268,7 +268,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "username");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(usernameLengthTestErrorMessage);
+        assertThat(errorMessages).contains(usernameMaxLengthTestErrorMessage);
     }
 
     @Test

@@ -3,6 +3,8 @@ package portfolioTracker.core;
 import org.springframework.stereotype.Component;
 import portfolioTracker.dividend.DividendController;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
+import portfolioTracker.portfolio.PortfolioController;
+import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.transaction.TransactionController;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 
@@ -22,6 +24,19 @@ public class LinkUtil {
         responseDto.add(linkTo(methodOn(DividendController.class)
                 .findById(responseDto.getId()))
                 .withSelfRel());
+    }
+
+    public void addLinks(PortfolioDtoResponse responseDto) {
+        responseDto
+                .add(linkTo(methodOn(PortfolioController.class)
+                        .findById(responseDto.getId(), null))
+                        .withSelfRel());
+    }
+
+    public void addLinksInclEvents(PortfolioDtoResponse responseDto) {
+        addLinks(responseDto);
+        responseDto.getTransactionList().forEach(this::addLinks);
+        responseDto.getDividendList().forEach(this::addLinks);
     }
 
 }

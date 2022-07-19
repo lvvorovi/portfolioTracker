@@ -20,7 +20,7 @@ class DividendMapperImplTest {
     DividendMapperImpl victim;
 
     @Test
-    void createToEntity_whenValidRequest_thenReturnsEntity() {
+    void createToEntity_whenCreate_thenEntity() {
         DividendEntity expected = newDividendEntity();
         DividendDtoCreateRequest request = newDividendDtoCreateRequest(expected);
 
@@ -37,7 +37,7 @@ class DividendMapperImplTest {
     }
 
     @Test
-    void updateToEntity_whenAllFields() {
+    void updateToEntity_whenUpdate_thenEntity() {
         DividendEntity expected = newDividendEntity();
         DividendDtoUpdateRequest request = newDividendDtoUpdateRequest(expected);
 
@@ -54,9 +54,9 @@ class DividendMapperImplTest {
     }
 
     @Test
-    void toDto() {
+    void toDto_whenEntity_thenResponse() {
         DividendEntity request = newDividendEntity();
-        DividendDtoResponse expected = newDividendResponseDto(request);
+        DividendDtoResponse expected = newDividendDtoResponse(request);
 
         DividendDtoResponse result = victim.toDto(request);
 

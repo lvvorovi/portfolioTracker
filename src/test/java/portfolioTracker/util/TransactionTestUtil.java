@@ -1,7 +1,5 @@
 package portfolioTracker.util;
 
-import org.assertj.core.api.AbstractStringAssert;
-import org.springframework.boot.test.system.CapturedOutput;
 import portfolioTracker.core.ValidList;
 import portfolioTracker.transaction.TransactionController;
 import portfolioTracker.transaction.domain.TransactionEntity;
@@ -15,11 +13,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static portfolioTracker.dto.eventType.EventType.BUY;
-import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntity;
+import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntity;
+import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 
 public class TransactionTestUtil extends TestUtil {
 
@@ -34,7 +32,7 @@ public class TransactionTestUtil extends TestUtil {
         return TransactionEntity.builder()
                 .id(UUID.randomUUID().toString())
                 .date(LocalDate.now())
-                .portfolio(newPortfolioEntity())
+                .portfolio(newPortfolioEntitySkipEvents())
                 .commission(new BigDecimal(10))
                 .ticker("BRK-B")
                 .type(BUY)
@@ -85,20 +83,32 @@ public class TransactionTestUtil extends TestUtil {
                 .build();
     }
 
-    public static List<TransactionDtoResponse> newTransactionDtoResponseList() {
+    public static List<TransactionEntity> newTransactionEntityList() {
         return List.of(
-                newTransactionDtoResponse(newTransactionEntity()),
-                newTransactionDtoResponse(newTransactionEntity()),
-                newTransactionDtoResponse(newTransactionEntity())
-        );
+                newTransactionEntity(),
+                newTransactionEntity(),
+                newTransactionEntity());
     }
 
-    public static List<TransactionDtoCreateRequest> newTransactionDtoCreateRequestList() {
+    public static List<TransactionDtoResponse> newTransactionDtoResponseList(List<TransactionEntity> entityList) {
         return List.of(
-                newTransactionDtoCreateRequest(newTransactionEntity()),
-                newTransactionDtoCreateRequest(newTransactionEntity()),
-                newTransactionDtoCreateRequest(newTransactionEntity())
-        );
+                newTransactionDtoResponse(entityList.get(0)),
+                newTransactionDtoResponse(entityList.get(1)),
+                newTransactionDtoResponse(entityList.get(2)));
+    }
+
+    public static List<TransactionDtoCreateRequest> newTransactionDtoCreateRequestList(List<TransactionEntity> entityList) {
+        return List.of(
+                newTransactionDtoCreateRequest(entityList.get(0)),
+                newTransactionDtoCreateRequest(entityList.get(1)),
+                newTransactionDtoCreateRequest(entityList.get(2)));
+    }
+
+    public static List<TransactionDtoUpdateRequest> newTransactionDtoUpdateRequestList(List<TransactionEntity> entityList) {
+        return List.of(
+                newTransactionDtoUpdateRequest(entityList.get(0)),
+                newTransactionDtoUpdateRequest(entityList.get(1)),
+                newTransactionDtoUpdateRequest(entityList.get(2)));
     }
 
 }

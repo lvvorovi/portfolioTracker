@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static portfolioTracker.core.ExceptionErrors.DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE;
 import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE;
-import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
+import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 import static portfolioTracker.util.DividendTestUtil.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +56,7 @@ class DividendServiceImplTest {
         DividendEntity mockedEntity = mock(DividendEntity.class);
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
-        DividendDtoResponse expected = newDividendResponseDto(entity);
+        DividendDtoResponse expected = newDividendDtoResponse(entity);
         PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
         doNothing().when(validationService).validate(requestDto);
         when(mapper.createToEntity(requestDto)).thenReturn(mockedEntity);
@@ -102,8 +102,8 @@ class DividendServiceImplTest {
         PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
         List<DividendEntity> mockedEntityList = newDividendEntityMockList();
         List<DividendEntity> entityList = newDividendEntityList();
-        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList();
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList(entityList);
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(entityList);
 
         requestDtoList.forEach(dto -> doNothing().when(validationService).validate(dto));
         requestDtoList.forEach(dto ->
@@ -146,7 +146,7 @@ class DividendServiceImplTest {
     @Test
     void findById_whenExist_thenReturn() {
         DividendEntity entity = newDividendEntity();
-        DividendDtoResponse expected = newDividendResponseDto(entity);
+        DividendDtoResponse expected = newDividendDtoResponse(entity);
         when(repository.findById(id)).thenReturn(Optional.of(entity));
         when(mapper.toDto(entity)).thenReturn(expected);
 
@@ -176,7 +176,7 @@ class DividendServiceImplTest {
     @Test
     void findAllByUsername_whenExist_thenReturnList() {
         List<DividendEntity> entityList = newDividendEntityList();
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(entityList);
         when(repository.findAllByUsername(username)).thenReturn(entityList);
         for (int i = 0; i < entityList.size(); i++) {
             when(mapper.toDto(entityList.get(i)))
@@ -209,7 +209,7 @@ class DividendServiceImplTest {
     @Test
     void findAllByPortfolioId_whenExist_thenReturnListOf() {
         List<DividendEntity> entityList = newDividendEntityList();
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(entityList);
         when(repository.findAllByPortfolioId(portfolioId)).thenReturn(entityList);
         for (int i = 0; i < entityList.size(); i++) {
             when(mapper.toDto(entityList.get(i)))
@@ -244,7 +244,7 @@ class DividendServiceImplTest {
         DividendEntity mockedEntity = mock(DividendEntity.class);
         DividendEntity entity = newDividendEntity();
         DividendDtoUpdateRequest requestDto = newDividendDtoUpdateRequest(entity);
-        DividendDtoResponse expected = newDividendResponseDto(entity);
+        DividendDtoResponse expected = newDividendDtoResponse(entity);
         PortfolioEntity portfolioEntity = newPortfolioEntitySkipEvents();
         doNothing().when(validationService).validate(requestDto);
         when(mapper.updateToEntity(requestDto)).thenReturn(mockedEntity);

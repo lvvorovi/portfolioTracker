@@ -1,12 +1,10 @@
 package portfolioTracker.transaction.dto;
 
 import lombok.*;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.validation.annotation.Validated;
 import portfolioTracker.dto.eventType.EventType;
 
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 

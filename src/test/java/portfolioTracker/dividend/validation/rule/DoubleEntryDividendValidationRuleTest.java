@@ -10,13 +10,17 @@ import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.dividend.validation.exception.DividendExistsDividendException;
+import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
-import static portfolioTracker.core.ExceptionErrors.DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE;
+import static portfolioTracker.core.ExceptionErrors.*;
+import static portfolioTracker.util.DividendTestUtil.*;
+
 
 @ExtendWith(MockitoExtension.class)
 public class DoubleEntryDividendValidationRuleTest {
@@ -29,83 +33,112 @@ public class DoubleEntryDividendValidationRuleTest {
 
     @Test
     void validate_whenCreateRequestDoesNotExist_thenNoException() {
-        DividendDtoCreateRequest request = mock(DividendDtoCreateRequest.class);
+        DividendDtoCreateRequest mockedRequestDto = mock(DividendDtoCreateRequest.class);
         when(repository
                 .existsByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId()))
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId()))
                 .thenReturn(false);
 
-        assertDoesNotThrow(() -> victim.validate(request));
+        assertDoesNotThrow(() -> victim.validate(mockedRequestDto));
 
-        verify(request, times(2)).getTicker();
-        verify(request, times(2)).getExDate();
-        verify(request, times(2)).getPortfolioId();
         verify(repository, times(1))
                 .existsByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId());
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId());
+        verify(mockedRequestDto, times(3)).getTicker();
+        verify(mockedRequestDto, times(3)).getExDate();
+        verify(mockedRequestDto, times(3)).getPortfolioId();
+        verifyNoMoreInteractions(mockedRequestDto, repository);
     }
 
     @Test
     void validate_whenCreateRequestAlreadyExists_thenThrowException() {
-        DividendDtoCreateRequest request = mock(DividendDtoCreateRequest.class);
+        DividendDtoCreateRequest mockedRequestDto = mock(DividendDtoCreateRequest.class);
         when(repository
                 .existsByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId()))
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId()))
                 .thenReturn(true);
 
-        assertThatThrownBy(() -> victim.validate(request))
+        assertThatThrownBy(() -> victim.validate(mockedRequestDto))
                 .isInstanceOf(DividendExistsDividendException.class)
-                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + request);
+                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + mockedRequestDto);
 
-        verify(request, times(2)).getTicker();
-        verify(request, times(2)).getExDate();
-        verify(request, times(2)).getPortfolioId();
         verify(repository, times(1))
                 .existsByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId());
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId());
+        verify(mockedRequestDto, times(3)).getTicker();
+        verify(mockedRequestDto, times(3)).getExDate();
+        verify(mockedRequestDto, times(3)).getPortfolioId();
+        verifyNoMoreInteractions(mockedRequestDto, repository);
     }
 
     @Test
-    void validate_whenUpdateRequestDoesNotExist_thenNoException() {
-        DividendDtoUpdateRequest request = mock(DividendDtoUpdateRequest.class);
-        when(repository
-                .findByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId()))
-                .thenReturn(Optional.empty());
+    void validate_whenUpdateRequestDoesNotExistById_thenNoException() {
+        DividendDtoUpdateRequest mockedRequestDto = mock(DividendDtoUpdateRequest.class);
+        when(repository.existsById(mockedRequestDto.getId())).thenReturn(false);
 
-        assertDoesNotThrow(() -> victim.validate(request));
+        assertThatThrownBy(() -> victim.validate(mockedRequestDto))
+                .isInstanceOf(DividendNotFoundDividendException.class)
+                        .hasMessage(DIVIDEND_NOT_FOUND_EXCEPTION_MESSAGE + mockedRequestDto);
 
-        verify(request, times(2)).getTicker();
-        verify(request, times(2)).getExDate();
-        verify(request, times(2)).getPortfolioId();
-        verify(repository, times(1))
-                .findByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId());
+        verify(repository, times(1)).existsById(mockedRequestDto.getId());
+        verify(mockedRequestDto, times(3)).getId();
+        verifyNoMoreInteractions(repository, mockedRequestDto);
     }
 
     @Test
-    void validate_whenUpdateRequestAlreadyExists_thenThrowException() {
-        String id = "";
-        DividendDtoUpdateRequest request = mock(DividendDtoUpdateRequest.class);
+    void validate_whenUpdateRequestAlreadyExistsInPortfolio_thenThrowException() {
+        DividendDtoUpdateRequest mockedRequestDto = mock(DividendDtoUpdateRequest.class);
         DividendEntity mockedEntity = mock(DividendEntity.class);
         when(mockedEntity.getId()).thenReturn(id);
+        when(mockedRequestDto.getId()).thenReturn(id.concat("a"));
+        when(repository.existsById(mockedRequestDto.getId())).thenReturn(true);
         when(repository
                 .findByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId()))
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId()))
                 .thenReturn(Optional.of(mockedEntity));
 
-        assertThatThrownBy(() -> victim.validate(request))
+        assertThatThrownBy(() -> victim.validate(mockedRequestDto))
                 .isInstanceOf(DividendExistsDividendException.class)
-                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + request);
+                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + mockedRequestDto);
 
-        verify(request, times(1)).getId();
-        verify(request, times(2)).getTicker();
-        verify(request, times(2)).getExDate();
-        verify(request, times(2)).getPortfolioId();
-        verify(mockedEntity, times(1)).getId();
         verify(repository, times(1))
                 .findByTickerAndExDateAndPortfolioId(
-                        request.getTicker(), request.getExDate(), request.getPortfolioId());
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId());
+        verify(repository, times(1)).existsById(mockedRequestDto.getId());
+        verify(mockedRequestDto, times(4)).getId();
+        verify(mockedRequestDto, times(3)).getTicker();
+        verify(mockedRequestDto, times(3)).getExDate();
+        verify(mockedRequestDto, times(3)).getPortfolioId();
+        verify(mockedEntity, times(1)).getId();
+        verifyNoMoreInteractions(mockedRequestDto, repository);
     }
+
+    @Test
+    void validate_whenUpdateRequestDoesNotExistInPortfolio_thenNoException() {
+        DividendDtoUpdateRequest mockedRequestDto = mock(DividendDtoUpdateRequest.class);
+        DividendEntity mockedEntity = mock(DividendEntity.class);
+        when(mockedEntity.getId()).thenReturn(id);
+        when(mockedRequestDto.getId()).thenReturn(id);
+        when(repository.existsById(mockedRequestDto.getId())).thenReturn(true);
+        when(repository
+                .findByTickerAndExDateAndPortfolioId(
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId()))
+                .thenReturn(Optional.of(mockedEntity));
+
+        assertThatNoException().isThrownBy(() -> victim.validate(mockedRequestDto));
+
+        verify(repository, times(1))
+                .findByTickerAndExDateAndPortfolioId(
+                        mockedRequestDto.getTicker(), mockedRequestDto.getExDate(), mockedRequestDto.getPortfolioId());
+        verify(repository, times(1)).existsById(mockedRequestDto.getId());
+        verify(mockedRequestDto, times(4)).getId();
+        verify(mockedRequestDto, times(3)).getTicker();
+        verify(mockedRequestDto, times(3)).getExDate();
+        verify(mockedRequestDto, times(3)).getPortfolioId();
+        verify(mockedEntity, times(1)).getId();
+        verifyNoMoreInteractions(mockedRequestDto, repository, mockedEntity);
+    }
+
+
 
 }

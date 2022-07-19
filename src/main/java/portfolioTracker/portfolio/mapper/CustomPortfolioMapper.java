@@ -1,5 +1,6 @@
 package portfolioTracker.portfolio.mapper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
@@ -7,6 +8,7 @@ import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 
 @Component
+@AllArgsConstructor
 public class CustomPortfolioMapper implements PortfolioMapper {
 
     @Override
@@ -38,6 +40,7 @@ public class CustomPortfolioMapper implements PortfolioMapper {
         responseDto.setStrategy(entity.getStrategy());
         responseDto.setCurrency(entity.getCurrency());
         responseDto.setUsername(entity.getUsername());
+
         return responseDto;
     }
 

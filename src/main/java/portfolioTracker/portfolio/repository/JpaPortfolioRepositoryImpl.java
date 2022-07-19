@@ -13,12 +13,6 @@ import java.util.Optional;
 public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntity, String>, PortfolioRepository {
 
     @Override
-    Boolean existsByName(String name);
-
-    @Override
-    Optional<PortfolioEntity> findByName(String name);
-
-    @Override
     @Query(value = "SELECT DISTINCT currency FROM portfolios", nativeQuery = true)
     List<String> findAllPortfolioCurrencies();
 
@@ -28,7 +22,7 @@ public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntit
     Optional<PortfolioEntity> findByIdSkipEvents(@Param("id") String id);
 
     @Override
-    @Query(value = "SELECT id, name, strategy, currency, username FROM portfolios",
+    @Query(value = "SELECT id, name, strategy, currency, username FROM portfolios WHERE  username = :username",
             nativeQuery = true)
-    List<PortfolioEntity> findAllSKipEvents();
+    List<PortfolioEntity> findAllByUsername(@Param("username") String username);
 }

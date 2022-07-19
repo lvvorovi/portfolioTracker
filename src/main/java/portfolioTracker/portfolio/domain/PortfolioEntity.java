@@ -26,12 +26,13 @@ import static portfolioTracker.core.ExceptionErrors.*;
 public class PortfolioEntity {
 
     @Id
-    @Column(name = "id")
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
     @Size(max = 36, min = 36, message = ID_LENGTH_ERROR_MESSAGE)
+    @Column(name = "id")
     private String id;
     @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
-    @Column(name = "name")
     @Size(max = 50, message = PORTFOLIO_NAME_MAX_LENGTH_ERROR_MESSAGE)
+    @Column(name = "name")
     private String name;
     @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
     @Size(max = 50, message = PORTFOLIO_STRATEGY_MAX_LENGTH_ERROR_MESSAGE)
@@ -46,8 +47,8 @@ public class PortfolioEntity {
     @Column(name = "dividend_event")
     @OneToMany(mappedBy = "portfolio")
     private List<DividendEntity> dividendEntityList;
-    @Column(name = "username")
     @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
     @Size(max = 50, message = USERNAME_MAX_LENGTH_ERROR_MESSAGE)
+    @Column(name = "username")
     private String username;
 }

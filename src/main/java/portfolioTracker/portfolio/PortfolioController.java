@@ -1,24 +1,21 @@
 package portfolioTracker.portfolio;
 
 import lombok.AllArgsConstructor;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import portfolioTracker.dividend.DividendController;
+import portfolioTracker.core.LinkUtil;
+import portfolioTracker.dto.portfolioWithEventsDto.PortfolioWithEventsService;
 import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
 import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 import portfolioTracker.portfolio.service.PortfolioService;
-import portfolioTracker.transaction.TransactionController;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Validated
 @RestController
@@ -26,72 +23,56 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RequestMapping("/api/v1/portfolios")
 public class PortfolioController {
 
-    private final PortfolioService service;
+    private final PortfolioService portfolioService;
+    private final PortfolioWithEventsService portfolioWithEventsService;
+    private final LinkUtil linkUtil;
 
     @GetMapping("/{id}")
     public ResponseEntity<PortfolioDtoResponse> findById(@PathVariable String id,
                                                          @Nullable @RequestParam Boolean includeEvents) {
         PortfolioDtoResponse response;
         if (includeEvents == null || !includeEvents) {
-            response = service.findByIdSkipEvents(id);
-            addSelfRelLink(response);
+            response = portfolioService.findById(id);
+            linkUtil.addLinks(response);
         } else {
-            response = service.findByIdWithEvents(id);
-            addSelfRelLinkInclEvents(response);
+            response = portfolioWithEventsService.findById(id);
+            linkUtil.addLinks(response);
         }
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<PortfolioDtoResponse>> findAll(@Nullable @RequestParam Boolean includeEvents) {
+    public ResponseEntity<List<PortfolioDtoResponse>> findAllByUsername(@Nullable @RequestParam Boolean includeEvents,
+                                                                        Authentication authentication) {
         List<PortfolioDtoResponse> portfolioResponseList;
         if (includeEvents == null || !includeEvents) {
-            portfolioResponseList = service.findAllSkipEvents();
-            portfolioResponseList.forEach(this::addSelfRelLink);
+            portfolioResponseList = portfolioService.findAllByUsername(authentication.getName());
+            portfolioResponseList.forEach(linkUtil::addLinks);
         } else {
-            portfolioResponseList = service.findAllWithEvents();
-            portfolioResponseList.forEach(this::addSelfRelLinkInclEvents);
+            portfolioResponseList = portfolioWithEventsService.findAllByUsername(authentication.getName());
+            portfolioResponseList.forEach(linkUtil::addLinksInclEvents);
         }
         return ResponseEntity.ok(portfolioResponseList);
     }
 
     @PostMapping
     public ResponseEntity<PortfolioDtoResponse> save(@Valid @RequestBody PortfolioDtoCreateRequest requestDto) {
-        PortfolioDtoResponse responseDto = service.save(requestDto);
-        addSelfRelLink(responseDto);
+        PortfolioDtoResponse responseDto = portfolioService.save(requestDto);
+        linkUtil.addLinks(responseDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<PortfolioDtoResponse> update(@Valid @RequestBody PortfolioDtoUpdateRequest requestDto) {
-        PortfolioDtoResponse responseDto = service.update(requestDto);
-        addSelfRelLink(responseDto);
+        PortfolioDtoResponse responseDto = portfolioService.update(requestDto);
+        linkUtil.addLinks(responseDto);
         return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable String id) {
-        service.deleteById(id);
+        portfolioService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private void addSelfRelLink(PortfolioDtoResponse responseDto) {
-        responseDto
-                .add(linkTo(methodOn(PortfolioController.class)
-                        .findById(responseDto.getId(), null))
-                        .withSelfRel());
-    }
-
-    private void addSelfRelLinkInclEvents(PortfolioDtoResponse responseDto) {
-        addSelfRelLink(responseDto);
-
-        responseDto.getDividendList().forEach(dto ->
-                dto.add(linkTo(methodOn(DividendController.class)
-                        .findById(dto.getId())).withSelfRel()));
-
-        responseDto.getTransactionList().forEach(dto ->
-                dto.add(WebMvcLinkBuilder.linkTo(methodOn(TransactionController.class)
-                        .findById(dto.getId())).withSelfRel()));
     }
 
 }
