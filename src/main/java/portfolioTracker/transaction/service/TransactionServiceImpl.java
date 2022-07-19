@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.repository.PortfolioRepository;
-import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundException;
+import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundPortfolioException;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
@@ -34,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
         validationService.validate(requestDto);
         TransactionEntity requestEntity = mapper.createToEntity(requestDto);
         PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundException(PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE +
+                .orElseThrow(() -> new PortfolioNotFoundPortfolioException(PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE +
                         requestDto.getPortfolioId()));
         requestEntity.setPortfolio(portfolioEntity);
         TransactionEntity savedEntity = repository.save(requestEntity);

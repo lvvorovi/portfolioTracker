@@ -17,11 +17,9 @@ public interface PortfolioRepository {
 
     List<PortfolioEntity> save(List<PortfolioEntity> entityList);
 
-    Optional<PortfolioEntity> findById(String id);
-
     void deleteById(String id);
 
-    Optional<PortfolioEntity> findByIdSkipEvents(String id);
+    Optional<PortfolioEntity> findById(String id);
 
     List<PortfolioEntity> findAllByUsername(String username);
 }

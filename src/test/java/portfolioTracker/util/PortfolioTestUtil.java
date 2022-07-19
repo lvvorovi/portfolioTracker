@@ -9,6 +9,7 @@ import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 
 import javax.validation.ConstraintViolation;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -70,10 +71,37 @@ public class PortfolioTestUtil extends TestUtil{
                 .name(entity.getName())
                 .strategy(entity.getStrategy())
                 .username(entity.getUsername())
-                .dividendList(newDividendDtoResponseList(entity.getDividendEntityList()))
-                .transactionList(newTransactionDtoResponseList(entity.getTransactionEntityList()))
                 .build();
     }
+
+    public static List<PortfolioEntity> newPortfolioEntityList() {
+        return List.of(
+                newPortfolioEntity(),
+                newPortfolioEntity(),
+                newPortfolioEntity());
+    }
+
+    public static List<PortfolioDtoResponse> newPortfolioDtoResponseDtoList(List<PortfolioEntity> entityList) {
+        return List.of(
+                newPortfolioDtoResponse(entityList.get(0)),
+                newPortfolioDtoResponse(entityList.get(1)),
+                newPortfolioDtoResponse(entityList.get(2)));
+    }
+
+    public static List<PortfolioDtoUpdateRequest> newPortfolioDtoUpdateRequestList(List<PortfolioEntity> entityList) {
+        return List.of(
+                newPortfolioDtoUpdateRequest(entityList.get(0)),
+                newPortfolioDtoUpdateRequest(entityList.get(1)),
+                newPortfolioDtoUpdateRequest(entityList.get(2)));
+    }
+
+    public static List<PortfolioDtoCreateRequest> newPortfolioDtoCreateRequestList(List<PortfolioEntity> entityList) {
+        return List.of(
+                newPortfolioDtoCreateRequest(entityList.get(0)),
+                newPortfolioDtoCreateRequest(entityList.get(1)),
+                newPortfolioDtoCreateRequest(entityList.get(2)));
+    }
+
 
     public static String extractMessagesFromViolationSetCreateRequest(Set<ConstraintViolation<PortfolioDtoCreateRequest>> violationSet) {
         return violationSet.stream()

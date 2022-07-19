@@ -40,7 +40,6 @@ public class CustomPortfolioMapper implements PortfolioMapper {
         responseDto.setStrategy(entity.getStrategy());
         responseDto.setCurrency(entity.getCurrency());
         responseDto.setUsername(entity.getUsername());
-
         return responseDto;
     }
 

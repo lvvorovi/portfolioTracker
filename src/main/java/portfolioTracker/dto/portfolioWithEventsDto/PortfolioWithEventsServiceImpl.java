@@ -2,11 +2,9 @@ package portfolioTracker.dto.portfolioWithEventsDto;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.service.DividendService;
 import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.service.PortfolioService;
-import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.service.TransactionService;
 
 import java.util.List;
