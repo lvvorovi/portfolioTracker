@@ -52,7 +52,7 @@ class DividendControllerTest {
     @Test
     void findById_whenId_thenReturnJson_andStatus200() throws Exception {
         DividendEntity entity = newDividendEntity();
-        DividendDtoResponse responseDto = newDividendResponseDto(entity);
+        DividendDtoResponse responseDto = newDividendDtoResponse(entity);
         when(service.findById(id)).thenReturn(responseDto);
         doNothing().when(linkUtil).addLinks(responseDto);
 
@@ -83,7 +83,7 @@ class DividendControllerTest {
     @WithMockUser(username = username)
     @Test
     void findAll_whenIsAuth_thenReturnJsonArray_andStatus200() throws Exception {
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(newDividendEntityList());
         when(service.findAllByUsername(username)).thenReturn(responseDtoList);
         responseDtoList.forEach(dto -> doNothing().when(linkUtil).addLinks(dto));
 
@@ -103,7 +103,7 @@ class DividendControllerTest {
     @WithMockUser
     @Test
     void findAll_whenIsParam_thenReturnJsonArray_andStatus200() throws Exception {
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(newDividendEntityList());
         when(service.findAllByPortfolioId(portfolioId)).thenReturn(responseDtoList);
         responseDtoList.forEach(dto -> doNothing().when(linkUtil).addLinks(dto));
 
@@ -140,7 +140,7 @@ class DividendControllerTest {
     void save_whenDto_thenReturnJson_andStatus201() throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
-        DividendDtoResponse responseDto = newDividendResponseDto(entity);
+        DividendDtoResponse responseDto = newDividendDtoResponse(entity);
         when(service.save(requestDto)).thenReturn(responseDto);
         doNothing().when(linkUtil).addLinks(responseDto);
 
@@ -175,7 +175,7 @@ class DividendControllerTest {
 
     @Test
     void saveAll_whenNotAuth_thenStatus401() throws Exception {
-        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList();
+        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList(newDividendEntityList());
 
         mvc.perform(post(saveAllUri)
                         .with(csrf())
@@ -189,8 +189,9 @@ class DividendControllerTest {
     @WithMockUser
     @Test
     void saveAll_whenDto_thenReturnJson_andStatus201() throws Exception {
-        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList();
-        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList();
+        List<DividendEntity> entityList = newDividendEntityList();
+        List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList(entityList);
+        List<DividendDtoResponse> responseDtoList = newDividendDtoResponseList(entityList);
         when(service.saveAll(requestDtoList)).thenReturn(responseDtoList);
         responseDtoList.forEach(dto -> doNothing().when(linkUtil).addLinks(dto));
 
@@ -268,7 +269,7 @@ class DividendControllerTest {
     void update_whenDto_thenDelegateToService_andStatus200() throws Exception {
         DividendEntity entity = newDividendEntity();
         DividendDtoUpdateRequest requestDto = newDividendDtoUpdateRequest(entity);
-        DividendDtoResponse responseDto = newDividendResponseDto(entity);
+        DividendDtoResponse responseDto = newDividendDtoResponse(entity);
         when(service.update(requestDto)).thenReturn(responseDto);
         doNothing().when(linkUtil).addLinks(responseDto);
 

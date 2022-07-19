@@ -20,7 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static portfolioTracker.dto.eventType.EventType.DIVIDEND;
-import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
+import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 
 public class DividendTestUtil extends TestUtil {
 
@@ -70,7 +70,7 @@ public class DividendTestUtil extends TestUtil {
         return dto;
     }
 
-    public static DividendDtoResponse newDividendResponseDto(DividendEntity entity) {
+    public static DividendDtoResponse newDividendDtoResponse(DividendEntity entity) {
         DividendDtoResponse dto = new DividendDtoResponse();
         dto.setId(entity.getId());
         dto.setAmount(entity.getAmount());
@@ -83,19 +83,19 @@ public class DividendTestUtil extends TestUtil {
         return dto;
     }
 
-    public static List<DividendDtoResponse> newDividendDtoResponseList() {
+    public static List<DividendDtoResponse> newDividendDtoResponseList(List<DividendEntity> entityList) {
         return List.of(
-                newDividendResponseDto(newDividendEntity()),
-                newDividendResponseDto(newDividendEntity()),
-                newDividendResponseDto(newDividendEntity())
+                newDividendDtoResponse(entityList.get(0)),
+                newDividendDtoResponse(entityList.get(1)),
+                newDividendDtoResponse(entityList.get(2))
         );
     }
 
-    public static List<DividendDtoCreateRequest> newDividendDtoCreateList() {
+    public static List<DividendDtoCreateRequest> newDividendDtoCreateList(List<DividendEntity> entityList) {
         return List.of(
-                newDividendDtoCreateRequest(newDividendEntity()),
-                newDividendDtoCreateRequest(newDividendEntity()),
-                newDividendDtoCreateRequest(newDividendEntity())
+                newDividendDtoCreateRequest(entityList.get(0)),
+                newDividendDtoCreateRequest(entityList.get(1)),
+                newDividendDtoCreateRequest(entityList.get(2))
         );
     }
 

@@ -11,8 +11,8 @@ import portfolioTracker.dto.ticker.exception.TickerServiceNullResponseException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static portfolioTracker.core.ExceptionErrors.IS_TICKER_SUPPORTED_NULL_RESPONSE_EXCEPTION_MESSAGE;
 import static portfolioTracker.core.ExceptionErrors.IS_TICKER_SUPPORTED_CONNECTION_FAILURE_EXCEPTION_MESSAGE;
+import static portfolioTracker.core.ExceptionErrors.IS_TICKER_SUPPORTED_NULL_RESPONSE_EXCEPTION_MESSAGE;
 
 @Service
 @AllArgsConstructor

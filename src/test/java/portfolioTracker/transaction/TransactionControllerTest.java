@@ -86,7 +86,7 @@ class TransactionControllerTest {
     @Test
     @WithMockUser(username = "user")
     void findAll_whenNoParam_thenFindByUsername_andReturnList_status200() throws Exception {
-        List<TransactionDtoResponse> responseList = newTransactionDtoResponseList();
+        List<TransactionDtoResponse> responseList = newTransactionDtoResponseList(newTransactionEntityList());
         when(service.findAllByUsername(username)).thenReturn(responseList);
         responseList.forEach(index -> doNothing().when(linkUtil).addLinks(index));
 
@@ -105,7 +105,7 @@ class TransactionControllerTest {
     @Test
     @WithMockUser
     void findAll_whenIsParam_thenFindByPortfolioId_andReturnList_Status200() throws Exception {
-        List<TransactionDtoResponse> responseList = newTransactionDtoResponseList();
+        List<TransactionDtoResponse> responseList = newTransactionDtoResponseList(newTransactionEntityList());
         when(service.findAllByPortfolioId(portfolioId)).thenReturn(responseList);
         responseList.forEach(index -> doNothing().when(linkUtil).addLinks(index));
 
@@ -191,8 +191,9 @@ class TransactionControllerTest {
     @Test
     @WithMockUser
     void saveAll_whenAuthenticated_andDtoList_thenDelegatesToService_returnsResponseDtoList_andStatus201() throws Exception {
-        List<TransactionDtoCreateRequest> requestDtoList = newTransactionDtoCreateRequestList();
-        List<TransactionDtoResponse> responseDtoList = newTransactionDtoResponseList();
+        List<TransactionEntity> entityList = newTransactionEntityList();
+        List<TransactionDtoCreateRequest> requestDtoList = newTransactionDtoCreateRequestList(entityList);
+        List<TransactionDtoResponse> responseDtoList = newTransactionDtoResponseList(entityList);
         when(service.saveAll(requestDtoList)).thenReturn(responseDtoList);
         responseDtoList.forEach(index -> doNothing().when(linkUtil).addLinks(index));
 

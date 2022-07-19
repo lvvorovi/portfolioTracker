@@ -23,7 +23,7 @@ public class ExceptionErrors {
     public static final String PORTFOLIO_NAME_EXISTS_EXCEPTION_MESSAGE = "Portfolio name already exists: ";
 
     public static final String TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE = "Transaction not found for id: ";
-    public static final String TRANSACTION_NOT_FOUND_EXCEPTION_MESSAGE = "Transaction not found for: " ;
+    public static final String TRANSACTION_NOT_FOUND_EXCEPTION_MESSAGE = "Transaction not found for: ";
 
     public static final String TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE = "Ticker is not supported : ";
 

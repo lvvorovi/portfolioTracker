@@ -224,7 +224,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "username");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(usernameLengthTestErrorMessage);
+        assertThat(errorMessages).contains(usernameMaxLengthTestErrorMessage);
     }
 
     @Test
