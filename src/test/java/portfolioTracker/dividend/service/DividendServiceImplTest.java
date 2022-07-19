@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static portfolioTracker.core.ExceptionErrors.DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE;
 import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE;
@@ -300,23 +299,47 @@ class DividendServiceImplTest {
     @WithMockUser(username = username)
     @Test
     void isOwner_whenAuthNameMatchesRepoUsername_thenReturnTrue() {
-        DividendEntity mockedEntity = mock(DividendEntity.class);
-        when(repository.findById(id)).thenReturn(Optional.of(mockedEntity));
-        SecurityContext securityContext = mock(SecurityContext.class);
-        Authentication authentication = mock(Authentication.class);
-        when(mockedEntity.getUsername()).thenReturn(username);
-        SecurityContextHolder.setContext(securityContext);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        when(authentication.getName()).thenReturn(username);
+        DividendEntity entityMock = mock(DividendEntity.class);
+        when(repository.findById(id)).thenReturn(Optional.of(entityMock));
+        SecurityContext securityContextMock = mock(SecurityContext.class);
+        Authentication authenticationMock = mock(Authentication.class);
+        when(entityMock.getUsername()).thenReturn(username);
+        SecurityContextHolder.setContext(securityContextMock);
+        when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
+        when(authenticationMock.getName()).thenReturn(username);
 
         boolean result = victim.isOwner(id);
 
         assertTrue(result);
         verify(repository, times(1)).findById(id);
-        verify(mockedEntity, times(1)).getUsername();
-        verify(securityContext, times(1)).getAuthentication();
-        verify(authentication, times(1)).getName();
-        verifyNoMoreInteractions(mockedEntity, repository, securityContext, authentication);
+        verify(entityMock, times(1)).getUsername();
+        verify(securityContextMock, times(1)).getAuthentication();
+        verify(authenticationMock, times(1)).getName();
+        verifyNoMoreInteractions(entityMock, repository, securityContextMock, authenticationMock);
+        verifyNoInteractions(validationService, portfolioRepository, mapper);
+        assertThatNoException().isThrownBy(() -> victim.isOwner(id));
+    }
+
+    @WithMockUser(username = username)
+    @Test
+    void isOwner_whenAuthNameDoesNotMatchRepoUsername_thenReturnFalse_andNoException() {
+        DividendEntity entityMock = mock(DividendEntity.class);
+        when(repository.findById(id)).thenReturn(Optional.of(entityMock));
+        SecurityContext securityContextMock = mock(SecurityContext.class);
+        Authentication authenticationMock = mock(Authentication.class);
+        when(entityMock.getUsername()).thenReturn(username.concat("a"));
+        SecurityContextHolder.setContext(securityContextMock);
+        when(securityContextMock.getAuthentication()).thenReturn(authenticationMock);
+        when(authenticationMock.getName()).thenReturn(username);
+
+        boolean result = victim.isOwner(id);
+
+        assertFalse(result);
+        verify(repository, times(1)).findById(id);
+        verify(entityMock, times(1)).getUsername();
+        verify(securityContextMock, times(1)).getAuthentication();
+        verify(authenticationMock, times(1)).getName();
+        verifyNoMoreInteractions(entityMock, repository, securityContextMock, authenticationMock);
         verifyNoInteractions(validationService, portfolioRepository, mapper);
         assertThatNoException().isThrownBy(() -> victim.isOwner(id));
     }

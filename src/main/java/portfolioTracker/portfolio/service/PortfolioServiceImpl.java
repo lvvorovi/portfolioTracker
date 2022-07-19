@@ -10,6 +10,7 @@ import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 import portfolioTracker.portfolio.mapper.PortfolioMapper;
 import portfolioTracker.portfolio.repository.PortfolioRepository;
 import portfolioTracker.portfolio.validation.PortfolioValidationService;
+import portfolioTracker.portfolio.validation.exception.PortfolioNotFoundPortfolioException;
 import portfolioTracker.transaction.validation.exception.PortfolioNotFoundTransactionException;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public PortfolioDtoResponse findById(String id) {
-        PortfolioEntity entity = repository.findByIdSkipEvents(id)
+        return repository.findById(id)
+                .map(mapper::toDto)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException(
                         PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
-        return mapper.toDto(entity);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
-                .orElseThrow(() -> new PortfolioNotFoundTransactionException(
+                .orElseThrow(() -> new PortfolioNotFoundPortfolioException(
                         PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE + id))
                 .getUsername();
 

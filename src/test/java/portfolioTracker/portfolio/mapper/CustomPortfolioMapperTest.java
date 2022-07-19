@@ -3,111 +3,88 @@ package portfolioTracker.portfolio.mapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import portfolioTracker.dividend.mapper.DividendMapper;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
 import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
-import portfolioTracker.transaction.mapper.TransactionMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.*;
 import static portfolioTracker.util.PortfolioTestUtil.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomPortfolioMapperTest {
 
-    @Mock
-    TransactionMapper transactionMapper;
-    @Mock
-    DividendMapper dividendMapper;
-
     @InjectMocks
     CustomPortfolioMapper victim;
 
     @Test
     void updateToEntity_whenUpdate_thenEntity() {
-        PortfolioEntity entity = newPortfolioEntity();
-        PortfolioDtoUpdateRequest requestDto = newPortfolioDtoUpdateRequest(entity);
+        PortfolioDtoUpdateRequest mockedRequestDto = mock(PortfolioDtoUpdateRequest.class);
+        PortfolioEntity expected = newPortfolioEntity();
+        expected.setDividendEntityList(null);
+        expected.setTransactionEntityList(null);
+        PortfolioDtoUpdateRequest requestDto = newPortfolioDtoUpdateRequest(expected);
+        when(mockedRequestDto.getId()).thenReturn(requestDto.getId());
+        when(mockedRequestDto.getStrategy()).thenReturn(requestDto.getStrategy());
+        when(mockedRequestDto.getUsername()).thenReturn(requestDto.getUsername());
+        when(mockedRequestDto.getCurrency()).thenReturn(requestDto.getCurrency());
+        when(mockedRequestDto.getName()).thenReturn(requestDto.getName());
 
-        PortfolioEntity result = victim.updateToEntity(requestDto);
+        PortfolioEntity result = victim.updateToEntity(mockedRequestDto);
 
-        assertEquals(entity.getId(), result.getId());
-        assertEquals(entity.getUsername(), result.getUsername());
-        assertEquals(entity.getCurrency(), result.getCurrency());
-        assertEquals(entity.getName(), result.getName());
-        assertEquals(entity.getStrategy(), result.getStrategy());
-        assertNotEquals(entity.getDividendEntityList(), result.getDividendEntityList());
-        assertNotEquals(entity.getTransactionEntityList(), result.getTransactionEntityList());
-        verifyNoInteractions(dividendMapper, transactionMapper);
+        assertEquals(expected, result);
+        verify(mockedRequestDto, times(1)).getId();
+        verify(mockedRequestDto, times(1)).getName();
+        verify(mockedRequestDto, times(1)).getStrategy();
+        verify(mockedRequestDto, times(1)).getCurrency();
+        verify(mockedRequestDto, times(1)).getUsername();
+        verifyNoMoreInteractions(mockedRequestDto);
     }
 
     @Test
     void createToEntity_whenUpdate_thenEntity() {
-        PortfolioEntity entity = newPortfolioEntity();
-        PortfolioDtoCreateRequest requestDto = newPortfolioDtoCreateRequest(entity);
+        PortfolioDtoCreateRequest mockedRequestDto = mock(PortfolioDtoCreateRequest.class);
+        PortfolioEntity expected = newPortfolioEntitySkipEvents();
+        expected.setId(null);
+        PortfolioDtoCreateRequest requestDto = newPortfolioDtoCreateRequest(expected);
+        when(mockedRequestDto.getCurrency()).thenReturn(requestDto.getCurrency());
+        when(mockedRequestDto.getUsername()).thenReturn(requestDto.getUsername());
+        when(mockedRequestDto.getName()).thenReturn(requestDto.getName());
+        when(mockedRequestDto.getStrategy()).thenReturn(requestDto.getStrategy());
 
-        PortfolioEntity result = victim.createToEntity(requestDto);
+        PortfolioEntity result = victim.createToEntity(mockedRequestDto);
 
-        assertEquals(entity.getId(), result.getId());
-        assertEquals(entity.getUsername(), result.getUsername());
-        assertEquals(entity.getCurrency(), result.getCurrency());
-        assertEquals(entity.getName(), result.getName());
-        assertEquals(entity.getStrategy(), result.getStrategy());
-        assertNotEquals(entity.getDividendEntityList(), result.getDividendEntityList());
-        assertNotEquals(entity.getTransactionEntityList(), result.getTransactionEntityList());
-        verifyNoInteractions(dividendMapper, transactionMapper);
+        assertEquals(expected, result);
+        verify(mockedRequestDto, times(1)).getStrategy();
+        verify(mockedRequestDto, times(1)).getName();
+        verify(mockedRequestDto, times(1)).getUsername();
+        verify(mockedRequestDto, times(1)).getCurrency();
+        verifyNoMoreInteractions(mockedRequestDto);
     }
 
     @Test
     void toDto_whenEntityWithEvents_thenDtoAndEventsToDto() {
         PortfolioEntity mockedEntity = mock(PortfolioEntity.class);
-        PortfolioEntity entity = newPortfolioEntity();
-        PortfolioDtoResponse responseDto = newPortfolioDtoResponse(entity);
-        when(mockedEntity.getDividendEntityList()).thenReturn(entity.getDividendEntityList());
-        when(mockedEntity.getTransactionEntityList()).thenReturn(entity.getTransactionEntityList());
+        PortfolioEntity entity = newPortfolioEntitySkipEvents();
+        PortfolioDtoResponse expected = newPortfolioDtoResponse(entity);
+        when(mockedEntity.getId()).thenReturn(entity.getId());
+        when(mockedEntity.getName()).thenReturn(entity.getName());
+        when(mockedEntity.getCurrency()).thenReturn(entity.getCurrency());
+        when(mockedEntity.getStrategy()).thenReturn(entity.getStrategy());
+        when(mockedEntity.getUsername()).thenReturn(entity.getUsername());
 
-        for (int i = 0; i < entity.getDividendEntityList().size(); i++) {
-            when(dividendMapper.toDto(entity.getDividendEntityList().get(i)))
-                    .thenReturn(responseDto.getDividendList().get(i));
-        }
-
-        for (int i = 0; i < entity.getTransactionEntityList().size(); i++) {
-            when(transactionMapper.toDto(entity.getTransactionEntityList().get(i)))
-                    .thenReturn(responseDto.getTransactionList().get(i));
-        }
 
         PortfolioDtoResponse result = victim.toDto(mockedEntity);
 
-        assertEquals(responseDto.getTransactionList(), result.getTransactionList());
-        assertEquals(responseDto.getDividendList(), result.getDividendList());
+        assertEquals(expected, result);
         verify(mockedEntity, times(1)).getId();
         verify(mockedEntity, times(1)).getName();
         verify(mockedEntity, times(1)).getCurrency();
         verify(mockedEntity, times(1)).getUsername();
         verify(mockedEntity, times(1)).getStrategy();
-        verify(mockedEntity, times(1)).getTransactionEntityList();
-        verify(mockedEntity, times(1)).getDividendEntityList();
-
-        for (int i = 0; i < entity.getTransactionEntityList().size(); i++) {
-            verify(transactionMapper, times(1))
-                    .toDto(entity.getTransactionEntityList().get(i));
-        }
-
-        for (int i = 0; i < entity.getDividendEntityList().size(); i++) {
-            verify(dividendMapper, times(1))
-                    .toDto(entity.getDividendEntityList().get(i));
-        }
-
-        verifyNoMoreInteractions(dividendMapper, transactionMapper, mockedEntity);
-        assertEquals(mockedEntity.getId(), result.getId());
-        assertEquals(mockedEntity.getUsername(), result.getUsername());
-        assertEquals(mockedEntity.getName(), result.getName());
-        assertEquals(mockedEntity.getCurrency(), result.getCurrency());
-        assertEquals(mockedEntity.getStrategy(), result.getStrategy());
+        verifyNoMoreInteractions(mockedEntity);
     }
 
 }

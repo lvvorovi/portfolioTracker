@@ -8,6 +8,8 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import portfolioTracker.core.LinkUtil;
+import portfolioTracker.dto.portfolioWithEventsDto.PortfolioWithEventsService;
 import portfolioTracker.portfolio.service.PortfolioService;
 import portfolioTracker.util.JsonUtil;
 
@@ -17,7 +19,11 @@ import portfolioTracker.util.JsonUtil;
 class PortfolioControllerTest {
 
     @MockBean
-    PortfolioService service;
+    PortfolioService portfolioService;
+    @MockBean
+    PortfolioWithEventsService portfolioWithEventsService;
+    @MockBean
+    LinkUtil linkUtil;
     @Autowired
     MockMvc mvc;
     @Autowired
