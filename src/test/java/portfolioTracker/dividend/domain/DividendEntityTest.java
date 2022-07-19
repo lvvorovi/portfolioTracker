@@ -28,12 +28,12 @@ class DividendEntityTest {
                 .validate(entity);
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(tickerBlankErrorMessage);
-        assertThat(errorMessages).contains(exDateNullErrorMessage);
-        assertThat(errorMessages).contains(dateNullErrorMessage);
-        assertThat(errorMessages).contains(amountNullErrorMessage);
-        assertThat(errorMessages).contains(typeNullErrorMessage);
-        assertThat(errorMessages).contains(usernameBlankErrorMessage);
+        assertThat(errorMessages).contains(tickerBlankTestErrorMessage);
+        assertThat(errorMessages).contains(exDateNullTestErrorMessage);
+        assertThat(errorMessages).contains(dateNullTestErrorMessage);
+        assertThat(errorMessages).contains(amountNullTestErrorMessage);
+        assertThat(errorMessages).contains(typeNullTestErrorMessage);
+        assertThat(errorMessages).contains(usernameBlankTestErrorMessage);
     }
 
     @Test
@@ -44,7 +44,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "id");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(idLengthErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -55,7 +55,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "id");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(idLengthErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -66,7 +66,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "id");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(idLengthErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -87,7 +87,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "ticker");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(tickerBlankErrorMessage);
+        assertThat(errorMessages).contains(tickerBlankTestErrorMessage);
     }
 
     @Test
@@ -98,7 +98,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "ticker");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(tickerLengthErrorMessage);
+        assertThat(errorMessages).contains(tickerLengthTestErrorMessage);
     }
 
     @Test
@@ -139,7 +139,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "exDate");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(exDatePastOrPresentMessage);
+        assertThat(errorMessages).contains(exDatePastOrPresentTestErrorMessage);
     }
 
     @Test
@@ -170,7 +170,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "date");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(datePastOrPresentMessage);
+        assertThat(errorMessages).contains(datePastOrPresentTestErrorMessage);
     }
 
     @Test
@@ -181,7 +181,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "amount");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(amountGreaterThenZero);
+        assertThat(errorMessages).contains(amountGreaterThenZeroTestErrorMessage);
     }
 
     @Test
@@ -192,7 +192,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "amount");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(amountGreaterThenZero);
+        assertThat(errorMessages).contains(amountGreaterThenZeroTestErrorMessage);
     }
 
     @Test
@@ -213,7 +213,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "username");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(usernameBlankErrorMessage);
+        assertThat(errorMessages).contains(usernameBlankTestErrorMessage);
     }
 
     @Test
@@ -224,7 +224,7 @@ class DividendEntityTest {
                 .validateProperty(entity, "username");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(usernameLengthErrorMessage);
+        assertThat(errorMessages).contains(usernameLengthTestErrorMessage);
     }
 
     @Test

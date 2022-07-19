@@ -11,6 +11,8 @@ import portfolioTracker.portfolio.validation.exception.PortfolioNameValidationEx
 import javax.annotation.Priority;
 import java.util.Optional;
 
+import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_NAME_EXISTS_EXCEPTION_MESSAGE;
+
 @Component
 @AllArgsConstructor
 @Priority(0)
@@ -22,16 +24,16 @@ public class PortfolioNameValidationRule implements PortfolioValidationRule {
     public void validate(PortfolioDtoUpdateRequest requestDto) {
         Optional<PortfolioEntity> optionalEntity = portfolioRepository.findByName(requestDto.getName());
         if (optionalEntity.isPresent() && !optionalEntity.get().getId().equals(requestDto.getId())) {
-            throw new PortfolioNameValidationException("Portfolio name " + requestDto.getName() +
-                    " already exists");
+            throw new PortfolioNameValidationException(
+                    PORTFOLIO_NAME_EXISTS_EXCEPTION_MESSAGE + requestDto.getName());
         }
     }
 
     @Override
     public void validate(PortfolioDtoCreateRequest requestDto) {
         if (portfolioRepository.existsByName(requestDto.getName()))
-            throw new PortfolioNameValidationException("Portfolio name " + requestDto.getName() +
-                    " already exists");
+            throw new PortfolioNameValidationException(
+                    PORTFOLIO_NAME_EXISTS_EXCEPTION_MESSAGE + requestDto.getName());
     }
 }
 

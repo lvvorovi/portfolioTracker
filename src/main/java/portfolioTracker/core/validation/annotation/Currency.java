@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Currency {
-    String message() default "Currency should be of type 'XXX'";
+    String message() default "currencyTypeErrorMessage";
 
     Class<?>[] groups() default {};
 

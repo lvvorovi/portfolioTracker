@@ -31,6 +31,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import static portfolioTracker.core.ExceptionErrors.DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE;
+import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE;
 import static portfolioTracker.portfolio.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 import static portfolioTracker.util.DividendTestUtil.*;
 
@@ -86,7 +88,7 @@ class DividendServiceImplTest {
 
         assertThatThrownBy(() -> victim.save(requestDto))
                 .isInstanceOf(PortfolioNotFoundDividendException.class)
-                .hasMessage("Portfolio not found for: " + requestDto);
+                .hasMessage(PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE + requestDto);
 
         verify(validationService, times(1)).validate(requestDto);
         verify(mapper, times(1)).createToEntity(requestDto);
@@ -164,7 +166,7 @@ class DividendServiceImplTest {
 
         assertThatThrownBy(() -> victim.findById(id))
                 .isInstanceOf(DividendNotFoundDividendException.class)
-                .hasMessage("Dividend not found for id:" + id);
+                .hasMessage(DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE + id);
 
         verify(repository, times(1)).findById(id);
         verifyNoMoreInteractions(repository);
@@ -273,7 +275,7 @@ class DividendServiceImplTest {
 
         assertThatThrownBy(() -> victim.update(requestDto))
                 .isInstanceOf(PortfolioNotFoundDividendException.class)
-                .hasMessage("Portfolio not found for: " + requestDto);
+                .hasMessage(PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE + requestDto);
 
         verify(validationService, times(1)).validate(requestDto);
         verify(mapper, times(1)).updateToEntity(requestDto);
@@ -331,7 +333,7 @@ class DividendServiceImplTest {
 
         assertThatThrownBy(() -> victim.isOwner(id))
                 .isInstanceOf(DividendNotFoundDividendException.class)
-                .hasMessage("Dividend not found for id:" + id);
+                .hasMessage(DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE + id);
 
         verify(repository, times(1)).findById(id);
         verify(securityContext, times(1)).getAuthentication();

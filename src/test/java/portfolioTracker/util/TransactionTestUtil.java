@@ -101,8 +101,4 @@ public class TransactionTestUtil extends TestUtil {
         );
     }
 
-    public static AbstractStringAssert<?> assertOutputContainsExpected(CapturedOutput output, String method, URI uri) {
-        return assertThat(output.toString())
-                .contains("Request id", "requested url", "with method " + method.toUpperCase(), uri.toString());
-    }
 }

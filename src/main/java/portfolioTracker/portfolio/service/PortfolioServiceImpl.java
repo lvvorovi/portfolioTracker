@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE;
+
 @Service
 @AllArgsConstructor
 public class PortfolioServiceImpl implements PortfolioService {
@@ -33,16 +35,16 @@ public class PortfolioServiceImpl implements PortfolioService {
     @Override
     public PortfolioDtoResponse findByIdSkipEvents(String id) {
         PortfolioEntity entity = repository.findByIdSkipEvents(id)
-                .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
-                        + id + " was not found"));
+                .orElseThrow(() -> new PortfolioNotFoundTransactionException(
+                        PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
         return mapper.toDto(entity);
     }
 
     @Override
     public PortfolioDtoResponse findByIdWithEvents(String id) {
         PortfolioEntity entity = repository.findById(id)
-                .orElseThrow(() -> new PortfolioNotFoundTransactionException("Portfolio with id "
-                        + id + " was not found"));
+                .orElseThrow(() -> new PortfolioNotFoundTransactionException(
+                        PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
         return mapper.toDto(entity);
     }
 
@@ -91,7 +93,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
                 .orElseThrow(() -> new PortfolioNotFoundTransactionException(
-                        "Portfolio with id " + id + " was not found"))
+                        PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE + id))
                 .getUsername();
 
         return principalUsername.equalsIgnoreCase(resourceUsername);

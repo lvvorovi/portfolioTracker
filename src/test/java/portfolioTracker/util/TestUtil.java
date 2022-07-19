@@ -1,30 +1,31 @@
 package portfolioTracker.util;
 
+import static portfolioTracker.core.ExceptionErrors.*;
+
 public class TestUtil {
 
     public static final String username = "user";
     public static final String id = "id";
     public static final String portfolioId = "portfolioId";
 
-
     public static final String exactly50CharactersString = "ThisStringIs_50_CharactersLongThisStringIs_50_Char";
     public static final String exactly36CharactersString = "ThisStringIs_36_CharactersLongString";
 
-    public static final String amountNullErrorMessage = "amount: must not be null";
-    public static final String amountGreaterThenZero = "amount: must be greater than 0";
-    public static final String dateNullErrorMessage = "date: must not be null";
-    public static final String datePastOrPresentMessage = "date: must be a date in the past or in the present";
-    public static final String exDateNullErrorMessage = "exDate: must not be null";
-    public static final String exDatePastOrPresentMessage = "exDate: must be a date in the past or in the present";
-    public static final String idLengthErrorMessage = "id: must be exactly 36 characters";
-    public static final String idNotBlankErrorMessage = "id: must not be blank";
-    public static final String portfolioLengthErrorMessage = "portfolioId: must be exactly 36 characters";
-    public static final String portfolioIdNotBlankErrorMessage = "portfolioId: must not be blank";
-    public static final String tickerBlankErrorMessage = "ticker: must not be blank";
-    public static final String typeNullErrorMessage = "type: must not be null";
-    public static final String tickerLengthErrorMessage = "ticker: max 50 characters";
-    public static final String usernameBlankErrorMessage = "username: must not be blank";
-    public static final String usernameLengthErrorMessage = "username: max 50 characters";
+    public static final String amountNullTestErrorMessage = "amount: " + NOT_NULL_ERROR_MESSAGE;
+    public static final String amountGreaterThenZeroTestErrorMessage = "amount: " + GREATER_THAN_ZERO_ERROR_MESSAGE;
+    public static final String dateNullTestErrorMessage = "date: " + NOT_NULL_ERROR_MESSAGE;
+    public static final String datePastOrPresentTestErrorMessage = "date: " + PAST_OR_PRESENT_ERROR_MESSAGE;
+    public static final String exDateNullTestErrorMessage = "exDate: " + NOT_NULL_ERROR_MESSAGE;
+    public static final String exDatePastOrPresentTestErrorMessage = "exDate: " + PAST_OR_PRESENT_ERROR_MESSAGE;
+    public static final String idLengthTestErrorMessage = "id: " + ID_LENGTH_ERROR_MESSAGE;
+    public static final String idBlankTestErrorMessage = "id: " + NOT_BLANK_ERROR_MESSAGE;
+    public static final String portfolioLengthTestErrorMessage = "portfolioId: " + idLengthTestErrorMessage;
+    public static final String portfolioIdBlankTestErrorMessage = "portfolioId: " + NOT_BLANK_ERROR_MESSAGE;
+    public static final String tickerBlankTestErrorMessage = "ticker: " + NOT_BLANK_ERROR_MESSAGE;
+    public static final String typeNullTestErrorMessage = "type: " + NOT_NULL_ERROR_MESSAGE;
+    public static final String tickerLengthTestErrorMessage = "ticker: " + TICKER_MAX_LENGTH_ERROR_MESSAGE;
+    public static final String usernameBlankTestErrorMessage = "username: " + NOT_BLANK_ERROR_MESSAGE;
+    public static final String usernameLengthTestErrorMessage = "username: " + USERNAME_MAX_LENGTH_ERROR_MESSAGE;
 
 
 }

@@ -5,26 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0e090bd-f9a6-4849-85a6-4ccb69d2da48" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/domain/DividendEntityTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/dto/DividendDtoUpdateRequestTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/mapper/DividendMapperFactoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/domain/DividendEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/domain/DividendEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/dto/DividendDtoCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/dto/DividendDtoCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/dto/DividendDtoUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/dto/DividendDtoUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/DividendRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/DividendRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/PortfolioTrackerApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/PortfolioTrackerApplicationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/DividendControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/DividendControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/DividendTestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/DividendTestUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/dto/DividendDtoCreateRequestTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/dto/DividendDtoCreateRequestTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/mapper/DividendMapperImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/mapper/DividendMapperImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/service/DividendServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/service/DividendServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/DividendValidationServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/DividendValidationServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRuleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/TickerDividendValidationRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/TickerDividendValidationRuleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/TransactionControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/TransactionControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/util/JsonUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/util/JsonUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,8 +43,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -296,7 +277,7 @@
     <SUITE FILE_PATH="coverage/portfolioTracker$TransactionControllerTest.ic" NAME="TransactionControllerTest Coverage Results" MODIFIED="1658059875453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendMapperFactoryTest.ic" NAME="DividendMapperFactoryTest Coverage Results" MODIFIED="1658145761772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendDtoUpdateRequestTest.ic" NAME="DividendDtoUpdateRequestTest Coverage Results" MODIFIED="1658152329863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/portfolioTracker$Tests_in__portfolioTracker_test_.ic" NAME="Tests in 'portfolioTracker.test' Coverage Results" MODIFIED="1658158056764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/portfolioTracker$Tests_in__portfolioTracker_test_.ic" NAME="Tests in 'portfolioTracker.test' Coverage Results" MODIFIED="1658160233783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendDtoCreateRequestTest.ic" NAME="DividendDtoCreateRequestTest Coverage Results" MODIFIED="1658150118969" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DoubleEntryDividendValidationRuleTest.ic" NAME="DoubleEntryDividendValidationRuleTest Coverage Results" MODIFIED="1657956326175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendControllerTest.ic" NAME="DividendControllerTest Coverage Results" MODIFIED="1657991754387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

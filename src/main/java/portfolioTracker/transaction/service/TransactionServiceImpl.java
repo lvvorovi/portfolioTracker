@@ -14,8 +14,11 @@ import portfolioTracker.transaction.mapper.TransactionMapper;
 import portfolioTracker.transaction.repository.TransactionRepository;
 import portfolioTracker.transaction.validation.TransactionValidationService;
 import portfolioTracker.transaction.validation.exception.TransactionException;
+import portfolioTracker.transaction.validation.exception.TransactionNotFoundTransactionException;
 
 import java.util.List;
+
+import static portfolioTracker.core.ExceptionErrors.*;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
         validationService.validate(requestDto);
         TransactionEntity requestEntity = mapper.createToEntity(requestDto);
         PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundException("Portfolio not found with id: " +
+                .orElseThrow(() -> new PortfolioNotFoundException(PORTFOLIO_ID_NOT_FOUND_EXCEPTION_MESSAGE +
                         requestDto.getPortfolioId()));
         requestEntity.setPortfolio(portfolioEntity);
         TransactionEntity savedEntity = repository.save(requestEntity);
@@ -48,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDtoResponse findById(String id) {
         TransactionEntity entity = repository.findById(id)
-                .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id));
+                .orElseThrow(() -> new TransactionException(TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
         return mapper.toDto(entity);
     }
 
@@ -79,8 +82,6 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto) {
         validationService.validate(requestDto);
-        if (requestDto.getId() == null)
-            throw new TransactionException("id cannot not be null for method update()");
 
         if (existsById(requestDto.getId())) {
             TransactionEntity entity = mapper.updateToEntity(requestDto);
@@ -88,8 +89,8 @@ public class TransactionServiceImpl implements TransactionService {
             return mapper.toDto(savedEntity);
 
         } else {
-            throw new TransactionException("EquityTransaction with id " +
-                    requestDto.getId() + " was not found");
+            throw new TransactionNotFoundTransactionException(
+                    TRANSACTION_NOT_FOUND_EXCEPTION_MESSAGE + requestDto);
         }
     }
 
@@ -102,7 +103,8 @@ public class TransactionServiceImpl implements TransactionService {
     public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         String resourceUsername = repository.findById(id)
-                .orElseThrow(() -> new TransactionException("Transaction not found with id :" + id))
+                .orElseThrow(() -> new TransactionException(
+                        TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE + id))
                 .getUsername();
 
         return principalUsername.equalsIgnoreCase(resourceUsername);

@@ -15,7 +15,7 @@ public class CurrencyValidator implements ConstraintValidator<Currency, String> 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) return false;
-        if (value.isEmpty()) return false;
+        if (value.isBlank()) return false;
         return value.length() == 3;
     }
 }

@@ -9,13 +9,14 @@ import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.repository.DividendRepository;
-import portfolioTracker.dividend.validation.exception.DividendAlreadyExists;
+import portfolioTracker.dividend.validation.exception.DividendExistsDividendException;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
+import static portfolioTracker.core.ExceptionErrors.DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE;
 
 @ExtendWith(MockitoExtension.class)
 public class DoubleEntryDividendValidationRuleTest {
@@ -53,8 +54,8 @@ public class DoubleEntryDividendValidationRuleTest {
                 .thenReturn(true);
 
         assertThatThrownBy(() -> victim.validate(request))
-                .isInstanceOf(DividendAlreadyExists.class)
-                .hasMessage("Following Dividend event already registered in requested portfolio" + request);
+                .isInstanceOf(DividendExistsDividendException.class)
+                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + request);
 
         verify(request, times(2)).getTicker();
         verify(request, times(2)).getExDate();
@@ -94,8 +95,8 @@ public class DoubleEntryDividendValidationRuleTest {
                 .thenReturn(Optional.of(mockedEntity));
 
         assertThatThrownBy(() -> victim.validate(request))
-                .isInstanceOf(DividendAlreadyExists.class)
-                .hasMessage("Following Dividend event already registered in requested portfolio" + request);
+                .isInstanceOf(DividendExistsDividendException.class)
+                .hasMessage(DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE + request);
 
         verify(request, times(1)).getId();
         verify(request, times(2)).getTicker();

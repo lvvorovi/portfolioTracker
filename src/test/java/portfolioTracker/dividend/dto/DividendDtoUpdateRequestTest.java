@@ -27,14 +27,14 @@ class DividendDtoUpdateRequestTest {
                 .validate(requestDto);
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(idNotBlankErrorMessage);
-        assertThat(errorMessages).contains(tickerBlankErrorMessage);
-        assertThat(errorMessages).contains(exDateNullErrorMessage);
-        assertThat(errorMessages).contains(dateNullErrorMessage);
-        assertThat(errorMessages).contains(amountNullErrorMessage);
-        assertThat(errorMessages).contains(typeNullErrorMessage);
-        assertThat(errorMessages).contains(portfolioIdNotBlankErrorMessage);
-        assertThat(errorMessages).contains(usernameBlankErrorMessage);
+        assertThat(errorMessages).contains(idBlankTestErrorMessage);
+        assertThat(errorMessages).contains(tickerBlankTestErrorMessage);
+        assertThat(errorMessages).contains(exDateNullTestErrorMessage);
+        assertThat(errorMessages).contains(dateNullTestErrorMessage);
+        assertThat(errorMessages).contains(amountNullTestErrorMessage);
+        assertThat(errorMessages).contains(typeNullTestErrorMessage);
+        assertThat(errorMessages).contains(portfolioIdBlankTestErrorMessage);
+        assertThat(errorMessages).contains(usernameBlankTestErrorMessage);
     }
 
     @Test
@@ -45,7 +45,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "id");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(idNotBlankErrorMessage);
+        assertThat(errorMessages).contains(idBlankTestErrorMessage);
     }
 
     @Test
@@ -56,7 +56,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "id");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(idLengthErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -67,7 +67,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "id");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(idLengthErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -88,7 +88,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "ticker");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(tickerBlankErrorMessage);
+        assertThat(errorMessages).contains(tickerBlankTestErrorMessage);
     }
 
     @Test
@@ -99,7 +99,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "ticker");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(tickerLengthErrorMessage);
+        assertThat(errorMessages).contains(tickerLengthTestErrorMessage);
     }
 
     @Test
@@ -120,7 +120,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "date");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(datePastOrPresentMessage);
+        assertThat(errorMessages).contains(datePastOrPresentTestErrorMessage);
     }
 
     @Test
@@ -151,7 +151,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "exDate");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(exDatePastOrPresentMessage);
+        assertThat(errorMessages).contains(exDatePastOrPresentTestErrorMessage);
     }
 
     @Test
@@ -182,7 +182,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "amount");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(amountGreaterThenZero);
+        assertThat(errorMessages).contains(amountGreaterThenZeroTestErrorMessage);
     }
 
     @Test
@@ -193,7 +193,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "amount");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(amountGreaterThenZero);
+        assertThat(errorMessages).contains(amountGreaterThenZeroTestErrorMessage);
     }
 
     @Test
@@ -214,7 +214,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "portfolioId");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(portfolioIdNotBlankErrorMessage);
+        assertThat(errorMessages).contains(portfolioIdBlankTestErrorMessage);
     }
 
     @Test
@@ -225,7 +225,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "portfolioId");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(portfolioLengthErrorMessage);
+        assertThat(errorMessages).contains(portfolioLengthTestErrorMessage);
     }
 
     @Test
@@ -236,7 +236,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "portfolioId");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(portfolioLengthErrorMessage);
+        assertThat(errorMessages).contains(portfolioLengthTestErrorMessage);
     }
 
     @Test
@@ -257,7 +257,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "username");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(usernameBlankErrorMessage);
+        assertThat(errorMessages).contains(usernameBlankTestErrorMessage);
     }
 
     @Test
@@ -268,7 +268,7 @@ class DividendDtoUpdateRequestTest {
                 .validateProperty(requestDto, "username");
 
         String errorMessages = extractMessagesFromViolationSetUpdateRequest(violationSet);
-        assertThat(errorMessages).contains(usernameLengthErrorMessage);
+        assertThat(errorMessages).contains(usernameLengthTestErrorMessage);
     }
 
     @Test

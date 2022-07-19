@@ -13,6 +13,7 @@ import portfolioTracker.dto.ticker.service.TickerService;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
+import static portfolioTracker.core.ExceptionErrors.TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE;
 
 @ExtendWith(MockitoExtension.class)
 class TickerDividendValidationRuleTest {
@@ -40,7 +41,7 @@ class TickerDividendValidationRuleTest {
 
         assertThatThrownBy(() -> victim.validate(createRequest))
                 .isInstanceOf(TickerNotSupportedDividendException.class)
-                .hasMessage("Not supported ticker: " + createRequest.getTicker());
+                .hasMessage(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + createRequest.getTicker());
 
         verify(createRequest, times(2)).getTicker();
         verify(service, times(1)).isTickerSupported(createRequest.getTicker());
@@ -64,7 +65,7 @@ class TickerDividendValidationRuleTest {
 
         assertThatThrownBy(() -> victim.validate(updateRequest))
                 .isInstanceOf(TickerNotSupportedDividendException.class)
-                .hasMessage("Not supported ticker: " + updateRequest.getTicker());
+                .hasMessage(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + updateRequest.getTicker());
 
         verify(updateRequest, times(2)).getTicker();
         verify(service, times(1)).isTickerSupported(updateRequest.getTicker());

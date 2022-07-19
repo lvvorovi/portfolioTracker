@@ -9,6 +9,8 @@ import portfolioTracker.dto.ticker.service.TickerService;
 
 import javax.annotation.Priority;
 
+import static portfolioTracker.core.ExceptionErrors.TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE;
+
 @Component
 @AllArgsConstructor
 @Priority(1)
@@ -30,7 +32,7 @@ public class TickerDividendValidationRule implements DividendValidationRule {
         if (tickerService.isTickerSupported(ticker)) {
             return;
         }
-        throw new TickerNotSupportedDividendException("Not supported ticker: " + ticker);
+        throw new TickerNotSupportedDividendException(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + ticker);
     }
 
 }

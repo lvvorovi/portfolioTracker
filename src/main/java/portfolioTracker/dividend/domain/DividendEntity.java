@@ -14,6 +14,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static portfolioTracker.core.ExceptionErrors.*;
+
 @Data
 @Validated
 @Entity
@@ -25,32 +27,32 @@ public class DividendEntity implements Serializable {
 
     @Id
     @Column(name = "id")
-    @Size(max = 36, min = 36, message = "must be exactly 36 characters")
+    @Size(max = 36, min = 36, message = ID_LENGTH_ERROR_MESSAGE)
     private String id;
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
     @Column(name = "ticker")
-    @Size(max = 50, message = "max 50 characters")
+    @Size(max = 50, message = TICKER_MAX_LENGTH_ERROR_MESSAGE)
     private String ticker;
-    @NotNull
-    @PastOrPresent
+    @NotNull(message = NOT_NULL_ERROR_MESSAGE)
+    @PastOrPresent(message = PAST_OR_PRESENT_ERROR_MESSAGE)
     @Column(name = "ex_dividend_date")
     private LocalDate exDate;
-    @NotNull
-    @PastOrPresent
+    @NotNull(message = NOT_NULL_ERROR_MESSAGE)
+    @PastOrPresent(message = PAST_OR_PRESENT_ERROR_MESSAGE)
     @Column(name = "payment_date")
     private LocalDate date;
-    @NotNull
-    @Positive
+    @NotNull(message = NOT_NULL_ERROR_MESSAGE)
+    @Positive(message = GREATER_THAN_ZERO_ERROR_MESSAGE)
     @Column(name = "amount")
     private BigDecimal amount;
-    @NotNull
+    @NotNull(message = NOT_NULL_ERROR_MESSAGE)
     @Column(name = "event_type")
     private EventType type;
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioEntity portfolio;
     @Column(name = "username")
-    @NotBlank
-    @Size(max = 50, message = "max 50 characters")
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 50, message = USERNAME_MAX_LENGTH_ERROR_MESSAGE)
     private String username;
 }
