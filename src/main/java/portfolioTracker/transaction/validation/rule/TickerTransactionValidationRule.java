@@ -9,6 +9,8 @@ import portfolioTracker.transaction.validation.exception.TransactionException;
 
 import javax.annotation.Priority;
 
+import static portfolioTracker.core.ExceptionErrors.TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE;
+
 @Component
 @AllArgsConstructor
 @Priority(100)
@@ -27,8 +29,8 @@ public class TickerTransactionValidationRule implements TransactionValidationRul
     }
 
     private void validateTicker(String ticker) {
-        if (!tickerService.isTickerSupported(ticker)) {
-            throw new TransactionException("Not supported ticker: " + ticker);
-        }
+        if (!tickerService.isTickerSupported(ticker))
+            throw new TransactionException(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + ticker);
+
     }
 }

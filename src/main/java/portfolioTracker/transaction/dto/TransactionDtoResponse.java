@@ -18,29 +18,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TransactionDtoResponse extends RepresentationModel<TransactionDtoResponse> {
 
-    @NotBlank
     private String id;
-    @NotBlank
     private String ticker;
-    @NotNull
-    @PastOrPresent
     private LocalDate date;
-    @NotNull
-    @NumberFormat
-    @Positive
     private BigDecimal price;
-    @NotNull
-    @NumberFormat
-    @Positive
     private BigDecimal shares;
-    @NotNull
-    @NumberFormat
-    @PositiveOrZero
     private BigDecimal commission;
-    @NotNull
     private EventType type;
-    @NotBlank
     private String portfolioId;
-    @NotBlank
     private String username;
 }

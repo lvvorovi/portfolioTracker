@@ -9,9 +9,11 @@ import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static portfolioTracker.core.ExceptionErrors.*;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -21,15 +23,19 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @AllArgsConstructor
 public class PortfolioDtoResponse extends RepresentationModel<PortfolioDtoResponse> {
 
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(min = 36, max = 36, message = ID_LENGTH_ERROR_MESSAGE)
     private String id;
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 50, message = PORTFOLIO_NAME_MAX_LENGTH_ERROR_MESSAGE)
     private String name;
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 150, message = PORTFOLIO_STRATEGY_MAX_LENGTH_ERROR_MESSAGE)
     private String strategy;
-    @Currency
+    @Currency(message = CURRENCY_TYPE_ERROR_MESSAGE)
     private String currency;
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 50, message = USERNAME_MAX_LENGTH_ERROR_MESSAGE)
     private String username;
     @JsonInclude(NON_NULL)
     private List<TransactionDtoResponse> transactionList;

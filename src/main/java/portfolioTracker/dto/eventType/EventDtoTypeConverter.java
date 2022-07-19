@@ -4,6 +4,8 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.stream.Stream;
 
+import static portfolioTracker.core.ExceptionErrors.EVENTDTO_CONVERTER_FAIL_EXCEPTION_MESSAGE;
+
 @Converter(autoApply = true)
 public class EventDtoTypeConverter implements AttributeConverter<EventType, String> {
 
@@ -23,7 +25,6 @@ public class EventDtoTypeConverter implements AttributeConverter<EventType, Stri
         return Stream.of(EventType.values())
                 .filter(value -> value.getCode().equals(dbData))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("EventDtoTypeConverter failed to convert DB data " + //TODO correct exception
-                        dbData + " to a EventType value"));
+                .orElseThrow(() -> new RuntimeException(EVENTDTO_CONVERTER_FAIL_EXCEPTION_MESSAGE));
     }
 }

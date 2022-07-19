@@ -18,7 +18,7 @@ create TABLE transactions (
     id                  VARCHAR(36)     NOT NULL,
     ticker              VARCHAR(50)     NOT NULL,
     trade_date          DATE            NOT NULL,
-    quantity            DECIMAL(10,0)   NOT NULL,
+    quantity            DECIMAL(20,0)   NOT NULL,
     price               DECIMAL(50,10)  NOT NULL,
     commission          DECIMAL(50,2)   NOT NULL,
     event_type          VARCHAR(10)     NOT NULL,

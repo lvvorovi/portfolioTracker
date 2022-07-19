@@ -10,6 +10,8 @@ import portfolioTracker.core.validation.annotation.Currency;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import static portfolioTracker.core.ExceptionErrors.*;
+
 @Data
 @Validated
 @Builder
@@ -17,18 +19,19 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class PortfolioDtoUpdateRequest {
 
-    @NotBlank
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(min = 36, max = 36, message = ID_LENGTH_ERROR_MESSAGE)
     private String id;
-    @NotBlank
-    @Size(min = 3, max = 50, message = "length 3 to 50 characters")
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 50, message = PORTFOLIO_NAME_MAX_LENGTH_ERROR_MESSAGE)
     private String name;
-    @NotBlank
-    @Size(min = 3, max = 150, message = "length 3 to 150 characters")
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 150, message = PORTFOLIO_NAME_MAX_LENGTH_ERROR_MESSAGE)
     private String strategy;
-    @Currency
+    @Currency(message = CURRENCY_TYPE_ERROR_MESSAGE)
     private String currency;
-    @NotBlank
-    @Size(max = 50, message = "max 50 characters")
+    @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
+    @Size(max = 50, message = USERNAME_MAX_LENGTH_ERROR_MESSAGE)
     private String username;
 
 }
