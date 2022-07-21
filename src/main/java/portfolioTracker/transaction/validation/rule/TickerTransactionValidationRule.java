@@ -6,6 +6,8 @@ import portfolioTracker.dto.ticker.service.TickerService;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 import portfolioTracker.transaction.validation.exception.TransactionException;
+import portfolioTracker.transaction.validation.rule.createRequest.TransactionCreateValidationRule;
+import portfolioTracker.transaction.validation.rule.updateRequest.TransactionUpdateValidationRule;
 
 import javax.annotation.Priority;
 
@@ -14,7 +16,7 @@ import static portfolioTracker.core.ExceptionErrors.TICKER_NOT_SUPPORTED_EXCEPTI
 @Component
 @AllArgsConstructor
 @Priority(100)
-public class TickerTransactionValidationRule implements TransactionValidationRule {
+public class TickerTransactionValidationRule implements TransactionUpdateValidationRule, TransactionCreateValidationRule {
 
     private final TickerService tickerService;
 

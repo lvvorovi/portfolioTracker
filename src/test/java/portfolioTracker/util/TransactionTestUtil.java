@@ -1,17 +1,24 @@
 package portfolioTracker.util;
 
 import portfolioTracker.core.ValidList;
+import portfolioTracker.dividend.domain.DividendEntity;
+import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
+import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.transaction.TransactionController;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -108,6 +115,24 @@ public class TransactionTestUtil extends TestUtil {
                 newTransactionDtoUpdateRequest(entityList.get(0)),
                 newTransactionDtoUpdateRequest(entityList.get(1)),
                 newTransactionDtoUpdateRequest(entityList.get(2)));
+    }
+
+    public static String extractMessagesFromViolationSetCreateRequest(Set<ConstraintViolation<TransactionDtoCreateRequest>> violationSet) {
+        return violationSet.stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.joining(", "));
+    }
+
+    public static String extractMessagesFromViolationSetUpdateRequest(Set<ConstraintViolation<TransactionDtoUpdateRequest>> violationSet) {
+        return violationSet.stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.joining(", "));
+    }
+
+    public static String extractMessagesFromViolationSetEntity(Set<ConstraintViolation<TransactionEntity>> violationSet) {
+        return violationSet.stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.joining(", "));
     }
 
 }

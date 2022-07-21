@@ -8,13 +8,12 @@ import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
 import javax.validation.Valid;
 
-@Validated
 public interface DividendMapper {
 
-    @Valid DividendEntity updateToEntity(DividendDtoUpdateRequest requestDto);
+    DividendEntity updateToEntity(DividendDtoUpdateRequest requestDto);
 
-    @Valid DividendEntity createToEntity(DividendDtoCreateRequest requestDto);
+    DividendEntity createToEntity(DividendDtoCreateRequest requestDto);
 
-    @Valid DividendDtoResponse toDto(DividendEntity entity);
+    DividendDtoResponse toDto(DividendEntity entity);
 
 }

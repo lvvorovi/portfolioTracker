@@ -8,12 +8,11 @@ import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 
 import javax.validation.Valid;
 
-@Validated
 public interface TransactionMapper {
-    @Valid TransactionEntity updateToEntity(TransactionDtoUpdateRequest requestDto);
+    TransactionEntity updateToEntity(TransactionDtoUpdateRequest requestDto);
 
-    @Valid TransactionEntity createToEntity(TransactionDtoCreateRequest requestDto);
+    TransactionEntity createToEntity(TransactionDtoCreateRequest requestDto);
 
-    @Valid TransactionDtoResponse toDto(TransactionEntity entity);
+    TransactionDtoResponse toDto(TransactionEntity entity);
 
 }
