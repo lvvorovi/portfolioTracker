@@ -10,9 +10,9 @@ import javax.validation.Valid;
 
 @Validated
 public interface PortfolioMapper {
-    @Valid PortfolioEntity updateToEntity(PortfolioDtoUpdateRequest dto);
+    @Valid PortfolioEntity updateToEntity(PortfolioDtoUpdateRequest requestDto);
 
-    @Valid PortfolioEntity createToEntity(PortfolioDtoCreateRequest dto);
+    @Valid PortfolioEntity createToEntity(PortfolioDtoCreateRequest requestDto);
 
     @Valid PortfolioDtoResponse toDto(PortfolioEntity entity);
 

@@ -25,4 +25,14 @@ public interface JpaPortfolioRepositoryImpl extends JpaRepository<PortfolioEntit
     @Query(value = "SELECT id, name, strategy, currency, username FROM portfolios WHERE  username = :username",
             nativeQuery = true)
     List<PortfolioEntity> findAllByUsername(@Param("username") String username);
+
+    @Override
+    @Query(value = "SELECT * FROM portfolios WHERE id = :id",
+            nativeQuery = true)
+    Optional<PortfolioEntity> findByIdIncludeEvents(@Param("id") String id);
+
+    @Override
+    @Query(value = "SELECT * FROM portfolios WHERE username = :username",
+            nativeQuery = true)
+    List<PortfolioEntity> findAllByUsernameIncludeEvents(@Param("username") String username);
 }

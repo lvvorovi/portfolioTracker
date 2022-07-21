@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,14 +33,24 @@ class PortfolioEntityTest {
     }
 
     @Test
-    void whenIdIsBlank_thenConstraintViolationSet() {
+    void whenIdIsNull_thenNoViolation() {
+        entity.setId(null);
+
+        Set<ConstraintViolation<PortfolioEntity>> violationSet = validator
+                .validateProperty(entity, "id");
+
+        assertThat(violationSet).isEmpty();
+    }
+
+    @Test
+    void whenIdIsBlank_thenNoViolation() {
         entity.setId(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioEntity>> violationSet = validator
                 .validateProperty(entity, "id");
 
         String errorMessages = extractMessagesFromViolationSetEntity(violationSet);
-        assertThat(errorMessages).contains(idBlankTestErrorMessage);
+        assertThat(errorMessages).contains(idLengthTestErrorMessage);
     }
 
     @Test
@@ -77,7 +86,7 @@ class PortfolioEntityTest {
     }
 
     @Test
-    void whenNameIsBlank_thenConstraintViolationSet()   {
+    void whenNameIsBlank_thenConstraintViolationSet() {
         entity.setName(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioEntity>> violationSet = validator
@@ -109,7 +118,7 @@ class PortfolioEntityTest {
     }
 
     @Test
-    void whenStrategyIsBlank_thenConstraintViolationSet()   {
+    void whenStrategyIsBlank_thenConstraintViolationSet() {
         entity.setStrategy(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioEntity>> violationSet = validator
@@ -184,7 +193,7 @@ class PortfolioEntityTest {
     }
 
     @Test
-    void whenUsernameIsBlank_thenConstraintViolationSet()   {
+    void whenUsernameIsBlank_thenConstraintViolationSet() {
         entity.setUsername(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioEntity>> violationSet = validator
@@ -214,8 +223,6 @@ class PortfolioEntityTest {
 
         assertThat(violationSet).isEmpty();
     }
-
-
 
 
 }

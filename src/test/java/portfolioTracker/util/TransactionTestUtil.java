@@ -16,7 +16,6 @@ import java.util.UUID;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static portfolioTracker.dto.eventType.EventType.BUY;
-import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntity;
 import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntitySkipEvents;
 
 public class TransactionTestUtil extends TestUtil {

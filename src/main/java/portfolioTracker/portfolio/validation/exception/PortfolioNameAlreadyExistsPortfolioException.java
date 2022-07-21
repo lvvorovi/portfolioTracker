@@ -5,9 +5,9 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.NotEmpty;
 
 @Validated
-public class PortfolioNameValidationException extends PortfolioValidationException {
+public class PortfolioNameAlreadyExistsPortfolioException extends PortfolioValidationException {
 
-    public PortfolioNameValidationException(@NotEmpty String message) {
+    public PortfolioNameAlreadyExistsPortfolioException(@NotEmpty String message) {
         super(message);
     }
 }

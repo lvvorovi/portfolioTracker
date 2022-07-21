@@ -27,14 +27,15 @@ public class LinkUtil {
     }
 
     public void addLinks(PortfolioDtoResponse responseDto) {
-        responseDto
-                .add(linkTo(methodOn(PortfolioController.class)
-                        .findById(responseDto.getId(), null))
-                        .withSelfRel());
+        responseDto.add(linkTo(methodOn(PortfolioController.class)
+                .findById(responseDto.getId(), null))
+                .withSelfRel());
     }
 
     public void addLinksInclEvents(PortfolioDtoResponse responseDto) {
-        addLinks(responseDto);
+        responseDto.add(linkTo(methodOn(PortfolioController.class)
+                .findById(responseDto.getId(), null))
+                .withSelfRel());
         responseDto.getTransactionList().forEach(this::addLinks);
         responseDto.getDividendList().forEach(this::addLinks);
     }

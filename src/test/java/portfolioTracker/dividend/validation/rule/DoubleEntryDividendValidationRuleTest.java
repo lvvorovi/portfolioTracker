@@ -18,8 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
-import static portfolioTracker.core.ExceptionErrors.*;
-import static portfolioTracker.util.DividendTestUtil.*;
+import static portfolioTracker.core.ExceptionErrors.DIVIDEND_EXISTS_IN_PORTFOLIO_EXCEPTION_MESSAGE;
+import static portfolioTracker.core.ExceptionErrors.DIVIDEND_NOT_FOUND_EXCEPTION_MESSAGE;
+import static portfolioTracker.util.DividendTestUtil.id;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -78,7 +79,7 @@ public class DoubleEntryDividendValidationRuleTest {
 
         assertThatThrownBy(() -> victim.validate(mockedRequestDto))
                 .isInstanceOf(DividendNotFoundDividendException.class)
-                        .hasMessage(DIVIDEND_NOT_FOUND_EXCEPTION_MESSAGE + mockedRequestDto);
+                .hasMessage(DIVIDEND_NOT_FOUND_EXCEPTION_MESSAGE + mockedRequestDto);
 
         verify(repository, times(1)).existsById(mockedRequestDto.getId());
         verify(mockedRequestDto, times(3)).getId();
@@ -138,7 +139,6 @@ public class DoubleEntryDividendValidationRuleTest {
         verify(mockedEntity, times(1)).getId();
         verifyNoMoreInteractions(mockedRequestDto, repository, mockedEntity);
     }
-
 
 
 }

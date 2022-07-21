@@ -39,6 +39,7 @@ public class TransactionController {
     public ResponseEntity<List<TransactionDtoResponse>> findAll(@Nullable @RequestParam String portfolioId,
                                                                 Authentication authentication) {
         List<TransactionDtoResponse> responseDtoList;
+
         if (portfolioId == null) {
             responseDtoList = service.findAllByUsername(authentication.getName());
             responseDtoList.forEach(linkUtil::addLinks);
@@ -46,6 +47,7 @@ public class TransactionController {
             responseDtoList = service.findAllByPortfolioId(portfolioId);
             responseDtoList.forEach(linkUtil::addLinks);
         }
+
         return ResponseEntity.ok(responseDtoList);
     }
 

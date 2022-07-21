@@ -1,5 +1,6 @@
 package portfolioTracker.util;
 
+import org.springframework.security.core.Authentication;
 import portfolioTracker.core.ValidList;
 import portfolioTracker.dividend.DividendController;
 import portfolioTracker.dividend.domain.DividendEntity;
@@ -25,11 +26,11 @@ import static portfolioTracker.util.PortfolioTestUtil.newPortfolioEntitySkipEven
 public class DividendTestUtil extends TestUtil {
 
     public static final URI findByIdUri = linkTo(methodOn(DividendController.class).findById(id)).toUri();
-    public static final URI findAllUri = linkTo(DividendController.class).toUri();
-    public static final URI saveUri = linkTo(DividendController.class).toUri();
+    public static final URI findAllUri = linkTo(methodOn(DividendController.class).findAll(null, null)).toUri();
+    public static final URI saveUri = linkTo(methodOn(DividendController.class).save(new DividendDtoCreateRequest())).toUri();
     public static final URI saveAllUri = linkTo(methodOn(DividendController.class).saveAll(new ValidList<>())).toUri();
     public static final URI deleteByIdUri = linkTo(methodOn(DividendController.class).deleteById(id)).toUri();
-    public static final URI updateUri = linkTo(DividendController.class).toUri();
+    public static final URI updateUri = linkTo(methodOn(DividendController.class).update(new DividendDtoUpdateRequest())).toUri();
 
 
     public static DividendEntity newDividendEntity() {

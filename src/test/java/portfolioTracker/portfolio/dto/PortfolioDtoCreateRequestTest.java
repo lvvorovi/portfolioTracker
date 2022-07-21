@@ -4,11 +4,9 @@ import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -142,7 +140,7 @@ class PortfolioDtoCreateRequestTest {
     }
 
     @Test
-    void whenUsernameIsBlank_thenConstraintViolationSet()   {
+    void whenUsernameIsBlank_thenConstraintViolationSet() {
         requestDto.setUsername(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioDtoCreateRequest>> violationSet = validator

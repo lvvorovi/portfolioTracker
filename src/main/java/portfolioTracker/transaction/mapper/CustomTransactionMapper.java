@@ -10,29 +10,29 @@ import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 public class CustomTransactionMapper implements TransactionMapper {
 
     @Override
-    public TransactionEntity updateToEntity(TransactionDtoUpdateRequest dto) {
+    public TransactionEntity updateToEntity(TransactionDtoUpdateRequest requestDto) {
         TransactionEntity entity = new TransactionEntity();
-        entity.setId(dto.getId());
-        entity.setTicker((dto.getTicker()));
-        entity.setShares(dto.getShares());
-        entity.setPrice(dto.getPrice());
-        entity.setDate(dto.getDate());
-        entity.setCommission(dto.getCommission());
-        entity.setType(dto.getType());
-        entity.setUsername(dto.getUsername());
+        entity.setId(requestDto.getId());
+        entity.setTicker((requestDto.getTicker()));
+        entity.setShares(requestDto.getShares());
+        entity.setPrice(requestDto.getPrice());
+        entity.setDate(requestDto.getDate());
+        entity.setCommission(requestDto.getCommission());
+        entity.setType(requestDto.getType());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 
     @Override
-    public TransactionEntity createToEntity(TransactionDtoCreateRequest dto) {
+    public TransactionEntity createToEntity(TransactionDtoCreateRequest requestDto) {
         TransactionEntity entity = new TransactionEntity();
-        entity.setTicker((dto.getTicker()));
-        entity.setShares(dto.getShares());
-        entity.setPrice(dto.getPrice());
-        entity.setDate(dto.getDate());
-        entity.setCommission(dto.getCommission());
-        entity.setType(dto.getType());
-        entity.setUsername(dto.getUsername());
+        entity.setTicker((requestDto.getTicker()));
+        entity.setShares(requestDto.getShares());
+        entity.setPrice(requestDto.getPrice());
+        entity.setDate(requestDto.getDate());
+        entity.setCommission(requestDto.getCommission());
+        entity.setType(requestDto.getType());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 

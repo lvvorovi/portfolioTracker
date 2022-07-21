@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Component;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
+import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 
 import java.text.DateFormat;
@@ -45,6 +46,18 @@ public class JsonUtil {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         TransactionDtoResponse[] responseArray = mapper.readValue(json, TransactionDtoResponse[].class);
+        return List.of(responseArray);
+    }
+    public static PortfolioDtoResponse jsonToPortfolioDtoResponse(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper.readValue(json, PortfolioDtoResponse.class);
+    }
+
+    public static List<PortfolioDtoResponse> jsonToPortfolioDtoResponseList(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        PortfolioDtoResponse[] responseArray = mapper.readValue(json, PortfolioDtoResponse[].class);
         return List.of(responseArray);
     }
 
