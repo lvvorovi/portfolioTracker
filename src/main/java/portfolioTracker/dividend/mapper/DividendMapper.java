@@ -11,9 +11,9 @@ import javax.validation.Valid;
 @Validated
 public interface DividendMapper {
 
-    @Valid DividendEntity updateToEntity(DividendDtoUpdateRequest dto);
+    @Valid DividendEntity updateToEntity(DividendDtoUpdateRequest requestDto);
 
-    @Valid DividendEntity createToEntity(DividendDtoCreateRequest dto);
+    @Valid DividendEntity createToEntity(DividendDtoCreateRequest requestDto);
 
     @Valid DividendDtoResponse toDto(DividendEntity entity);
 

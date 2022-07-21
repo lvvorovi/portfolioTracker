@@ -1,25 +1,32 @@
 package portfolioTracker.util;
 
-import portfolioTracker.dividend.domain.DividendEntity;
-import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
-import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
+import portfolioTracker.portfolio.PortfolioController;
 import portfolioTracker.portfolio.domain.PortfolioEntity;
 import portfolioTracker.portfolio.dto.PortfolioDtoCreateRequest;
 import portfolioTracker.portfolio.dto.PortfolioDtoResponse;
 import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 
 import javax.validation.ConstraintViolation;
+import java.net.URI;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static portfolioTracker.util.DividendTestUtil.newDividendDtoResponseList;
 import static portfolioTracker.util.DividendTestUtil.newDividendEntityList;
-import static portfolioTracker.util.TransactionTestUtil.newTransactionDtoResponseList;
-import static portfolioTracker.util.TransactionTestUtil.newTransactionEntityList;
+import static portfolioTracker.util.TransactionTestUtil.*;
 
-public class PortfolioTestUtil extends TestUtil{
+public class PortfolioTestUtil extends TestUtil {
+
+    public static final URI saveUri = linkTo(methodOn(PortfolioController.class).save(new PortfolioDtoCreateRequest())).toUri();
+    public static final URI findByIdUri = linkTo(methodOn(PortfolioController.class).findById(id, null)).toUri();
+    public static final URI findAllByUsernameUri = linkTo(methodOn(PortfolioController.class).findAllByUsername(null, null)).toUri();
+    public static final URI updateUri = linkTo(methodOn(PortfolioController.class).update(new PortfolioDtoUpdateRequest())).toUri();
+    public static final URI deleteByIdUri = linkTo(methodOn(PortfolioController.class).deleteById(id)).toUri();
 
     public static PortfolioEntity newPortfolioEntitySkipEvents() {
         PortfolioEntity entity = new PortfolioEntity();
@@ -71,6 +78,8 @@ public class PortfolioTestUtil extends TestUtil{
                 .name(entity.getName())
                 .strategy(entity.getStrategy())
                 .username(entity.getUsername())
+                .transactionList(newTransactionDtoResponseList(entity.getTransactionEntityList()))
+                .dividendList(newDividendDtoResponseList(entity.getDividendEntityList()))
                 .build();
     }
 

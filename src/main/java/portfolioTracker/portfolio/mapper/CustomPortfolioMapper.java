@@ -12,23 +12,23 @@ import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 public class CustomPortfolioMapper implements PortfolioMapper {
 
     @Override
-    public PortfolioEntity updateToEntity(PortfolioDtoUpdateRequest dto) {
+    public PortfolioEntity updateToEntity(PortfolioDtoUpdateRequest requestDto) {
         PortfolioEntity entity = new PortfolioEntity();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setStrategy(dto.getStrategy());
-        entity.setCurrency(dto.getCurrency());
-        entity.setUsername(dto.getUsername());
+        entity.setId(requestDto.getId());
+        entity.setName(requestDto.getName());
+        entity.setStrategy(requestDto.getStrategy());
+        entity.setCurrency(requestDto.getCurrency());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 
     @Override
-    public PortfolioEntity createToEntity(PortfolioDtoCreateRequest dto) {
+    public PortfolioEntity createToEntity(PortfolioDtoCreateRequest requestDto) {
         PortfolioEntity entity = new PortfolioEntity();
-        entity.setName(dto.getName());
-        entity.setStrategy(dto.getStrategy());
-        entity.setCurrency(dto.getCurrency());
-        entity.setUsername(dto.getUsername());
+        entity.setName(requestDto.getName());
+        entity.setStrategy(requestDto.getStrategy());
+        entity.setCurrency(requestDto.getCurrency());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 

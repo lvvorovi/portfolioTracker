@@ -33,8 +33,6 @@ import static portfolioTracker.util.JsonUtil.*;
 import static portfolioTracker.util.TransactionTestUtil.*;
 
 @WebMvcTest(value = {TransactionController.class, JsonUtil.class})
-@ExtendWith(OutputCaptureExtension.class)
-@ActiveProfiles("logging-test")
 class TransactionControllerTest {
 
     @Autowired
@@ -45,7 +43,7 @@ class TransactionControllerTest {
     LinkUtil linkUtil;
 
     @Test
-    void findById_whenNotAuthenticated_thenStatus401() throws Exception {
+    void findById_whenNoAuth_thenStatus401() throws Exception {
         mvc.perform(get(findByIdUri)
                         .with(csrf()))
                 .andExpect(status().is(401))
@@ -85,7 +83,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser(username = "user")
-    void findAll_whenNoParam_thenFindByUsername_andReturnList_status200() throws Exception {
+    void findAll_whenIsAuth_noParam_thenFindByUsername_andReturnList_status200() throws Exception {
         List<TransactionDtoResponse> responseList = newTransactionDtoResponseList(newTransactionEntityList());
         when(service.findAllByUsername(username)).thenReturn(responseList);
         responseList.forEach(index -> doNothing().when(linkUtil).addLinks(index));
@@ -104,7 +102,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void findAll_whenIsParam_thenFindByPortfolioId_andReturnList_Status200() throws Exception {
+    void findAll_whenIsAuth_isParam_thenFindByPortfolioId_andReturnList_Status200() throws Exception {
         List<TransactionDtoResponse> responseList = newTransactionDtoResponseList(newTransactionEntityList());
         when(service.findAllByPortfolioId(portfolioId)).thenReturn(responseList);
         responseList.forEach(index -> doNothing().when(linkUtil).addLinks(index));
@@ -123,7 +121,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void save_whenNotAuthenticated_thenStatus401() throws Exception {
+    void save_whenNoAuth_thenStatus401() throws Exception {
         TransactionDtoCreateRequest requestDto = newTransactionDtoCreateRequest(newTransactionEntity());
 
         mvc.perform(post(saveUri)
@@ -138,7 +136,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void save_whenAuthenticated_andDto_thenDelegateToService_andReturnSaved_andStatus201() throws Exception {
+    void save_whenIsAuth_andDto_thenReturnDto_andStatus201() throws Exception {
         TransactionEntity entity = newTransactionEntity();
         TransactionDtoCreateRequest requestDto = newTransactionDtoCreateRequest(entity);
         TransactionDtoResponse responseDto = newTransactionDtoResponse(entity);
@@ -161,7 +159,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void save_whenIllegalDto_thenValidation_andErrorResponse_status400() throws Exception {
+    void save_whenIsAuth_andIllegalDto_thenErrorMessage_status400() throws Exception {
         TransactionDtoCreateRequest requestDto = new TransactionDtoCreateRequest();
 
         mvc.perform(post(saveUri)
@@ -175,7 +173,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void saveAll_whenNotAuthenticated_thenStatus401() throws Exception {
+    void saveAll_whenNoAuth_thenStatus401() throws Exception {
         List<TransactionDtoCreateRequest> requestList = List.of(new TransactionDtoCreateRequest());
 
         mvc.perform(post(saveAllUri)
@@ -190,7 +188,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void saveAll_whenAuthenticated_andDtoList_thenDelegatesToService_returnsResponseDtoList_andStatus201() throws Exception {
+    void saveAll_whenIsAuth_andDtoList_thenReturnDtoList_andStatus201() throws Exception {
         List<TransactionEntity> entityList = newTransactionEntityList();
         List<TransactionDtoCreateRequest> requestDtoList = newTransactionDtoCreateRequestList(entityList);
         List<TransactionDtoResponse> responseDtoList = newTransactionDtoResponseList(entityList);
@@ -213,7 +211,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void saveAll_whenIllegalDto_thenValidation_andErrorResponse_status400() throws Exception {
+    void saveAll_whenIsAUth_andIllegalDto_thenErrorMessage_status400() throws Exception {
         List<TransactionDtoCreateRequest> requestList = List.of(new TransactionDtoCreateRequest());
 
         mvc.perform(post(saveAllUri)
@@ -227,7 +225,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void update_whenNotAuthenticated_thenStatus401() throws Exception {
+    void update_whenNoAuth_thenStatus401() throws Exception {
         TransactionDtoUpdateRequest requestDto = newTransactionDtoUpdateRequest(newTransactionEntity());
 
         mvc.perform(put(updateUri)
@@ -242,7 +240,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void update_whenAuthenticated_andDto_thenDelegateToService_returnSaved_andStatus201() throws Exception {
+    void update_whenIsAuth_andDto_thenReturnDto_andStatus201() throws Exception {
         TransactionEntity entity = newTransactionEntity();
         TransactionDtoUpdateRequest requestDto = newTransactionDtoUpdateRequest(entity);
         TransactionDtoResponse responseDto = newTransactionDtoResponse(entity);
@@ -265,7 +263,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void update_whenIllegalDto_thenValidation_ErrorResponse_status400() throws Exception {
+    void update_whenIsAuth_andIllegalDto_thenErrorMessage_status400() throws Exception {
         mvc.perform(put(updateUri)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -277,7 +275,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void deleteById_whenNotAuthenticated_thenStatus401() throws Exception {
+    void deleteById_whenNoAuth_thenStatus401() throws Exception {
         mvc.perform(put(deleteByIdUri)
                         .with(csrf()))
                 .andExpect(status().is(401))
@@ -288,7 +286,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser
-    void deleteById_whenId_thenDelegateToService_status204() throws Exception {
+    void deleteById_whenIsAuth_andId_thenDelegateToService_status204() throws Exception {
         doNothing().when(service).deleteById(id);
 
         mvc.perform(delete(deleteByIdUri)

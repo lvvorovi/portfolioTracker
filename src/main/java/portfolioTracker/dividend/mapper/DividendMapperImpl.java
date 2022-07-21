@@ -1,5 +1,6 @@
 package portfolioTracker.dividend.mapper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
@@ -7,30 +8,31 @@ import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
 @Component
+@AllArgsConstructor
 public class DividendMapperImpl implements DividendMapper {
 
     @Override
-    public DividendEntity updateToEntity(DividendDtoUpdateRequest dto) {
+    public DividendEntity updateToEntity(DividendDtoUpdateRequest requestDto) {
         DividendEntity entity = new DividendEntity();
-        entity.setId(dto.getId());
-        entity.setTicker((dto.getTicker()));
-        entity.setExDate(dto.getExDate());
-        entity.setDate(dto.getDate());
-        entity.setAmount(dto.getAmount());
-        entity.setType(dto.getType());
-        entity.setUsername(dto.getUsername());
+        entity.setId(requestDto.getId());
+        entity.setTicker((requestDto.getTicker()));
+        entity.setExDate(requestDto.getExDate());
+        entity.setDate(requestDto.getDate());
+        entity.setAmount(requestDto.getAmount());
+        entity.setType(requestDto.getType());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 
     @Override
-    public DividendEntity createToEntity(DividendDtoCreateRequest dto) {
+    public DividendEntity createToEntity(DividendDtoCreateRequest requestDto) {
         DividendEntity entity = new DividendEntity();
-        entity.setTicker((dto.getTicker()));
-        entity.setExDate(dto.getExDate());
-        entity.setDate(dto.getDate());
-        entity.setAmount(dto.getAmount());
-        entity.setType(dto.getType());
-        entity.setUsername(dto.getUsername());
+        entity.setTicker((requestDto.getTicker()));
+        entity.setExDate(requestDto.getExDate());
+        entity.setDate(requestDto.getDate());
+        entity.setAmount(requestDto.getAmount());
+        entity.setType(requestDto.getType());
+        entity.setUsername(requestDto.getUsername());
         return entity;
     }
 

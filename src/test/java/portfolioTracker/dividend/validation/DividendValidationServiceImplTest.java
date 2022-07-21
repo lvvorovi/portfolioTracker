@@ -38,14 +38,15 @@ class DividendValidationServiceImplTest {
 
     @Test
     void validate_whenCreateRequest_thenDelegatesToAllRules() {
-        DividendDtoCreateRequest request = mock(DividendDtoCreateRequest.class);
-        doNothing().when(doubleEntryDividendValidationRule).validate(request);
-        doNothing().when(tickerDividendValidationRule).validate(request);
+        DividendDtoCreateRequest requestDtoMock = mock(DividendDtoCreateRequest.class);
+        doNothing().when(doubleEntryDividendValidationRule).validate(requestDtoMock);
+        doNothing().when(tickerDividendValidationRule).validate(requestDtoMock);
 
-        victim.validate(request);
+        victim.validate(requestDtoMock);
 
-        ruleList.forEach(rule -> verify(rule, times(1)).validate(request));
-        assertThatNoException().isThrownBy(() -> victim.validate(request));
+        verify(doubleEntryDividendValidationRule, times(1)).validate(requestDtoMock);
+        verify(tickerDividendValidationRule, times(1)).validate(requestDtoMock);
+        assertThatNoException().isThrownBy(() -> victim.validate(requestDtoMock));
     }
 
     @Test

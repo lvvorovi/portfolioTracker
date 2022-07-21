@@ -4,17 +4,14 @@ import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import portfolioTracker.portfolio.dto.PortfolioDtoUpdateRequest;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static portfolioTracker.util.PortfolioTestUtil.extractMessagesFromViolationSetUpdateRequest;
 import static portfolioTracker.util.TestUtil.*;
-import static portfolioTracker.util.TestUtil.exactly50CharactersString;
 
 @SpringBootTest
 class PortfolioDtoUpdateRequestTest {
@@ -37,7 +34,6 @@ class PortfolioDtoUpdateRequestTest {
         assertThat(errorMessages).contains(currencyTypeTestErrorMessage);
         assertThat(errorMessages).contains(usernameBlankTestErrorMessage);
     }
-
 
 
     @Test
@@ -82,8 +78,6 @@ class PortfolioDtoUpdateRequestTest {
 
         assertThat(violationSet).isEmpty();
     }
-
-
 
 
     @Test
@@ -194,7 +188,7 @@ class PortfolioDtoUpdateRequestTest {
     }
 
     @Test
-    void whenUsernameIsBlank_thenConstraintViolationSet()   {
+    void whenUsernameIsBlank_thenConstraintViolationSet() {
         requestDto.setUsername(Strings.EMPTY);
 
         Set<ConstraintViolation<PortfolioDtoUpdateRequest>> violationSet = validator

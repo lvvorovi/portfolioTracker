@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static portfolioTracker.util.DividendTestUtil.*;
 import static portfolioTracker.util.JsonUtil.*;
 
-@WebMvcTest({DividendController.class})
+@WebMvcTest(DividendController.class)
 class DividendControllerTest {
 
 

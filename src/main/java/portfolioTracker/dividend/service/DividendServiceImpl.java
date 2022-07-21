@@ -8,82 +8,73 @@ import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.mapper.DividendMapper;
 import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.dividend.validation.DividendValidationService;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
-import portfolioTracker.dividend.validation.exception.PortfolioNotFoundDividendException;
-import portfolioTracker.portfolio.domain.PortfolioEntity;
-import portfolioTracker.portfolio.repository.PortfolioRepository;
+import portfolioTracker.portfolio.mapper.relationMapper.PortfolioRelationMappingService;
 
 import java.util.List;
 import java.util.UUID;
 
 import static portfolioTracker.core.ExceptionErrors.DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE;
-import static portfolioTracker.core.ExceptionErrors.PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE;
 
 @Service
 @AllArgsConstructor
 public class DividendServiceImpl implements DividendService {
 
     private final DividendValidationService validationService;
-    private final DividendMapper mapper;
+    private final PortfolioRelationMappingService mappingService;
     private final DividendRepository repository;
-    private final PortfolioRepository portfolioRepository;
 
     @Override
     public DividendDtoResponse save(DividendDtoCreateRequest requestDto) {
         validationService.validate(requestDto);
-        DividendEntity requestEntity = mapper.createToEntity(requestDto);
-        PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundDividendException(
-                        PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE + requestDto));
-        requestEntity.setPortfolio(portfolioEntity);
+        DividendEntity requestEntity = mappingService.createToEntity(requestDto);
         requestEntity.setId(UUID.randomUUID().toString());
         DividendEntity savedEntity = repository.save(requestEntity);
-        return mapper.toDto(savedEntity);
+        return mappingService.toDto(savedEntity);
     }
 
     @Override
     @Transactional
     public List<DividendDtoResponse> saveAll(List<DividendDtoCreateRequest> requestDtoList) {
         return requestDtoList.parallelStream()
-                .map(this::save)
+                .peek(validationService::validate)
+                .map(mappingService::createToEntity)
+                .peek(entity -> entity.setId(UUID.randomUUID().toString()))
+                .map(repository::save)
+                .map(mappingService::toDto)
                 .toList();
     }
 
     @Override
     public DividendDtoResponse findById(String id) {
         return repository.findById(id)
-                .map(mapper::toDto)
-                .orElseThrow(() -> new
-                        DividendNotFoundDividendException(DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
+                .map(mappingService::toDto)
+                .orElseThrow(() ->
+                        new DividendNotFoundDividendException(DIVIDEND_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
     }
 
     @Override
     public List<DividendDtoResponse> findAllByUsername(String username) {
         return repository.findAllByUsername(username).parallelStream()
-                .map(mapper::toDto)
+                .map(mappingService::toDto)
                 .toList();
     }
 
     @Override
     public List<DividendDtoResponse> findAllByPortfolioId(String id) {
         return repository.findAllByPortfolioId(id).parallelStream()
-                .map(mapper::toDto)
+                .map(mappingService::toDto)
                 .toList();
     }
 
     @Override
     public DividendDtoResponse update(DividendDtoUpdateRequest requestDto) {
         validationService.validate(requestDto);
-        DividendEntity requestEntity = mapper.updateToEntity(requestDto);
-        PortfolioEntity portfolioEntity = portfolioRepository.findById(requestDto.getPortfolioId())
-                .orElseThrow(() -> new PortfolioNotFoundDividendException(
-                        PORTFOLIO_NOT_FOUND_EXCEPTION_MESSAGE + requestDto));
-        requestEntity.setPortfolio(portfolioEntity);
+        DividendEntity requestEntity = mappingService.updateToEntity(requestDto);
         DividendEntity savedEntity = repository.save(requestEntity);
-        return mapper.toDto(savedEntity);
+        return mappingService.toDto(savedEntity);
     }
 
     @Override

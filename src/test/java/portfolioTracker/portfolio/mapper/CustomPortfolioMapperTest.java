@@ -44,7 +44,7 @@ class CustomPortfolioMapperTest {
     }
 
     @Test
-    void createToEntity_whenUpdate_thenEntity() {
+    void createToEntity_whenCreate_thenEntity() {
         PortfolioDtoCreateRequest mockedRequestDto = mock(PortfolioDtoCreateRequest.class);
         PortfolioEntity expected = newPortfolioEntitySkipEvents();
         expected.setId(null);
@@ -65,16 +65,17 @@ class CustomPortfolioMapperTest {
     }
 
     @Test
-    void toDto_whenEntityWithEvents_thenDtoAndEventsToDto() {
+    void toDto_whenEntity_thenDto() {
         PortfolioEntity mockedEntity = mock(PortfolioEntity.class);
-        PortfolioEntity entity = newPortfolioEntitySkipEvents();
+        PortfolioEntity entity = newPortfolioEntity();
         PortfolioDtoResponse expected = newPortfolioDtoResponse(entity);
+        expected.setDividendList(null);
+        expected.setTransactionList(null);
         when(mockedEntity.getId()).thenReturn(entity.getId());
         when(mockedEntity.getName()).thenReturn(entity.getName());
         when(mockedEntity.getCurrency()).thenReturn(entity.getCurrency());
         when(mockedEntity.getStrategy()).thenReturn(entity.getStrategy());
         when(mockedEntity.getUsername()).thenReturn(entity.getUsername());
-
 
         PortfolioDtoResponse result = victim.toDto(mockedEntity);
 
