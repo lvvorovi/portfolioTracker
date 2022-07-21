@@ -10,7 +10,8 @@ import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 import portfolioTracker.transaction.repository.TransactionRepository;
-import portfolioTracker.transaction.validation.TransactionValidationService;
+import portfolioTracker.transaction.validation.service.TransactionCreateValidationService;
+import portfolioTracker.transaction.validation.service.TransactionUpdateValidationService;
 import portfolioTracker.transaction.validation.exception.TransactionException;
 
 import java.util.List;
@@ -22,13 +23,14 @@ import static portfolioTracker.core.ExceptionErrors.TRANSACTION_ID_NOT_FOUND_EXC
 @AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionValidationService validationService;
+    private final TransactionUpdateValidationService updateValidationService;
+    private final TransactionCreateValidationService createValidationService;
     private final TransactionRepository repository;
     private final PortfolioRelationMappingService mappingService;
 
     @Override
     public TransactionDtoResponse save(TransactionDtoCreateRequest requestDto) {
-        validationService.validate(requestDto);
+        createValidationService.validate(requestDto);
         TransactionEntity requestEntity = mappingService.createToEntity(requestDto);
         requestEntity.setId(UUID.randomUUID().toString());
         TransactionEntity savedEntity = repository.save(requestEntity);
@@ -38,8 +40,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList) {
+        requestDtoList.forEach(createValidationService::validate);
         return requestDtoList.parallelStream()
-                .peek(validationService::validate)
                 .map(mappingService::createToEntity)
                 .peek(entity -> entity.setId(UUID.randomUUID().toString()))
                 .map(repository::save)
@@ -75,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto) {
-        validationService.validate(requestDto);
+        updateValidationService.validate(requestDto);
         TransactionEntity entity = mappingService.updateToEntity(requestDto);
         TransactionEntity savedEntity = repository.save(entity);
         return mappingService.toDto(savedEntity);

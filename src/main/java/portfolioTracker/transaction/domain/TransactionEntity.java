@@ -58,11 +58,10 @@ public class TransactionEntity {
     @Column(name = "event_type")
     private EventType type;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id")
+    @NotNull(message = NOT_NULL_ERROR_MESSAGE)
     private PortfolioEntity portfolio;
-
 
     @NotBlank(message = NOT_BLANK_ERROR_MESSAGE)
     @Size(max = 50, message = USERNAME_MAX_LENGTH_ERROR_MESSAGE)

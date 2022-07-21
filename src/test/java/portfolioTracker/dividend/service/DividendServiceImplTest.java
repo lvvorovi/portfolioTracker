@@ -6,6 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,7 +33,6 @@ import static portfolioTracker.core.ExceptionErrors.DIVIDEND_ID_NOT_FOUND_EXCEPT
 import static portfolioTracker.util.DividendTestUtil.*;
 
 @ExtendWith(MockitoExtension.class)
-@Import(SecurityContext.class)
 class DividendServiceImplTest {
 
     @Mock
@@ -45,14 +46,14 @@ class DividendServiceImplTest {
 
     @Test
     void save_whenDto_thenDelegateToRepo_ReturnDto_andNoException() {
-        DividendEntity mockedEntity = mock(DividendEntity.class);
+        DividendEntity entityMock = mock(DividendEntity.class);
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
         DividendDtoResponse expected = newDividendDtoResponse(entity);
         doNothing().when(validationService).validate(requestDto);
-        doNothing().when(mockedEntity).setId(any());
-        when(mappingService.createToEntity(requestDto)).thenReturn(mockedEntity);
-        when(repository.save(mockedEntity)).thenReturn(entity);
+        when(mappingService.createToEntity(requestDto)).thenReturn(entityMock);
+        doNothing().when(entityMock).setId(any());
+        when(repository.save(entityMock)).thenReturn(entity);
         when(mappingService.toDto(entity)).thenReturn(expected);
 
         DividendDtoResponse result = victim.save(requestDto);
@@ -60,10 +61,10 @@ class DividendServiceImplTest {
         assertEquals(expected, result);
         verify(validationService, times(1)).validate(requestDto);
         verify(mappingService, times(1)).createToEntity(requestDto);
-        verify(mockedEntity, times(1)).setId(any());
-        verify(repository, times(1)).save(mockedEntity);
+        verify(entityMock, times(1)).setId(any());
+        verify(repository, times(1)).save(entityMock);
         verify(mappingService, times(1)).toDto(entity);
-        verifyNoMoreInteractions(validationService, mappingService, repository, mockedEntity);
+        verifyNoMoreInteractions(validationService, mappingService, repository, entityMock);
         assertThatNoException().isThrownBy(() -> victim.save(requestDto));
     }
 

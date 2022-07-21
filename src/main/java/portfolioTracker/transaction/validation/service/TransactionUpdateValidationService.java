@@ -1,11 +1,10 @@
-package portfolioTracker.transaction.validation.rule;
+package portfolioTracker.transaction.validation.service;
 
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 
-public interface TransactionValidationRule {
-
-    void validate(TransactionDtoCreateRequest dtoRequest);
+public interface TransactionUpdateValidationService {
 
     void validate(TransactionDtoUpdateRequest dtoRequest);
+
 }
