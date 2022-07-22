@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import portfolioTracker.dto.ticker.service.TickerService;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
+import portfolioTracker.transaction.validation.exception.TickerNotSupportedTransactionException;
 import portfolioTracker.transaction.validation.exception.TransactionException;
 import portfolioTracker.transaction.validation.rule.createRequest.TransactionCreateValidationRule;
 import portfolioTracker.transaction.validation.rule.updateRequest.TransactionUpdateValidationRule;
@@ -32,7 +33,6 @@ public class TickerTransactionValidationRule implements TransactionUpdateValidat
 
     private void validateTicker(String ticker) {
         if (!tickerService.isTickerSupported(ticker))
-            throw new TransactionException(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + ticker);
-
+            throw new TickerNotSupportedTransactionException(TICKER_NOT_SUPPORTED_EXCEPTION_MESSAGE + ticker);
     }
 }

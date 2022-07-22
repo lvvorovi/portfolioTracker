@@ -3,13 +3,13 @@ package portfolioTracker.transaction.service;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import portfolioTracker.portfolio.mapper.relationMapper.PortfolioRelationMappingService;
 import portfolioTracker.transaction.domain.TransactionEntity;
 import portfolioTracker.transaction.dto.TransactionDtoCreateRequest;
 import portfolioTracker.transaction.dto.TransactionDtoResponse;
 import portfolioTracker.transaction.dto.TransactionDtoUpdateRequest;
 import portfolioTracker.transaction.repository.TransactionRepository;
+import portfolioTracker.transaction.validation.exception.TransactionNotFoundTransactionException;
 import portfolioTracker.transaction.validation.service.TransactionCreateValidationService;
 import portfolioTracker.transaction.validation.service.TransactionUpdateValidationService;
 import portfolioTracker.transaction.validation.exception.TransactionException;
@@ -23,14 +23,14 @@ import static portfolioTracker.core.ExceptionErrors.TRANSACTION_ID_NOT_FOUND_EXC
 @AllArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
-    private final TransactionUpdateValidationService updateValidationService;
-    private final TransactionCreateValidationService createValidationService;
+    private final TransactionUpdateValidationService updateRequestValidationService;
+    private final TransactionCreateValidationService createRequestValidationService;
     private final TransactionRepository repository;
     private final PortfolioRelationMappingService mappingService;
 
     @Override
     public TransactionDtoResponse save(TransactionDtoCreateRequest requestDto) {
-        createValidationService.validate(requestDto);
+        createRequestValidationService.validate(requestDto);
         TransactionEntity requestEntity = mappingService.createToEntity(requestDto);
         requestEntity.setId(UUID.randomUUID().toString());
         TransactionEntity savedEntity = repository.save(requestEntity);
@@ -38,9 +38,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @Transactional
     public List<TransactionDtoResponse> saveAll(List<TransactionDtoCreateRequest> requestDtoList) {
-        requestDtoList.forEach(createValidationService::validate);
+        requestDtoList.forEach(createRequestValidationService::validate);
+
         return requestDtoList.parallelStream()
                 .map(mappingService::createToEntity)
                 .peek(entity -> entity.setId(UUID.randomUUID().toString()))
@@ -53,7 +53,8 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDtoResponse findById(String id) {
         return repository.findById(id)
                 .map(mappingService::toDto)
-                .orElseThrow(() -> new TransactionException(TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
+                .orElseThrow(() -> new TransactionNotFoundTransactionException(
+                        TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE + id));
     }
 
     @Override
@@ -77,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDtoResponse update(TransactionDtoUpdateRequest requestDto) {
-        updateValidationService.validate(requestDto);
+        updateRequestValidationService.validate(requestDto);
         TransactionEntity entity = mappingService.updateToEntity(requestDto);
         TransactionEntity savedEntity = repository.save(entity);
         return mappingService.toDto(savedEntity);
@@ -93,8 +94,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public boolean isOwner(String id) {
         String principalUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
         String resourceUsername = repository.findById(id)
-                .orElseThrow(() -> new TransactionException(
+                .orElseThrow(() -> new TransactionNotFoundTransactionException(
                         TRANSACTION_ID_NOT_FOUND_EXCEPTION_MESSAGE + id))
                 .getUsername();
 

@@ -27,16 +27,16 @@ class PortfolioUpdateRequestValidationServiceImplTest {
     @Mock
     PortfolioNameValidationRule portfolioNameValidationRule;
 
-    List<PortfolioUpdateValidationRule> validationRuleList;
+    List<PortfolioUpdateValidationRule> ruleList;
     PortfolioUpdateRequestValidationServiceImpl victim;
 
     @BeforeEach
     void setUp() {
-        validationRuleList = new ArrayList<>();
-        validationRuleList.add(portfolioCurrencyValidationRule);
-        validationRuleList.add(portfolioExistsValidationRule);
-        validationRuleList.add(portfolioNameValidationRule);
-        victim = new PortfolioUpdateRequestValidationServiceImpl(validationRuleList);
+        ruleList = new ArrayList<>();
+        ruleList.add(portfolioCurrencyValidationRule);
+        ruleList.add(portfolioExistsValidationRule);
+        ruleList.add(portfolioNameValidationRule);
+        victim = new PortfolioUpdateRequestValidationServiceImpl(ruleList);
     }
 
     @Test

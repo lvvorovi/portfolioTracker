@@ -6,20 +6,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.repository.DividendRepository;
-import portfolioTracker.dividend.validation.DividendValidationService;
+import portfolioTracker.dividend.validation.service.DividendCreateRequestValidationService;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
+import portfolioTracker.dividend.validation.service.DividendUpdateRequestValidationService;
 import portfolioTracker.portfolio.mapper.relationMapper.PortfolioRelationMappingService;
 
 import java.util.ArrayList;
@@ -36,7 +33,9 @@ import static portfolioTracker.util.DividendTestUtil.*;
 class DividendServiceImplTest {
 
     @Mock
-    DividendValidationService validationService;
+    DividendCreateRequestValidationService createRequestValidationService;
+    @Mock
+    DividendUpdateRequestValidationService updateRequestValidationService;
     @Mock
     PortfolioRelationMappingService mappingService;
     @Mock
@@ -50,7 +49,7 @@ class DividendServiceImplTest {
         DividendEntity entity = newDividendEntity();
         DividendDtoCreateRequest requestDto = newDividendDtoCreateRequest(entity);
         DividendDtoResponse expected = newDividendDtoResponse(entity);
-        doNothing().when(validationService).validate(requestDto);
+        doNothing().when(createRequestValidationService).validate(requestDto);
         when(mappingService.createToEntity(requestDto)).thenReturn(entityMock);
         doNothing().when(entityMock).setId(any());
         when(repository.save(entityMock)).thenReturn(entity);
@@ -59,12 +58,13 @@ class DividendServiceImplTest {
         DividendDtoResponse result = victim.save(requestDto);
 
         assertEquals(expected, result);
-        verify(validationService, times(1)).validate(requestDto);
+        verify(createRequestValidationService, times(1)).validate(requestDto);
         verify(mappingService, times(1)).createToEntity(requestDto);
         verify(entityMock, times(1)).setId(any());
         verify(repository, times(1)).save(entityMock);
         verify(mappingService, times(1)).toDto(entity);
-        verifyNoMoreInteractions(validationService, mappingService, repository, entityMock);
+        verifyNoMoreInteractions(createRequestValidationService, mappingService, repository, entityMock);
+        verifyNoInteractions(updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.save(requestDto));
     }
 
@@ -74,7 +74,7 @@ class DividendServiceImplTest {
         List<DividendEntity> entityList = newDividendEntityList();
         List<DividendDtoCreateRequest> requestDtoList = newDividendDtoCreateList(entityList);
         List<DividendDtoResponse> expectedDtoList = newDividendDtoResponseList(entityList);
-        requestDtoList.forEach(dto -> doNothing().when(validationService).validate(dto));
+        requestDtoList.forEach(dto -> doNothing().when(createRequestValidationService).validate(dto));
         mockedEntityList.forEach(mock -> doNothing().when(mock).setId(any()));
 
         for (int i = 0; i < requestDtoList.size(); i++) {
@@ -100,12 +100,13 @@ class DividendServiceImplTest {
         entityList.forEach(entity -> verify(mappingService, times(1)).toDto(entity));
 
         requestDtoList.forEach(dto -> {
-            verify(validationService, times(1)).validate(dto);
+            verify(createRequestValidationService, times(1)).validate(dto);
             verify(mappingService, times(1)).createToEntity(dto);
         });
 
-        verifyNoMoreInteractions(validationService, mappingService, repository);
+        verifyNoMoreInteractions(createRequestValidationService, mappingService, repository);
         mockedEntityList.forEach(Mockito::verifyNoMoreInteractions);
+        verifyNoInteractions(updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.saveAll(requestDtoList));
     }
 
@@ -122,7 +123,7 @@ class DividendServiceImplTest {
         verify(repository, times(1)).findById(id);
         verify(mappingService, times(1)).toDto(entity);
         verifyNoMoreInteractions(repository, mappingService);
-        verifyNoInteractions(validationService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.findById(id));
     }
 
@@ -136,7 +137,7 @@ class DividendServiceImplTest {
 
         verify(repository, times(1)).findById(id);
         verifyNoMoreInteractions(repository);
-        verifyNoInteractions(validationService, mappingService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService, mappingService);
     }
 
     @Test
@@ -156,7 +157,7 @@ class DividendServiceImplTest {
         verify(repository, times(1)).findAllByUsername(username);
         entityList.forEach(entity -> verify(mappingService, times(1)).toDto(entity));
         verifyNoMoreInteractions(repository, mappingService);
-        verifyNoInteractions(validationService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.findAllByPortfolioId(username));
     }
 
@@ -169,7 +170,7 @@ class DividendServiceImplTest {
         assertThat(result.size()).isEqualTo(0);
         verify(repository, times(1)).findAllByUsername(username);
         verifyNoMoreInteractions(repository);
-        verifyNoInteractions(mappingService, mappingService);
+        verifyNoInteractions(mappingService, createRequestValidationService, updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.findAllByUsername(username));
     }
 
@@ -190,7 +191,7 @@ class DividendServiceImplTest {
         verify(repository, times(1)).findAllByPortfolioId(portfolioId);
         entityList.forEach(dto -> verify(mappingService, times(1)).toDto(dto));
         verifyNoMoreInteractions(repository, mappingService);
-        verifyNoInteractions(validationService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.findAllByPortfolioId(portfolioId));
     }
 
@@ -203,7 +204,7 @@ class DividendServiceImplTest {
         assertThat(result.size()).isEqualTo(0);
         verify(repository, times(1)).findAllByPortfolioId(portfolioId);
         verifyNoMoreInteractions(repository);
-        verifyNoInteractions(mappingService, validationService);
+        verifyNoInteractions(mappingService, createRequestValidationService, updateRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.findAllByPortfolioId(portfolioId));
     }
 
@@ -213,7 +214,7 @@ class DividendServiceImplTest {
         DividendEntity entity = newDividendEntity();
         DividendDtoUpdateRequest requestDto = newDividendDtoUpdateRequest(entity);
         DividendDtoResponse expected = newDividendDtoResponse(entity);
-        doNothing().when(validationService).validate(requestDto);
+        doNothing().when(updateRequestValidationService).validate(requestDto);
         when(mappingService.updateToEntity(requestDto)).thenReturn(mockedEntity);
         when(repository.save(mockedEntity)).thenReturn(entity);
         when(mappingService.toDto(entity)).thenReturn(expected);
@@ -221,11 +222,12 @@ class DividendServiceImplTest {
         DividendDtoResponse result = victim.update(requestDto);
 
         assertEquals(expected, result);
-        verify(validationService, times(1)).validate(requestDto);
+        verify(updateRequestValidationService, times(1)).validate(requestDto);
         verify(mappingService, times(1)).updateToEntity(requestDto);
         verify(repository, times(1)).save(mockedEntity);
         verify(mappingService, times(1)).toDto(entity);
-        verifyNoMoreInteractions(validationService, mappingService, repository, mockedEntity);
+        verifyNoMoreInteractions(updateRequestValidationService, mappingService, repository, mockedEntity);
+        verifyNoInteractions(createRequestValidationService);
         assertThatNoException().isThrownBy(() -> victim.update(requestDto));
     }
 
@@ -237,7 +239,7 @@ class DividendServiceImplTest {
 
         verify(repository, times(1)).deleteById(id);
         verifyNoMoreInteractions(repository);
-        verifyNoInteractions(validationService, mappingService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService , mappingService);
     }
 
     @Test
@@ -258,7 +260,7 @@ class DividendServiceImplTest {
         verify(securityContextMock, times(1)).getAuthentication();
         verify(authenticationMock, times(1)).getName();
         verifyNoMoreInteractions(entityMock, repository, securityContextMock, authenticationMock);
-        verifyNoInteractions(validationService, mappingService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService , mappingService);
         assertThatNoException().isThrownBy(() -> victim.isOwner(id));
     }
 
@@ -280,7 +282,7 @@ class DividendServiceImplTest {
         verify(securityContextMock, times(1)).getAuthentication();
         verify(authenticationMock, times(1)).getName();
         verifyNoMoreInteractions(entityMock, repository, securityContextMock, authenticationMock);
-        verifyNoInteractions(validationService, mappingService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService , mappingService);
         assertThatNoException().isThrownBy(() -> victim.isOwner(id));
     }
 
@@ -301,7 +303,7 @@ class DividendServiceImplTest {
         verify(securityContext, times(1)).getAuthentication();
         verify(authentication, times(1)).getName();
         verifyNoMoreInteractions(repository, securityContext, authentication);
-        verifyNoInteractions(validationService, mappingService);
+        verifyNoInteractions(createRequestValidationService, updateRequestValidationService , mappingService);
     }
 
 }

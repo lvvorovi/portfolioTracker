@@ -13,6 +13,7 @@ public class TestUtil {
     public static final String username = "user";
     public static final String id = "id";
     public static final String portfolioId = "portfolioId";
+    public static final String ticker = "ticker";
 
     public static final String exactly3CharactersString = "123";
     public static final String exactly36CharactersString = "ThisStringIs_36_CharactersLongString";
