@@ -8,6 +8,8 @@ import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.dividend.validation.exception.DividendExistsDividendException;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
+import portfolioTracker.dividend.validation.rule.create.DividendCreateValidationRule;
+import portfolioTracker.dividend.validation.rule.update.DividendUpdateValidationRule;
 
 import javax.annotation.Priority;
 import java.util.Optional;
@@ -18,7 +20,7 @@ import static portfolioTracker.core.ExceptionErrors.DIVIDEND_NOT_FOUND_EXCEPTION
 @Component
 @AllArgsConstructor
 @Priority(0)
-public class DoubleEntryDividendValidationRule implements DividendValidationRule {
+public class DoubleEntryDividendValidationRule implements DividendCreateValidationRule, DividendUpdateValidationRule {
 
     private final DividendRepository repository;
 

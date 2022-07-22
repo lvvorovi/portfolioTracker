@@ -1,12 +1,10 @@
-package portfolioTracker.dividend.validation;
+package portfolioTracker.dividend.validation.service;
 
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
-public interface DividendValidationService {
-
-
-    void validate(DividendDtoUpdateRequest dto);
+public interface DividendCreateRequestValidationService {
 
     void validate(DividendDtoCreateRequest dto);
+
 }

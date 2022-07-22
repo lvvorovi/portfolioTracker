@@ -1,11 +1,10 @@
-package portfolioTracker.dividend.validation.rule;
+package portfolioTracker.dividend.validation.rule.update;
 
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
 
-public interface DividendValidationRule {
+public interface DividendUpdateValidationRule {
 
     void validate(DividendDtoUpdateRequest dto);
 
-    void validate(DividendDtoCreateRequest dto);
 }
