@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.repository.DividendRepository;
+import portfolioTracker.dividend.repository.repository.DividendRepository;
 import portfolioTracker.dividend.validation.exception.DividendExistsDividendException;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
 import portfolioTracker.dividend.validation.rule.create.DividendCreateValidationRule;
