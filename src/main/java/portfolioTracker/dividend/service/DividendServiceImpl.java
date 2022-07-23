@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import portfolioTracker.dividend.repository.service.DividendRepositoryService;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoResponse;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.repository.DividendRepository;
 import portfolioTracker.dividend.validation.service.DividendCreateRequestValidationService;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
 import portfolioTracker.dividend.validation.service.DividendUpdateRequestValidationService;
@@ -26,7 +26,8 @@ public class DividendServiceImpl implements DividendService {
     private final DividendCreateRequestValidationService createRequestValidationService;
     private final DividendUpdateRequestValidationService updateRequestValidationService;
     private final PortfolioRelationMappingService mappingService;
-    private final DividendRepository repository;
+    private final DividendRepositoryService repository;
+
 
     @Override
     public DividendDtoResponse save(DividendDtoCreateRequest requestDto) {

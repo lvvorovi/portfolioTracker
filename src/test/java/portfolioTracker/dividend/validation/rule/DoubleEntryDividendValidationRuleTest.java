@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import portfolioTracker.dividend.domain.DividendEntity;
 import portfolioTracker.dividend.dto.DividendDtoCreateRequest;
 import portfolioTracker.dividend.dto.DividendDtoUpdateRequest;
-import portfolioTracker.dividend.repository.DividendRepository;
+import portfolioTracker.dividend.repository.repository.DividendRepository;
 import portfolioTracker.dividend.validation.exception.DividendExistsDividendException;
 import portfolioTracker.dividend.validation.exception.DividendNotFoundDividendException;
 

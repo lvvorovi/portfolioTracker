@@ -33,6 +33,8 @@ public class TestUtil {
     public static final String dateNullTestErrorMessage = "date: " + NOT_NULL_ERROR_MESSAGE;
     public static final String datePastOrPresentTestErrorMessage = "date: " + PAST_OR_PRESENT_ERROR_MESSAGE;
 
+    public static final String eventCurrencyTypeTestErrorMessage = "eventCurrency: " + CURRENCY_TYPE_ERROR_MESSAGE;
+
     public static final String exDateNullTestErrorMessage = "exDate: " + NOT_NULL_ERROR_MESSAGE;
     public static final String exDatePastOrPresentTestErrorMessage = "exDate: " + PAST_OR_PRESENT_ERROR_MESSAGE;
 
@@ -45,6 +47,7 @@ public class TestUtil {
     public static final String portfolioIdLengthTestErrorMessage = "portfolioId: " + ID_LENGTH_ERROR_MESSAGE;
     public static final String portfolioIdBlankTestErrorMessage = "portfolioId: " + NOT_BLANK_ERROR_MESSAGE;
     public static final String portfolioNullTestErrorMessage = "portfolio: " + NOT_NULL_ERROR_MESSAGE;
+    public static final String portfolioCurrencyTypeTestErrorMessage = "portfolioCurrency: " + CURRENCY_TYPE_ERROR_MESSAGE;
 
     public static final String priceNullTestErrorMessage = "price: " + NOT_NULL_ERROR_MESSAGE;
     public static final String pricePositiveTestErrorMessage = "price: " + GREATER_THAN_ZERO_ERROR_MESSAGE;

@@ -5,34 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0e090bd-f9a6-4849-85a6-4ccb69d2da48" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/update/DividendUpdateValidationRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/service/DividendUpdateRequestValidationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/service/DividendUpdateRequestValidationServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/exception/TickerNotSupportedTransactionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/service/DividendUpdateRequestValidationServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/validation/rule/TickerTransactionValidationRuleTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/validation/rule/updateRequest/TransactionExistsOnUpdateValidationRuleTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/validation/service/TransactionCreateValidationServiceImplTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/validation/service/TransactionUpdateValidationServiceImplTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/cache/DividendCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/cache/InMemoryDividendCacheImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/repository/DividendRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/service/DividendRepositoryServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dto/currency/CurrencyRateDtoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/util/CurrencyRateTestUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/DividendRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/service/DividendRepositoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/JpaDividendRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/repository/repository/JpaDividendRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/service/DividendServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/service/DividendServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/DividendValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/service/DividendCreateRequestValidationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/DividendValidationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/service/DividendCreateRequestValidationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/DividendValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/create/DividendCreateValidationRule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/TickerDividendValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dividend/validation/rule/TickerDividendValidationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/dto/currency/CurrencyRateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/dto/currency/CurrencyRateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/service/TransactionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/service/TransactionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/exception/IncorrectTransactionTypeForMethodException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/exception/TickerNullTransactionException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/exception/UnknownTransactionTypeException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/rule/TickerTransactionValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/rule/TickerTransactionValidationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/rule/updateRequest/ExistsTransactionUpdateValidationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/rule/updateRequest/TransactionExistsOnUpdateValidationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/service/TransactionValidationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/portfolioTracker/transaction/validation/service/TransactionUpdateValidationServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/service/DividendServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/service/DividendServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/DividendValidationServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/service/DividendCreateRequestValidationServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/portfolio/validation/service/PortfolioUpdateRequestValidationServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/portfolio/validation/service/PortfolioUpdateRequestValidationServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/service/TransactionServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/transaction/service/TransactionServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/dividend/validation/rule/DoubleEntryDividendValidationRuleTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/portfolioTracker/util/TestUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/portfolioTracker/util/TestUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,9 +56,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -101,7 +86,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "jdk.selected.JAVA_MODULE": "corretto-17",
-    "last_directory_selection": "C:/Users/vi/Documents/git/portfolioTracker/src/test/java/portfolioTracker/dividend/validation",
+    "last_directory_selection": "C:/Users/vi/Documents/git/portfolioTracker/src/test/java/portfolioTracker",
     "last_opened_file_path": "C:/Users/vi/Documents/git/portfolioTracker/src/test/resources",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -134,11 +119,11 @@
       <recent name="portfolioTracker.portfolio" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="portfolioTracker.dto.currency" />
       <recent name="portfolioTracker.dividend.validation.service" />
       <recent name="portfolioTracker.transaction.validation.service" />
       <recent name="portfolioTracker.transaction.validation.rule.updateRequest" />
       <recent name="portfolioTracker.transaction.validation.rule" />
-      <recent name="portfolioTracker.transaction.service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="portfolioTracker.dividend.validation.service" />
@@ -318,7 +303,7 @@
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendServiceImplTest.ic" NAME="DividendServiceImplTest Coverage Results" MODIFIED="1657981718615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendMapperFactoryTest.ic" NAME="DividendMapperFactoryTest Coverage Results" MODIFIED="1658145761772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$PortfolioDtoUpdateRequestTest.ic" NAME="PortfolioDtoUpdateRequestTest Coverage Results" MODIFIED="1658212939210" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/portfolioTracker$Tests_in__portfolioTracker_test_.ic" NAME="Tests in 'portfolioTracker.test' Coverage Results" MODIFIED="1658495997943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/portfolioTracker$Tests_in__portfolioTracker_test_.ic" NAME="Tests in 'portfolioTracker.test' Coverage Results" MODIFIED="1658569528094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$PortfolioControllerTest.ic" NAME="PortfolioControllerTest Coverage Results" MODIFIED="1658385800789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendControllerTest.ic" NAME="DividendControllerTest Coverage Results" MODIFIED="1657991754387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/portfolioTracker$DividendEntityTest.ic" NAME="DividendEntityTest Coverage Results" MODIFIED="1658157097222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
